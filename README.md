@@ -2,6 +2,8 @@
 
 A daily pipeline that scrapes UK job boards and company career pages, ranks matches against your CV with an LLM, deduplicates against a persistent Excel workbook, and emails a digest of new high-fit jobs.
 
+For AI assistant orientation, see [AI_README.md](AI_README.md).
+
 ## Current status
 
 This repository currently implements the Phase 1 scaffold: installation, CLI wiring,
