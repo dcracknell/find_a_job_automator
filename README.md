@@ -79,12 +79,10 @@ entirely on GitHub's hosted runners without a local computer.
    `ANTHROPIC_API_KEY`, `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `REED_API_KEY`,
    `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, and `SMTP_TO`.
    Adzuna and Reed searches auto-enable when their API secrets are present.
-3. Open **Actions > Publish Setup UI > Run workflow** once to publish the setup
-   page to GitHub Pages. After it deploys, use that page to paste your CV text,
-   fill in roles, skills, location, salary, and exclusions, then click
-   **Open GitHub issue**. You can also use **Issues > New issue > Job search
-   profile setup** directly.
-4. Submitting the generated issue runs **Configure Job Search Profile**, which
+3. Open **Issues > New issue > Job search profile setup**. Paste your CV text or
+   attach a text-readable PDF, then fill in roles, skills, location, salary, and
+   exclusions.
+4. Submitting that issue runs **Configure Job Search Profile**, which
    commits the generated `config/profile.json` and starts **Daily Job Search**.
 5. You can also open **Actions > Daily Job Search > Run workflow** to start a
    manual run at any time.
@@ -96,12 +94,16 @@ to a `job-search-data` branch, so the SQLite database and workbook survive betwe
 GitHub-hosted runs. If GitHub blocks the branch push, enable read/write workflow
 permissions in **Settings > Actions > General > Workflow permissions**.
 
-To adjust what it searches for later, go back to the setup page or open a new
-**Job search profile setup** issue and change the roles, skills, location, salary,
-or exclusion fields. You can also edit `config/profile.json`, `config/sources.yaml`,
-and `config/settings.yaml` directly in GitHub's web editor. Set `mode: active` in
-`config/settings.yaml` if you want email digests sent from GitHub Actions; otherwise
-the workflow still saves downloadable artifacts.
+To adjust what it searches for later, open a new **Job search profile setup** issue
+and change the roles, skills, location, salary, or exclusion fields. You can also
+edit `config/profile.json`, `config/sources.yaml`, and `config/settings.yaml`
+directly in GitHub's web editor. Set `mode: active` in `config/settings.yaml` if
+you want email digests sent from GitHub Actions; otherwise the workflow still saves
+downloadable artifacts.
+
+The optional static setup page lives in `docs/`, but the supported no-permissions
+setup path is the GitHub Issue Form above. GitHub Pages can require repository
+owner/admin setup that the workflow token cannot do by itself.
 
 ---
 
