@@ -1,16 +1,15 @@
 apis:
   adzuna:
-    enabled: true
+    enabled: false   # requires ADZUNA_APP_ID + ADZUNA_APP_KEY
     country: gb
     results_per_query: 50
   reed:
-    enabled: false
+    enabled: false   # requires REED_API_KEY
   gov_uk_find_a_job:
     enabled: false
 
-# Wraps python-jobspy. Off by default — bot detection on these sites means results
+# Wraps python-jobspy. Off by default - bot detection on these sites means results
 # can be inconsistent. Enable when structured APIs aren't producing enough volume.
-# If you get blocked, populate 'proxies' with rotating residential proxies.
 jobspy:
   enabled: false
   sites: [indeed, linkedin, glassdoor, google, zip_recruiter]
@@ -22,6 +21,7 @@ aggregators:
   hn_hiring:
     enabled: false
 
+# These ATS sources are completely free - no API keys needed.
 ats:
   greenhouse:
     companies:
