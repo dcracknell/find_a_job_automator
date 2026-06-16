@@ -4,193 +4,904 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Job Search Setup</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0d1117;
+        --bg-soft: #111821;
+        --panel: #151d27;
+        --panel-raised: #1b2531;
+        --field: #0f1620;
+        --text: #edf4f8;
+        --muted: #9aa9b7;
+        --line: #293544;
+        --line-strong: #3a4a5d;
+        --accent: #42d6b5;
+        --accent-dark: #8ff1dd;
+        --accent-soft: rgba(66, 214, 181, 0.13);
+        --gold: #f6c76d;
+        --gold-soft: rgba(246, 199, 109, 0.14);
+        --warn: #ff8f7a;
+        --warn-soft: rgba(255, 143, 122, 0.12);
+        --focus: rgba(66, 214, 181, 0.24);
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-width: 320px;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top left, rgba(66, 214, 181, 0.08), transparent 34rem),
+          linear-gradient(180deg, #101722 0%, var(--bg) 42rem);
+        color: var(--text);
+        font: 17px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      .page {
+        width: min(920px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 42px 0;
+      }
+
+      header {
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent-dark);
+        font-size: 14px;
+        font-weight: 760;
+        margin-bottom: 10px;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--gold);
+        box-shadow: 0 0 0 5px var(--gold-soft);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(32px, 5vw, 48px);
+        line-height: 1.05;
+        letter-spacing: 0;
+        max-width: 760px;
+      }
+
+      .intro {
+        max-width: 680px;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .progress {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        margin: 30px 0 18px;
+      }
+
+      .progress-step {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--bg-soft);
+        color: var(--muted);
+        padding: 10px;
+      }
+
+      .progress-step strong {
+        display: block;
+        color: inherit;
+        font-size: 13px;
+        line-height: 1.2;
+      }
+
+      .progress-step span {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 12px;
+      }
+
+      .progress-step.active {
+        border-color: var(--accent);
+        background: linear-gradient(135deg, var(--accent-soft), rgba(246, 199, 109, 0.08));
+        color: var(--accent-dark);
+      }
+
+      .wizard {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .step-panel {
+        display: none;
+        padding: clamp(22px, 4vw, 38px);
+      }
+
+      .step-panel.active {
+        display: block;
+      }
+
+      .step-header {
+        max-width: 690px;
+        margin-bottom: 28px;
+      }
+
+      .step-header h2 {
+        font-size: 26px;
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      .step-header p {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+
+      .fields {
+        display: grid;
+        gap: 22px;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .field label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--text);
+        font-weight: 760;
+      }
+
+      .helper {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        min-width: 0;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: var(--field);
+        color: var(--text);
+        outline: none;
+        padding: 12px 13px;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--focus);
+      }
+
+      .tooltip {
+        position: relative;
+        display: inline-grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border: 1px solid var(--line-strong);
+        border-radius: 50%;
+        color: var(--accent-dark);
+        font-size: 13px;
+        font-weight: 800;
+        flex: 0 0 auto;
+      }
+
+      .tooltip span {
+        position: absolute;
+        z-index: 2;
+        right: 0;
+        bottom: calc(100% + 8px);
+        width: min(280px, calc(100vw - 48px));
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel-raised);
+        box-shadow: var(--shadow);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 500;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(4px);
+        transition: opacity 140ms ease, transform 140ms ease;
+      }
+
+      .tooltip:focus span,
+      .tooltip:hover span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .summary {
+        display: grid;
+        gap: 18px;
+      }
+
+      .summary-block {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .summary-block h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+
+      .summary-list,
+      .query-list {
+        display: grid;
+        gap: 7px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .summary-list li,
+      .query-list li {
+        padding: 8px 10px;
+        border-radius: 6px;
+        background: var(--panel-raised);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .query-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .empty {
+        color: var(--muted);
+      }
+
+      details {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+
+      summary {
+        cursor: pointer;
+        color: var(--accent-dark);
+        font-weight: 760;
+      }
+
+      #issue-body {
+        margin-top: 12px;
+        min-height: 260px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 13px;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+      }
+
+      .action-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: var(--panel-raised);
+        color: var(--text);
+        cursor: pointer;
+        font-weight: 760;
+        padding: 0 18px;
+      }
+
+      button:hover {
+        filter: brightness(0.98);
+      }
+
+      button.primary {
+        border-color: var(--accent);
+        background: linear-gradient(135deg, var(--accent), #1fa6d6);
+        color: #061116;
+        box-shadow: 0 12px 28px rgba(66, 214, 181, 0.18);
+      }
+
+      button.ghost {
+        border-color: transparent;
+        background: transparent;
+        color: var(--accent-dark);
+      }
+
+      .status {
+        min-height: 24px;
+        margin-top: 18px;
+        color: var(--accent-dark);
+        font-size: 14px;
+      }
+
+      .status.warn {
+        color: var(--warn);
+      }
+
+      @media (max-width: 760px) {
+        .page {
+          width: min(100% - 24px, 920px);
+          padding: 24px 0;
+        }
+
+        .progress {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .field-row,
+        .query-list {
+          grid-template-columns: 1fr;
+        }
+
+        .actions,
+        .action-right {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
-    <header class="topbar">
-      <div class="brand">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-          <rect x="4" y="7" width="24" height="19" rx="3"></rect>
-          <path d="M12 7V5.5A2.5 2.5 0 0 1 14.5 3h3A2.5 2.5 0 0 1 20 5.5V7"></path>
-          <path d="M4 14h24"></path>
-          <path d="M14 18h4"></path>
-        </svg>
-        <div>
-          <h1>Job Search Setup</h1>
-          <p>Configure CV parsing and search preferences for the GitHub runner.</p>
-        </div>
-      </div>
-      <div class="repo-field">
-        <label for="repo">GitHub repo</label>
-        <input id="repo" name="repo" autocomplete="off" placeholder="owner/repo">
-      </div>
-    </header>
+    <main class="page">
+      <header>
+        <p class="eyebrow">GitHub job search setup</p>
+        <h1>Set up your job search one step at a time.</h1>
+        <p class="intro">
+          Fill in the basics, review what will be searched, then send it to GitHub to update
+          your profile and start the workflow.
+        </p>
+      </header>
 
-    <main class="layout">
-      <form id="profile-form" class="editor">
-        <section class="panel">
-          <div class="section-heading">
-            <span class="step">1</span>
-            <div>
-              <h2>CV</h2>
-              <p>Paste text here, or leave it blank and attach a PDF after the issue opens.</p>
-            </div>
+      <nav class="progress" aria-label="Setup progress">
+        <div class="progress-step active" data-progress="0"><span>Step 1</span><strong>CV</strong></div>
+        <div class="progress-step" data-progress="1"><span>Step 2</span><strong>Jobs</strong></div>
+        <div class="progress-step" data-progress="2"><span>Step 3</span><strong>Skills</strong></div>
+        <div class="progress-step" data-progress="3"><span>Step 4</span><strong>Review</strong></div>
+      </nav>
+
+      <form id="profile-form" class="wizard">
+        <section class="step-panel active" data-step="0" aria-labelledby="step-cv">
+          <div class="step-header">
+            <h2 id="step-cv">Start with your CV</h2>
+            <p>Paste CV text here, or leave it blank and attach a PDF after GitHub opens.</p>
           </div>
 
-          <div class="grid two">
-            <label>
-              <span>Domain</span>
+          <div class="fields">
+            <div class="field">
+              <label for="domain">
+                Type of work
+                <span class="tooltip" tabindex="0">?
+                  <span>Pick the closest broad category. It helps the parser understand your CV and job matches.</span>
+                </span>
+              </label>
               <select id="domain" name="domain">
-                <option value="general">general</option>
-                <option value="engineering">engineering</option>
-                <option value="healthcare">healthcare</option>
-                <option value="creative">creative</option>
-                <option value="government">government</option>
-                <option value="finance">finance</option>
-                <option value="legal">legal</option>
-                <option value="education">education</option>
-                <option value="hospitality">hospitality</option>
-                <option value="trades">trades</option>
-                <option value="science">science</option>
+                <option value="general">General</option>
+                <option value="engineering">Engineering</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="creative">Creative</option>
+                <option value="government">Government</option>
+                <option value="finance">Finance</option>
+                <option value="legal">Legal</option>
+                <option value="education">Education</option>
+                <option value="hospitality">Hospitality</option>
+                <option value="trades">Trades</option>
+                <option value="science">Science</option>
               </select>
-            </label>
-            <label>
-              <span>Remote jobs</span>
-              <select id="remote-jobs" name="remoteJobs">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </label>
-          </div>
-
-          <label>
-            <span>CV text</span>
-            <textarea id="cv-text" name="cvText" rows="10" placeholder="Paste your CV text here."></textarea>
-          </label>
-        </section>
-
-        <section class="panel">
-          <div class="section-heading">
-            <span class="step">2</span>
-            <div>
-              <h2>Search Basics</h2>
-              <p>These settings control location, distance, pay floor, and role families.</p>
+              <p class="helper">Choose the area that best fits the jobs you want.</p>
             </div>
-          </div>
 
-          <div class="grid three">
-            <label>
-              <span>Search city</span>
-              <input id="search-city" name="searchCity" placeholder="Sheffield">
-            </label>
-            <label>
-              <span>Radius miles</span>
-              <input id="search-radius" name="searchRadius" inputmode="numeric" placeholder="60">
-            </label>
-            <label>
-              <span>Minimum salary GBP</span>
-              <input id="minimum-salary" name="minimumSalary" inputmode="numeric" placeholder="25000">
-            </label>
-          </div>
-
-          <div class="grid three">
-            <label>
-              <span>Core target roles</span>
-              <textarea id="core-roles" name="coreRoles" rows="5" placeholder="Junior Data Analyst&#10;Data Analyst"></textarea>
-            </label>
-            <label>
-              <span>Adjacent target roles</span>
-              <textarea id="adjacent-roles" name="adjacentRoles" rows="5" placeholder="Business Analyst&#10;Reporting Analyst"></textarea>
-            </label>
-            <label>
-              <span>Stretch target roles</span>
-              <textarea id="stretch-roles" name="stretchRoles" rows="5" placeholder="Analytics Engineer"></textarea>
-            </label>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="section-heading">
-            <span class="step">3</span>
-            <div>
-              <h2>Skills And Filters</h2>
-              <p>Use one item per line, or comma-separated values.</p>
-            </div>
-          </div>
-
-          <div class="grid two">
-            <label>
-              <span>Core skills</span>
-              <textarea id="core-skills" name="coreSkills" rows="5" placeholder="Python&#10;SQL&#10;Excel"></textarea>
-            </label>
-            <label>
-              <span>Adjacent skills</span>
-              <textarea id="adjacent-skills" name="adjacentSkills" rows="5" placeholder="Power BI&#10;Tableau"></textarea>
-            </label>
-          </div>
-
-          <div class="grid three">
-            <label>
-              <span>Title words to exclude</span>
-              <textarea id="title-excludes" name="titleExcludes" rows="4" placeholder="senior&#10;lead&#10;director"></textarea>
-            </label>
-            <label>
-              <span>Description terms to exclude</span>
-              <textarea id="description-excludes" name="descriptionExcludes" rows="4" placeholder="security clearance&#10;5 years experience"></textarea>
-            </label>
-            <label>
-              <span>Companies to exclude</span>
-              <textarea id="company-excludes" name="companyExcludes" rows="4" placeholder="Example Ltd"></textarea>
-            </label>
-          </div>
-        </section>
-      </form>
-
-      <aside class="preview">
-        <section class="panel sticky">
-          <div class="section-heading compact">
-            <span class="step">4</span>
-            <div>
-              <h2>Send To GitHub</h2>
-              <p>The issue triggers profile generation and starts the search workflow.</p>
+            <div class="field">
+              <label for="cv-text">
+                CV text
+                <span class="tooltip" tabindex="0">?
+                  <span>Pasting text is fastest. If you prefer a PDF, leave this blank and attach it in GitHub.</span>
+                </span>
+              </label>
+              <textarea id="cv-text" name="cvText" rows="12" placeholder="Paste your CV text here."></textarea>
+              <p class="helper">Paste the main text from your CV so GitHub can build your profile.</p>
             </div>
           </div>
 
           <div class="actions">
-            <button id="open-issue" class="primary" type="button">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 5v14"></path>
-                <path d="M5 12h14"></path>
-              </svg>
-              Open GitHub issue
-            </button>
-            <button id="copy-body" type="button">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="9" y="9" width="10" height="10" rx="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              Copy issue body
-            </button>
+            <span></span>
+            <button class="primary" type="button" data-next>Continue</button>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step="1" aria-labelledby="step-jobs">
+          <div class="step-header">
+            <h2 id="step-jobs">Tell it what jobs to look for</h2>
+            <p>Use everyday job titles. You can change these later by submitting a new setup issue.</p>
+          </div>
+
+          <div class="fields">
+            <div class="field-row">
+              <div class="field">
+                <label for="search-city">Where should it search?</label>
+                <input id="search-city" name="searchCity" placeholder="Sheffield">
+                <p class="helper">Enter the main city or area you want jobs near.</p>
+              </div>
+
+              <div class="field">
+                <label for="search-radius">How far from that place?</label>
+                <input id="search-radius" name="searchRadius" inputmode="numeric" placeholder="60">
+                <p class="helper">Enter a distance in miles, such as 25 or 60.</p>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="minimum-salary">Lowest salary you want</label>
+                <input id="minimum-salary" name="minimumSalary" inputmode="numeric" placeholder="25000">
+                <p class="helper">Enter a yearly salary in GBP. Leave blank if you do not want a pay filter.</p>
+              </div>
+
+              <div class="field">
+                <label for="remote-jobs">Include remote jobs?</label>
+                <select id="remote-jobs" name="remoteJobs">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <p class="helper">Choose whether fully remote or work-from-home jobs should be included.</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="core-roles">Job titles you want most</label>
+              <textarea id="core-roles" name="coreRoles" rows="5" placeholder="Junior Data Analyst&#10;Data Analyst"></textarea>
+              <p class="helper">Put your best-match job titles here, one per line.</p>
+            </div>
+
+            <div class="field">
+              <label for="adjacent-roles">Similar job titles you'd also consider</label>
+              <textarea id="adjacent-roles" name="adjacentRoles" rows="4" placeholder="Business Analyst&#10;Reporting Analyst"></textarea>
+              <p class="helper">Add nearby roles that are still realistic and interesting.</p>
+            </div>
+
+            <div class="field">
+              <label for="stretch-roles">Dream job titles, harder to get</label>
+              <textarea id="stretch-roles" name="stretchRoles" rows="4" placeholder="Analytics Engineer"></textarea>
+              <p class="helper">Add roles you would love, even if they are a bit ambitious right now.</p>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="ghost" type="button" data-back>Back</button>
+            <button class="primary" type="button" data-next>Continue</button>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step="2" aria-labelledby="step-skills">
+          <div class="step-header">
+            <h2 id="step-skills">Add your skills and filters</h2>
+            <p>These help the ranking step favour good matches and avoid obvious bad fits.</p>
+          </div>
+
+          <div class="fields">
+            <div class="field">
+              <label for="core-skills">Your main skills</label>
+              <textarea id="core-skills" name="coreSkills" rows="5" placeholder="Python&#10;SQL&#10;Excel"></textarea>
+              <p class="helper">List the skills you most want jobs to use.</p>
+            </div>
+
+            <div class="field">
+              <label for="adjacent-skills">Other skills you have</label>
+              <textarea id="adjacent-skills" name="adjacentSkills" rows="4" placeholder="Power BI&#10;Tableau"></textarea>
+              <p class="helper">List useful extra skills that are not the main focus.</p>
+            </div>
+
+            <div class="field">
+              <label for="title-excludes">Words to avoid in job titles</label>
+              <textarea id="title-excludes" name="titleExcludes" rows="4" placeholder="senior&#10;lead&#10;director"></textarea>
+              <p class="helper">Jobs with these words in the title will be ranked much lower.</p>
+            </div>
+
+            <div class="field">
+              <label for="description-excludes">Phrases to avoid in job descriptions</label>
+              <textarea id="description-excludes" name="descriptionExcludes" rows="4" placeholder="security clearance&#10;5 years experience"></textarea>
+              <p class="helper">Use this for requirements you cannot or do not want to meet.</p>
+            </div>
+
+            <div class="field">
+              <label for="company-excludes">Companies to skip</label>
+              <textarea id="company-excludes" name="companyExcludes" rows="4" placeholder="Example Ltd"></textarea>
+              <p class="helper">List companies you do not want included in results.</p>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="ghost" type="button" data-back>Back</button>
+            <button class="primary" type="button" data-next>Review search</button>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step="3" aria-labelledby="step-review">
+          <div class="step-header">
+            <h2 id="step-review">Review and send to GitHub</h2>
+            <p>Check the summary, then create the GitHub issue that starts setup.</p>
+          </div>
+
+          <div class="fields">
+            <div class="field">
+              <label for="repo">GitHub repository</label>
+              <input id="repo" name="repo" autocomplete="off" placeholder="owner/repo">
+              <p class="helper">Use the repository that contains this job search project.</p>
+            </div>
+
+            <div class="summary">
+              <div class="summary-block">
+                <h3>Search settings</h3>
+                <ul id="settings-summary" class="summary-list"></ul>
+              </div>
+
+              <div class="summary-block">
+                <h3>Job searches it will try</h3>
+                <ul id="query-list" class="query-list"></ul>
+              </div>
+
+              <details>
+                <summary>Generated issue body</summary>
+                <textarea id="issue-body" rows="12" readonly></textarea>
+              </details>
+            </div>
           </div>
 
           <p id="status" class="status" role="status"></p>
 
-          <div class="query-preview">
-            <div class="preview-title">
-              <h3>Searches It Will Try</h3>
-              <span id="query-count">0</span>
+          <div class="actions">
+            <button class="ghost" type="button" data-back>Back</button>
+            <div class="action-right">
+              <button type="button" id="copy-body">Copy issue body</button>
+              <button class="primary" type="button" id="open-issue">Open GitHub issue</button>
             </div>
-            <ol id="query-list"></ol>
           </div>
-
-          <details>
-            <summary>Generated issue body</summary>
-            <textarea id="issue-body" rows="14" readonly></textarea>
-          </details>
         </section>
-      </aside>
+      </form>
     </main>
 
-    <script src="app.js"></script>
+    <script>
+      const FIELD_MAP = [
+        ["Domain", "domain"],
+        ["CV text", "cv-text"],
+        ["CV PDF attachment", null],
+        ["Search city", "search-city"],
+        ["Search radius miles", "search-radius"],
+        ["Remote jobs", "remote-jobs"],
+        ["Minimum salary GBP", "minimum-salary"],
+        ["Core target roles", "core-roles"],
+        ["Adjacent target roles", "adjacent-roles"],
+        ["Stretch target roles", "stretch-roles"],
+        ["Core skills", "core-skills"],
+        ["Adjacent skills", "adjacent-skills"],
+        ["Title words to exclude", "title-excludes"],
+        ["Description terms to exclude", "description-excludes"],
+        ["Companies to exclude", "company-excludes"],
+      ];
+
+      const JUNIOR_MODIFIERS = ["junior", "graduate", "entry level", "junior/graduate"];
+      const MAX_PREFILL_LENGTH = 6200;
+      let currentStep = 0;
+
+      const panels = Array.from(document.querySelectorAll(".step-panel"));
+      const progressSteps = Array.from(document.querySelectorAll(".progress-step"));
+      const repoInput = document.querySelector("#repo");
+      const issueBody = document.querySelector("#issue-body");
+      const queryList = document.querySelector("#query-list");
+      const settingsSummary = document.querySelector("#settings-summary");
+      const statusEl = document.querySelector("#status");
+      const form = document.querySelector("#profile-form");
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function valueFor(id) {
+        if (!id) {
+          return "";
+        }
+        return byId(id).value.trim();
+      }
+
+      function inferRepo() {
+        const saved = localStorage.getItem("jobSearchRepo");
+        if (saved) {
+          return saved;
+        }
+
+        const host = window.location.hostname;
+        const pathParts = window.location.pathname.split("/").filter(Boolean);
+        if (host.endsWith(".github.io") && pathParts.length) {
+          const owner = host.replace(".github.io", "");
+          return `${owner}/${pathParts[0]}`;
+        }
+        return "";
+      }
+
+      function splitList(raw) {
+        return raw
+          .split(/[\n,;]+/)
+          .map((item) => item.trim().replace(/^[-*]\s*/, ""))
+          .filter(Boolean);
+      }
+
+      function addQuery(queries, seen, titleExcludes, query) {
+        const cleaned = query.trim();
+        if (!cleaned || seen.has(cleaned)) {
+          return;
+        }
+        const lowered = cleaned.toLowerCase();
+        if (titleExcludes.some((term) => term && lowered.includes(term.toLowerCase()))) {
+          return;
+        }
+        seen.add(cleaned);
+        queries.push(cleaned);
+      }
+
+      function generateQueries() {
+        const city = valueFor("search-city");
+        const remoteOk = valueFor("remote-jobs") !== "No";
+        const coreRoles = splitList(valueFor("core-roles"));
+        const adjacentRoles = splitList(valueFor("adjacent-roles"));
+        const stretchRoles = splitList(valueFor("stretch-roles"));
+        const coreSkills = splitList(valueFor("core-skills"));
+        const titleExcludes = splitList(valueFor("title-excludes"));
+        const queries = [];
+        const seen = new Set();
+
+        for (const role of coreRoles) {
+          addQuery(queries, seen, titleExcludes, role);
+          if (city) {
+            addQuery(queries, seen, titleExcludes, `${role} ${city}`);
+          }
+          for (const mod of JUNIOR_MODIFIERS) {
+            addQuery(queries, seen, titleExcludes, `${mod} ${role}`);
+          }
+          if (remoteOk) {
+            addQuery(queries, seen, titleExcludes, `${role} remote`);
+          }
+        }
+
+        for (const role of adjacentRoles) {
+          addQuery(queries, seen, titleExcludes, role);
+          if (city) {
+            addQuery(queries, seen, titleExcludes, `${role} ${city}`);
+          }
+          if (remoteOk) {
+            addQuery(queries, seen, titleExcludes, `${role} remote`);
+          }
+        }
+
+        for (const role of stretchRoles) {
+          addQuery(queries, seen, titleExcludes, role);
+          if (city) {
+            addQuery(queries, seen, titleExcludes, `${role} ${city}`);
+          }
+        }
+
+        for (const skill of coreSkills.slice(0, 3)) {
+          addQuery(queries, seen, titleExcludes, `${skill} engineer`);
+          if (city) {
+            addQuery(queries, seen, titleExcludes, `${skill} ${city}`);
+          }
+        }
+
+        return queries.slice(0, 30);
+      }
+
+      function buildIssueBody() {
+        const lines = [];
+        for (const [heading, id] of FIELD_MAP) {
+          let value = valueFor(id);
+          if (heading === "CV PDF attachment" && !value) {
+            value = "If you did not paste CV text, drag your PDF into this section before submitting.";
+          }
+          lines.push(`### ${heading}`);
+          lines.push(value || "_No response_");
+          lines.push("");
+        }
+        return lines.join("\n").trimEnd() + "\n";
+      }
+
+      function renderList(container, items, emptyText) {
+        container.replaceChildren();
+        if (!items.length) {
+          const item = document.createElement("li");
+          item.className = "empty";
+          item.textContent = emptyText;
+          container.append(item);
+          return;
+        }
+        for (const text of items) {
+          const item = document.createElement("li");
+          item.textContent = text;
+          container.append(item);
+        }
+      }
+
+      function renderSummary() {
+        const settings = [
+          `Type of work: ${valueFor("domain") || "general"}`,
+          `Location: ${valueFor("search-city") || "No city set"}`,
+          `Distance: ${valueFor("search-radius") || "No radius set"} miles`,
+          `Remote jobs: ${valueFor("remote-jobs") || "Yes"}`,
+          `Minimum salary: ${valueFor("minimum-salary") || "No minimum set"}`,
+        ];
+        renderList(settingsSummary, settings, "No settings entered yet.");
+        renderList(
+          queryList,
+          generateQueries(),
+          "Add job titles or main skills before submitting so it has useful searches."
+        );
+      }
+
+      function setStatus(message, warn = false) {
+        statusEl.textContent = message;
+        statusEl.classList.toggle("warn", warn);
+      }
+
+      function update() {
+        issueBody.value = buildIssueBody();
+        renderSummary();
+        localStorage.setItem("jobSearchSetupDraft", JSON.stringify(readDraft()));
+      }
+
+      function readDraft() {
+        const draft = { repo: repoInput.value.trim() };
+        for (const [, id] of FIELD_MAP) {
+          if (id) {
+            draft[id] = valueFor(id);
+          }
+        }
+        return draft;
+      }
+
+      function restoreDraft() {
+        repoInput.value = inferRepo();
+
+        try {
+          const draft = JSON.parse(localStorage.getItem("jobSearchSetupDraft") || "{}");
+          if (draft.repo) {
+            repoInput.value = draft.repo;
+          }
+          for (const [, id] of FIELD_MAP) {
+            if (id && Object.prototype.hasOwnProperty.call(draft, id)) {
+              byId(id).value = draft[id];
+            }
+          }
+        } catch {
+          return;
+        }
+      }
+
+      function showStep(index) {
+        currentStep = Math.max(0, Math.min(index, panels.length - 1));
+        panels.forEach((panel, panelIndex) => {
+          panel.classList.toggle("active", panelIndex === currentStep);
+        });
+        progressSteps.forEach((step, stepIndex) => {
+          step.classList.toggle("active", stepIndex === currentStep);
+        });
+        update();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      async function copyBody() {
+        const body = buildIssueBody();
+        await navigator.clipboard.writeText(body);
+        setStatus("Copied. Paste it into a GitHub issue if the prefill is too large.");
+      }
+
+      async function openIssue() {
+        const repo = repoInput.value.trim();
+        if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) {
+          setStatus("Enter the repo as owner/repo before opening GitHub.", true);
+          repoInput.focus();
+          return;
+        }
+
+        localStorage.setItem("jobSearchRepo", repo);
+        const body = buildIssueBody();
+        const base = `https://github.com/${repo}/issues/new`;
+        const params = new URLSearchParams({
+          title: "Job search profile setup",
+          labels: "profile-setup",
+        });
+
+        if (body.length <= MAX_PREFILL_LENGTH) {
+          params.set("body", body);
+          window.open(`${base}?${params.toString()}`, "_blank", "noopener,noreferrer");
+          setStatus("Opened GitHub with the issue prefilled. Submit it to start setup.");
+          return;
+        }
+
+        await navigator.clipboard.writeText(body);
+        window.open(`${base}?${params.toString()}`, "_blank", "noopener,noreferrer");
+        setStatus("The CV text is long, so the issue body was copied. Paste it into GitHub.", true);
+      }
+
+      restoreDraft();
+      update();
+
+      form.addEventListener("input", update);
+      document.querySelectorAll("[data-next]").forEach((button) => {
+        button.addEventListener("click", () => showStep(currentStep + 1));
+      });
+      document.querySelectorAll("[data-back]").forEach((button) => {
+        button.addEventListener("click", () => showStep(currentStep - 1));
+      });
+      progressSteps.forEach((step) => {
+        step.addEventListener("click", () => showStep(Number(step.dataset.progress)));
+      });
+      byId("copy-body").addEventListener("click", copyBody);
+      byId("open-issue").addEventListener("click", openIssue);
+    </script>
   </body>
 </html>

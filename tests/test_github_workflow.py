@@ -95,10 +95,15 @@ def test_workflow_bash_blocks_are_valid() -> None:
 
 def test_setup_ui_contains_required_controls() -> None:
     html = Path("docs/index.html").read_text(encoding="utf-8")
-    script = Path("docs/app.js").read_text(encoding="utf-8")
 
+    assert 'rel="stylesheet"' not in html
+    assert 'src="app.js"' not in html
     assert 'id="cv-text"' in html
     assert 'id="core-roles"' in html
+    assert 'id="settings-summary"' in html
     assert 'id="open-issue"' in html
-    assert "buildIssueBody" in script
-    assert "generateQueries" in script
+    assert "Job titles you want most" in html
+    assert "Similar job titles you'd also consider" in html
+    assert "Dream job titles, harder to get" in html
+    assert "function buildIssueBody" in html
+    assert "function generateQueries" in html
