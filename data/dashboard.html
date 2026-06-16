@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Search Dashboard</title>
+  <style>
+    /* Mobile-first, single-column layout. No external requests. */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; color: #1a1a1a; background: #f5f5f5; }
+    .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; border-bottom: 2px solid #ddd; padding-bottom: 0.25rem; }
+    .banner { background: #2563eb; color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    .banner p { margin: 0.25rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    th { background: #374151; color: white; padding: 0.5rem; text-align: left; }
+    td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #e5e7eb; }
+    tr:hover { background: #f9fafb; }
+    .score-high { background: #dcfce7; }
+    .score-mid  { background: #fef9c3; }
+    .score-low  { background: #fee2e2; }
+    .status-archive { color: #9ca3af; }
+    .closes-soon { font-weight: bold; color: #dc2626; }
+    .quota-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+    .quota-card { background: white; border-radius: 6px; padding: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+    .quota-card .label { font-size: 0.75rem; color: #6b7280; }
+    .quota-card .value { font-size: 1.25rem; font-weight: bold; }
+    @media (max-width: 600px) { th, td { font-size: 0.75rem; padding: 0.3rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="banner">
+    <h1>Job Search Dashboard</h1>
+    <p>Last run: 2026-06-16T21:02:36.618455</p>
+    <p>400 new jobs · 400 scraped · Mode: passive</p>
+  </div>
+
+  <h2>API Quota</h2>
+  <div class="quota-panel">
+    <div class="quota-card"><div class="label">Today</div><div class="value">£0.0000</div></div>
+    <div class="quota-card"><div class="label">This Month</div><div class="value">£0.0000</div></div>
+    <div class="quota-card"><div class="label">Projected</div><div class="value">£0.00</div></div>
+    <div class="quota-card"><div class="label">Cache Hit Rate</div><div class="value">—</div></div>
+  </div>
+
+  <h2>New Today</h2>
+  <table>
+    <tr><th>Score</th><th>Title</th><th>Company</th><th>Location</th><th>Closes</th><th>URL</th></tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>2026 Graduate Firmware Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8238597002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>2026 Graduate Software Engineer - Drivers</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8238605002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>2026 Graduate Software Engineer - Drivers</td>
+      <td>Graphcore</td>
+      <td>Cambridge, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8245742002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>2026 Graduate Software Engineer - ML Kernels & Runtime Team</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8230202002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>2026 Graduate Software Engineer - PyTorch</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8235270002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>2026 Graduate Software Engineer - Triton</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8238577002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>AI Performance Engineer</td>
+      <td>Graphcore</td>
+      <td>US - Milpitas</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8471683002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>AI Platform Architect</td>
+      <td>Graphcore</td>
+      <td>Austin, Texas, United States</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8562515002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>AI Research Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK; Cambridge, UK; London, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8478749002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Atlassian Engineer</td>
+      <td>Graphcore</td>
+      <td>Bengaluru, India</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8570452002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Automation Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8539033002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>BMC Engineer</td>
+      <td>Graphcore</td>
+      <td>Gdańsk, Pomeranian Voivodeship, Poland</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8557829002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Board Test Operations Engineer</td>
+      <td>Graphcore</td>
+      <td>Hsinchu City, Hsinchu City, Taiwan</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8551488002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Compliance Manager - Global Lab Environment</td>
+      <td>Graphcore</td>
+      <td>US - Milpitas</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8504462002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Desktop and Engineering Support Engineer</td>
+      <td>Graphcore</td>
+      <td>臺北市, Taipei, Taiwan</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8564594002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>DFT Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK; Cambridge, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8383085002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Distinguished Engineer, End-to-End Security Architect</td>
+      <td>Graphcore</td>
+      <td>Austin, Texas, United States; US - Milpitas</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8589876002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Electrical Engineer</td>
+      <td>Graphcore</td>
+      <td>Austin, Texas, United States</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8539920002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Electronics Lab Technician</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8570813002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Electronics Lab Technician</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8537160002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Engineering Program Manager</td>
+      <td>Graphcore</td>
+      <td>Austin, Texas, United States</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8552086002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Global Sourcing Manager - Rack and Mechanicals</td>
+      <td>Graphcore</td>
+      <td>US - Milpitas</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8453609002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>GPU Architect</td>
+      <td>Graphcore</td>
+      <td>US - Milpitas</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8562938002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Graduate Silicon Engineer</td>
+      <td>Graphcore</td>
+      <td>Cambridge, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8360506002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Graduate Silicon Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8360495002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Graduate SoC Architect</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8554922002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Hardware Development Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8550173002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Hardware Reliability Engineer</td>
+      <td>Graphcore</td>
+      <td>Hsinchu City, Hsinchu City, Taiwan; 臺北市, Taipei, Taiwan</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8549336002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Hardware Validation and Debug Engineer - DDR</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8558136002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Hardware Validation & Debug Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8555006002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Hardware Validation Manager</td>
+      <td>Graphcore</td>
+      <td>Austin, Texas, United States; US - Milpitas</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8530945002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Infrastructure and MLOps Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK; Cambridge, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8420380002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Lab Support Engineer (Linux)</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8540581002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Lab Technician</td>
+      <td>Graphcore</td>
+      <td>Bengaluru, India</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8571154002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Linux Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8535462002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Manufacturing Product Engineer</td>
+      <td>Graphcore</td>
+      <td>Hsinchu City, Hsinchu City, Taiwan; 臺北市, Taipei, Taiwan</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8542613002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Material Planning Manager</td>
+      <td>Graphcore</td>
+      <td>臺北市, Taipei, Taiwan</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8540773002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>ML QA Technical Product Owner</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8550053002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Observability, Data Scientist</td>
+      <td>Graphcore</td>
+      <td>Gdańsk, Pomeranian Voivodeship, Poland</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8533046002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>PCB CAD Librarian</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8559553002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>People Partner - Poland</td>
+      <td>Graphcore</td>
+      <td>Gdańsk, Pomeranian Voivodeship, Poland</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8353227002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Post Silicon Validation Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8223577002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Power Integrity Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK; Cambridge, UK; London, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8549419002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Power & Performance Validation Engineer</td>
+      <td>Graphcore</td>
+      <td>Bengaluru, India</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8587365002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Project Manager</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK; Cambridge, UK; London, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8518940002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Pytorch Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8491548002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Research Scientist (Visual Generative AI & World Models)</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK; Cambridge, UK; London, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8559597002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Secrets Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8539084002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Shock Vibration and Transportation Engineer</td>
+      <td>Graphcore</td>
+      <td>Hsinchu City, Hsinchu City, Taiwan; 臺北市, Taipei, Taiwan</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8549968002">Link</a></td>
+    </tr>
+    
+    <tr class="score-mid">
+      <td>5.0</td>
+      <td>Signal Integrity Engineer</td>
+      <td>Graphcore</td>
+      <td>Bristol, UK; Cambridge, UK; London, UK</td>
+      <td class="">—</td>
+      <td><a href="https://job-boards.greenhouse.io/graphcore/jobs/8467394002">Link</a></td>
+    </tr>
+    
+  </table>
+
+  <h2>Closing Soon</h2>
+  <table>
+    <tr><th>Score</th><th>Title</th><th>Company</th><th>Closes</th><th>Status</th><th>URL</th></tr>
+    
+    <tr><td colspan="6">Nothing closing within 7 days.</td></tr>
+    
+  </table>
+
+  <p style="margin-top:2rem; color:#6b7280; font-size:0.75rem;">
+    Generated 2026-06-16. Source of truth: jobs.db.
+  </p>
+</div>
+</body>
+</html>
