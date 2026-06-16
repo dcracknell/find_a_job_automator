@@ -1,12 +1,15 @@
 # === Email / digest ===
+# Set mode to 'passive' or add SMTP secrets to enable email digests.
+# Without SMTP secrets the pipeline still runs and saves jobs.xlsx.
 email:
-  smtp_host: "${SMTP_HOST}"       # loaded from .env
+  smtp_host: ""
   smtp_port: 587
-  smtp_user: "${SMTP_USER}"
-  smtp_pass: "${SMTP_PASS}"
-  smtp_from: "${SMTP_FROM}"
-  smtp_to: "${SMTP_TO}"
+  smtp_user: ""
+  smtp_pass: ""
+  smtp_from: ""
+  smtp_to: ""
   use_tls: true
+
 
 # === Output paths (relative to project root) ===
 paths:
@@ -18,19 +21,21 @@ paths:
   cache: data/cache
   dashboard_html: data/dashboard.html
 
+
 # === Logging ===
 log_level: INFO
 
 # === Pipeline behaviour ===
-dry_run: false          # override at runtime with --dry-run flag
+dry_run: false  # override at runtime with --dry-run flag
 
-# active:  full pipeline, email digest, dashboard regenerated
+# active: full pipeline, email digest, dashboard regenerated
 # passive: weekly digest of score-9+ jobs only; no email for lower scores
-# paused:  skip every run entirely (useful during holidays)
-mode: active
+# paused: skip every run entirely (useful during holidays)
+mode: passive   # no email sent without SMTP credentials
+
 
 # === Quota / cost control ===
-quota_soft_cap_gbp: 2.00   # daily spend threshold; logs warning when exceeded
+quota_soft_cap_gbp: 2.00  # daily spend threshold; logs warning when exceeded
 
 # === Heartbeat email ===
 heartbeat:
@@ -40,15 +45,15 @@ heartbeat:
   suppress_days: 7
 
 # === Stale-row housekeeping ===
-stale_job_days: 14   # set status=closed if last_seen > today - N days and status=new
+stale_job_days: 14  # set status=closed if last_seen > today - N days and status=new
 
 # === Backups ===
 backups:
-  keep_days: 7   # rolling window of daily DB + xlsx backups
+  keep_days: 7  # rolling window of daily DB + xlsx backups
 
 # === Model selection and per-token cost rates ===
 # Model IDs and rates are defined here so code never hard-codes them.
-# Update rates when Anthropic pricing changes — the quota tracker reads them.
+# Update rates when Anthropic pricing changes - the quota tracker reads them.
 models:
   parse_cv:
     model: claude-sonnet-4-6
