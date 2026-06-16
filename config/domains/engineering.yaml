@@ -1,0 +1,63 @@
+name: engineering
+display_name: "Engineering (Hardware / Software / FPGA / SoC)"
+
+recommended_sources:
+  enable_by_default:
+    - adzuna
+    - reed
+    - gov_uk_find_a_job
+    - hn_hiring
+  disable_by_default:
+    - nhs_jobs
+    - civil_service
+    - tes
+    - caterer
+    - charityjob
+    - findaphd
+    - mandy
+
+domain_adapters: {}   # engineering uses general-purpose adapters only
+
+salary:
+  default_unit: annual_gbp
+  also_parse: [daily_gbp]    # contracting / day-rate roles common in engineering
+  agenda_for_change_bands: false
+
+seniority_words:
+  junior: [graduate, junior, associate, entry, entry-level, newly qualified, trainee]
+  mid: [engineer, developer, analyst, mid-level]
+  senior: [senior, staff, principal, lead, architect, head of, director, vp]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "closes[:\\s]+([^\\n]+)"
+
+ranker_context: |
+  This is an engineering/technology role search. Pay particular attention to:
+  - Specific hardware description languages (VHDL, Verilog, SystemVerilog) vs generic "HDL"
+  - FPGA vendor toolchains (Xilinx/AMD Vivado, Intel/Altera Quartus)
+  - SoC experience (ARM, RISC-V, custom ASICs)
+  - Embedded vs firmware vs bare-metal vs RTOS distinctions
+  - Years of commercial experience requirements (a common filter)
+  - Security clearance requirements (flag as disqualifying if profile says to exclude)
+  - Remote/hybrid options (valuable for UK roles outside London)
+
+cv_parser_context: |
+  Extract: degree discipline and class, university, graduation year, tech stack
+  (languages, tools, frameworks, FPGA families, simulation tools), project names and
+  outcomes, internship/placement employers and durations, any publications or patents,
+  professional body memberships (IET, BCS, IEEE), GitHub/portfolio links.
+  Do not infer skills not explicitly mentioned in the CV.
+
+example_skills:
+  core: ["Python", "VHDL", "Verilog", "FPGA", "embedded C", "MATLAB", "SystemVerilog"]
+  adjacent: ["digital design", "SoC validation", "DSP", "signal processing", "RTL", "RTOS"]
+
+example_target_roles:
+  core: ["FPGA Engineer", "Digital Design Engineer", "SoC Validation Engineer", "Embedded Software Engineer"]
+  adjacent: ["ASIC Verification Engineer", "RTL Designer", "Hardware Engineer", "Firmware Engineer"]
+  stretch: ["DSP Engineer", "Signal Processing Engineer", "Systems Engineer"]

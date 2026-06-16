@@ -1,0 +1,64 @@
+name: trades
+display_name: "Trades & Construction (Electrical, Plumbing, Carpentry, HGV)"
+
+recommended_sources:
+  enable_by_default:
+    - adzuna
+    - reed
+    - gov_uk_find_a_job
+  disable_by_default:
+    - nhs_jobs
+    - civil_service
+    - tes
+    - caterer
+    - mandy
+    - hn_hiring
+    - findaphd
+
+domain_adapters: {}
+
+salary:
+  default_unit: hourly_gbp   # trades commonly quoted hourly or daily
+  also_parse: [annual_gbp, daily_gbp]
+  agenda_for_change_bands: false
+  hourly_to_annual_multiplier: 1880   # 47 weeks × 40 hours (full-time trades)
+
+seniority_words:
+  junior: [apprentice, mate, trainee, improver, labourer]
+  mid: [qualified, journeyman, electrician, plumber, carpenter, driver]
+  senior: [foreman, site manager, contracts manager, supervisor, master]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "immediate start"
+  - "start asap"
+
+ranker_context: |
+  This is a trades / construction role search. Pay attention to:
+  - Certification requirements: 18th Edition (electrical), Gas Safe registration (gas/heating),
+    CSCS card, NVQ level, City & Guilds, IPAF, PASMA, CPCS
+  - Driver licence requirements: Cat B (car), Cat C (HGV), Cat C+E (artic), CPC card
+  - Self-employed vs PAYE distinction (many trades roles are CIS / umbrella)
+  - Tool allowance and van provided vs own tools/van
+  - Domestic vs commercial vs industrial vs M&E
+  - CITB levy registered employers (better training support)
+  - Wage often negotiable based on experience and card level
+
+cv_parser_context: |
+  Extract: trade (electrician, plumber, carpenter, plasterer, etc.), NVQ/City & Guilds level,
+  18th Edition status, Gas Safe registration number, CSCS card colour (white, blue, gold,
+  black), IPAF/PASMA tickets, driver licence categories and CPC expiry, employer types
+  (domestic, commercial, industrial), specialisms (fault-finding, new build, refurb),
+  tool ownership. Use only facts present in the provided CV; do not invent or infer experience.
+
+example_skills:
+  core: ["18th Edition wiring regulations", "fault finding", "first fix", "second fix", "CSCS card"]
+  adjacent: ["IPAF", "PAT testing", "solar PV", "EV charging installation", "smart home systems"]
+
+example_target_roles:
+  core: ["Electrician", "Plumber", "Carpenter", "HGV Driver", "Plasterer"]
+  adjacent: ["Maintenance Technician", "M&E Engineer", "Gas Engineer", "Multi-trade Operative"]
+  stretch: ["Site Manager", "Contracts Manager", "Electrical Supervisor"]

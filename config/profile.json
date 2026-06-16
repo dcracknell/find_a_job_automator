@@ -1,0 +1,44 @@
+{
+  "name": "Your Name",
+  "domain": "general",
+  "secondary_domains": [],
+
+  "location": {"city": "Sheffield", "lat": 53.38, "lon": -1.47},
+  "search_radius_miles": 60,
+  "remote_ok": true,
+
+  "education": {
+    "highest_qualification": "",
+    "institution": "",
+    "completion_year": null,
+    "grade": "",
+    "registrations": []
+  },
+
+  "experience_years": 0,
+  "experience_summary": "",
+
+  "core_skills": [],
+  "adjacent_skills": [],
+
+  "negative_signals": {
+    "title_excludes": ["senior", "staff", "principal", "lead", "head of", "director"],
+    "requires_years_above": 3,
+    "description_excludes": [],
+    "company_blocklist": []
+  },
+
+  "target_roles": {
+    "core": [],
+    "adjacent": [],
+    "stretch": []
+  },
+
+  "filters": {
+    "salary_floor_gbp": 25000,
+    "salary_unit": "annual",
+    "max_days_since_posted": 30,
+    "exclude_companies": [],
+    "rejected_company_cooldown_days": 90
+  }
+}

@@ -1,0 +1,65 @@
+name: creative
+display_name: "Creative (Design, Writing, Marketing, Film & TV)"
+
+recommended_sources:
+  enable_by_default:
+    - otta
+    - mandy
+    - adzuna
+    - reed
+    - hn_hiring
+  disable_by_default:
+    - nhs_jobs
+    - civil_service
+    - findaphd
+
+domain_adapters:
+  otta:
+    enabled: true
+    base_url: "https://app.otta.com"
+  mandy:
+    enabled: true
+    base_url: "https://www.mandy.com"
+
+salary:
+  default_unit: annual_gbp
+  also_parse: [daily_gbp, hourly_gbp]   # freelance / day-rate common
+  agenda_for_change_bands: false
+
+seniority_words:
+  junior: [junior, assistant, entry, trainee, graduate, coordinator]
+  mid: [mid-weight, midweight, designer, writer, producer, manager]
+  senior: [senior, lead, head of, creative director, art director, principal]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "rolling applications"   # signal that positions are filled as applied
+
+ranker_context: |
+  This is a creative industry role search. Pay attention to:
+  - Portfolio / showreel requirements (flag if candidate has matching portfolio)
+  - Software proficiency: Adobe Creative Suite, Figma, Sketch, Premiere Pro, DaVinci Resolve, etc.
+  - Distinction between in-house, agency, and freelance roles
+  - Broadcast vs digital vs print specialisms
+  - UX/UI design vs graphic design vs motion graphics vs illustration
+  - For film/TV: BECTU union membership, Pact/Skillset credits
+
+cv_parser_context: |
+  Extract: portfolio URL or showreel link, software proficiencies (Adobe CC, Figma, etc.),
+  disciplines (graphic design, UX, copywriting, video production, animation, etc.), notable
+  campaigns or projects, agency or in-house experience, client names, awards, publications,
+  union memberships (BECTU, NUJ). Do not infer skills not explicitly stated in the CV.
+  Use only facts present in the provided CV; do not invent or infer experience.
+
+example_skills:
+  core: ["Adobe Creative Suite", "Figma", "typography", "brand identity", "copywriting"]
+  adjacent: ["motion graphics", "UX research", "social media content", "video editing", "illustration"]
+
+example_target_roles:
+  core: ["Graphic Designer", "UX Designer", "Copywriter", "Content Producer", "Video Editor"]
+  adjacent: ["Brand Designer", "Digital Designer", "Marketing Executive", "Social Media Manager"]
+  stretch: ["Creative Director", "Art Director", "Head of Content", "Marketing Manager"]

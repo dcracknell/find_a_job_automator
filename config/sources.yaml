@@ -1,0 +1,36 @@
+apis:
+  adzuna:
+    enabled: true
+    country: gb
+    results_per_query: 50
+  reed:
+    enabled: false
+  gov_uk_find_a_job:
+    enabled: false
+
+# Wraps python-jobspy. Off by default — bot detection on these sites means results
+# can be inconsistent. Enable when structured APIs aren't producing enough volume.
+# If you get blocked, populate 'proxies' with rotating residential proxies.
+jobspy:
+  enabled: false
+  sites: [indeed, linkedin, glassdoor, google, zip_recruiter]
+  country: uk
+  results_wanted_per_query: 25
+  proxies: []
+
+aggregators:
+  hn_hiring:
+    enabled: false
+
+ats:
+  greenhouse:
+    companies:
+      - {name: Graphcore, slug: graphcore}
+      - {name: Cerebras, slug: cerebras}
+  lever:
+    companies:
+      - {name: SiFive, slug: sifive}
+  workday:
+    companies:
+      - {name: Arm, url: "https://arm.wd3.myworkdayjobs.com/Careers"}
+      - {name: Dyson, url: "https://careers.dyson.com/en-gb/wday/cxs/dyson/dysonext/jobs"}

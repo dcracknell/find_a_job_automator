@@ -1,0 +1,66 @@
+name: science
+display_name: "Science, Research & Biotech"
+
+recommended_sources:
+  enable_by_default:
+    - findaphd
+    - adzuna
+    - reed
+    - gov_uk_find_a_job
+    - hn_hiring
+  disable_by_default:
+    - nhs_jobs
+    - civil_service
+    - caterer
+    - mandy
+
+domain_adapters:
+  findaphd:
+    enabled: true
+    base_url: "https://www.findaphd.com"
+
+salary:
+  default_unit: annual_gbp
+  also_parse: [daily_gbp]
+  agenda_for_change_bands: false
+
+seniority_words:
+  junior: [research assistant, ra, technician, lab assistant, msc student, phd student, pdra]
+  mid: [postdoc, postdoctoral, research associate, research fellow, scientist, analyst]
+  senior: [senior scientist, principal scientist, group leader, pi, professor, head of r&d]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "funded until[:\\s]+([^\\n]+)"
+  - "fixed term[:\\s]+([^\\n]+)"
+
+ranker_context: |
+  This is a science / research / biotech role search. Pay attention to:
+  - Distinction between academic (postdoc, RA) and industry (scientist, analyst) roles
+  - Specific techniques: PCR, CRISPR, flow cytometry, mass spec, NMR, ELISA, cell culture, etc.
+  - GLP / GMP / ISO 17025 compliance requirements in regulated labs
+  - PhD required vs preferred — many industry roles list PhD as preferred not required
+  - Grant writing / PI independence for more senior academic roles
+  - Fixed-term vs permanent — most postdocs are fixed-term (flag duration if stated)
+  - Sector: pharma, CRO, biotech startup, university, NHS pathology, government lab (UKHSA, UKAEA)
+
+cv_parser_context: |
+  Extract: degree discipline and level (BSc, MSc, PhD), thesis title or research area,
+  laboratory techniques and instruments, statistical analysis skills (R, Python, SPSS,
+  GraphPad Prism), cell lines or model organisms worked with, GLP/GMP experience,
+  publications (first author, co-author), conference presentations, grants held or
+  contributed to, institution names and PIs supervised under. Use only facts present in
+  the provided CV; do not invent or infer experience.
+
+example_skills:
+  core: ["PCR", "cell culture", "ELISA", "data analysis", "laboratory notebook", "Python"]
+  adjacent: ["flow cytometry", "CRISPR", "statistical analysis", "R", "mass spectrometry", "NMR"]
+
+example_target_roles:
+  core: ["Research Scientist", "Laboratory Technician", "Postdoctoral Researcher", "Research Associate"]
+  adjacent: ["Bioanalytical Scientist", "Process Development Scientist", "Analytical Chemist"]
+  stretch: ["Senior Scientist", "Principal Scientist", "Research Fellow"]

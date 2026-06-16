@@ -1,0 +1,63 @@
+name: healthcare
+display_name: "Healthcare & Nursing"
+
+recommended_sources:
+  enable_by_default:
+    - nhs_jobs
+    - gov_uk_find_a_job
+    - reed
+    - adzuna
+  disable_by_default:
+    - jobspy         # LinkedIn etc. less useful for clinical roles
+    - hn_hiring      # tech-specific aggregator
+
+domain_adapters:
+  nhs_jobs:
+    enabled: true
+    base_url: "https://www.healthjobsuk.com"
+
+salary:
+  default_unit: annual_gbp
+  also_parse: [hourly_gbp]   # bank shifts / agency work paid hourly
+  agenda_for_change_bands: true   # parse "Band 5", "Band 6 (£35,392 - £42,618)" etc.
+
+seniority_words:
+  junior: [newly qualified, nqn, foundation, "band 5", student, preceptorship]
+  mid: [senior, "band 6", "band 7", specialist, deputy]
+  senior: [advanced, "band 8a", "band 8b", consultant, lead, matron, charge nurse]
+  exclude_above_default: senior
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "interviews to be held"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "shortlisting date[:\\s]+([^\\n]+)"
+
+ranker_context: |
+  This is a healthcare role search. Pay attention to:
+  - NMC/HCPC registration requirements (must match candidate's registration)
+  - Agenda for Change bands (Band 5 = newly qualified nurse, Band 7+ = senior)
+  - Specialism match (ITU, paeds, mental health, district nursing, A&E, theatre, etc.)
+  - Shift patterns and on-call requirements (flag 24/7 on-call for junior candidates)
+  - Bank vs substantive vs agency distinction
+  - NHS Trust vs independent sector vs private clinic
+  Penalise heavily for specialism mismatch. Penalise if role requires band above candidate's.
+
+cv_parser_context: |
+  Extract: NMC or HCPC PIN if present, current Agenda for Change band, clinical specialism(s),
+  wards and care settings worked in, mandatory training currency (BLS, safeguarding level,
+  manual handling), revalidation status, postgraduate qualifications (e.g. BSc, PGCert, MSc),
+  leadership or mentorship roles (e.g. practice assessor, shift lead). Do not infer specialism
+  from generic terms like "patient care". Use only facts present in the provided CV; do not
+  invent or infer experience.
+
+example_skills:
+  core: ["patient assessment", "medication administration", "clinical documentation", "IV cannulation", "NMC registration"]
+  adjacent: ["mentoring", "audit", "infection control", "care planning", "triage"]
+
+example_target_roles:
+  core: ["Staff Nurse", "Specialist Nurse", "Charge Nurse", "Band 5 Nurse", "Band 6 Nurse"]
+  adjacent: ["Practice Nurse", "Community Nurse", "District Nurse", "School Nurse"]
+  stretch: ["Nurse Practitioner", "Clinical Specialist", "Nurse Consultant"]

@@ -1,0 +1,23 @@
+# Secrets
+.env
+.claude/*.local.json
+
+# Runtime data (SQLite DB, Excel, logs, cache)
+data/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Test & lint caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Build artefacts
+dist/
+build/
+*.egg-info/

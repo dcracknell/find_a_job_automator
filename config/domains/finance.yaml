@@ -1,0 +1,61 @@
+name: finance
+display_name: "Finance, Banking & Accounting"
+
+recommended_sources:
+  enable_by_default:
+    - adzuna
+    - reed
+    - gov_uk_find_a_job
+  disable_by_default:
+    - nhs_jobs
+    - civil_service
+    - tes
+    - caterer
+    - mandy
+    - findaphd
+    - hn_hiring
+
+domain_adapters: {}
+
+salary:
+  default_unit: annual_gbp
+  also_parse: [daily_gbp]   # contracting / interim roles common
+  agenda_for_change_bands: false
+
+seniority_words:
+  junior: [graduate, trainee, junior, associate, assistant, newly qualified, part-qualified]
+  mid: [analyst, accountant, manager, qualified, cfa, aca, acca]
+  senior: [senior manager, director, vp, vice president, cfo, partner, head of finance]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+
+ranker_context: |
+  This is a finance/accounting/banking role search. Pay attention to:
+  - Professional qualifications: ACA, ACCA, CIMA, CFA, CPA — does the role require or prefer?
+  - Part-qualified vs fully qualified status (major salary and seniority divider)
+  - Study support provided (relevant for part-qual candidates)
+  - Financial services sector: investment banking, asset management, insurance, fintech, corporate finance
+  - FCA-regulated roles (flag if candidate is not registered)
+  - Audit, tax, treasury, FP&A, management accounts — exact function matters
+  - Big 4 vs boutique vs in-house distinction
+
+cv_parser_context: |
+  Extract: professional qualifications (ACA, ACCA, CIMA, CFA — including part-qualified stage),
+  study support received, accounting software (SAP, Oracle, Xero, QuickBooks, Excel VBA),
+  audit or client sectors, transaction types (M&A, IPO, restructuring), fund types (PE, VC,
+  hedge, real estate), regulatory experience (FCA, HMRC). Do not infer qualifications not
+  stated. Use only facts present in the provided CV; do not invent or infer experience.
+
+example_skills:
+  core: ["financial reporting", "Excel", "management accounts", "budgeting", "reconciliation"]
+  adjacent: ["SAP", "Oracle Financials", "financial modelling", "variance analysis", "audit"]
+
+example_target_roles:
+  core: ["Graduate Trainee Accountant", "Audit Associate", "Finance Analyst", "Management Accountant"]
+  adjacent: ["Financial Analyst", "Treasury Analyst", "Tax Associate", "FP&A Analyst"]
+  stretch: ["Finance Manager", "Senior Analyst", "Assistant Manager"]

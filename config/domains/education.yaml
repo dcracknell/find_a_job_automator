@@ -1,0 +1,67 @@
+name: education
+display_name: "Education, Teaching & Academia"
+
+recommended_sources:
+  enable_by_default:
+    - tes
+    - gov_uk_find_a_job
+    - adzuna
+    - reed
+    - findaphd
+  disable_by_default:
+    - nhs_jobs
+    - caterer
+    - mandy
+    - hn_hiring
+
+domain_adapters:
+  tes:
+    enabled: true
+    base_url: "https://www.tes.com/jobs"
+  findaphd:
+    enabled: false   # academic only; enable for research/PhD supervisor roles
+
+salary:
+  default_unit: annual_gbp
+  also_parse: [hourly_gbp]   # supply teaching / tutoring paid hourly
+  agenda_for_change_bands: false
+
+seniority_words:
+  junior: [nqt, newly qualified teacher, supply, trainee, pgce, salaried school direct]
+  mid: [teacher, lecturer, tutor, year group leader, subject lead]
+  senior: [head of department, assistant head, deputy head, headteacher, principal, dean]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "interviews[:\\s]+([^\\n]+)"   # often listed alongside closing date in teaching posts
+
+ranker_context: |
+  This is an education/teaching role search. Pay attention to:
+  - QTS (Qualified Teacher Status) requirement — almost all UK school roles require it
+  - NQT (Newly Qualified Teacher) / ECT (Early Career Teacher) status and induction year
+  - Key Stage specifics: EYFS, KS1, KS2, KS3, KS4, KS5 / sixth form / A-level
+  - Subject specialism (especially secondary: maths, science, English, etc.)
+  - School type: state maintained, academy, free school, independent/private
+  - SEN / SEND / SEMH experience when required
+  - For HE/FE: PGCE HE, fellowship of HEA, research output, REF impact
+
+cv_parser_context: |
+  Extract: QTS status (year awarded, route — PGCE, School Direct, SCITT, etc.), subject
+  specialism, Key Stages taught, SEN/SEND experience, school types, class sizes, exam
+  board experience, ECT induction status, CPD and training, safeguarding training
+  (safer recruitment, DSL), degree subject and classification, any published research,
+  tutor or TA experience. Use only facts present in the provided CV; do not invent or
+  infer experience.
+
+example_skills:
+  core: ["QTS", "lesson planning", "curriculum design", "behaviour management", "assessment"]
+  adjacent: ["SEND support", "form tutor", "safeguarding", "GCSE marking", "A-level teaching"]
+
+example_target_roles:
+  core: ["Classroom Teacher", "Subject Teacher", "Maths Teacher", "Science Teacher", "Primary Teacher"]
+  adjacent: ["SENCO", "Cover Supervisor", "Teaching Assistant", "Tutor", "Lecturer"]
+  stretch: ["Head of Department", "Assistant Head", "Deputy Headteacher"]

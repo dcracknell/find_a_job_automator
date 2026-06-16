@@ -1,0 +1,32 @@
+{
+  "_note": "Fixture for Adzuna adapter tests. Replace with real API response in Phase 2.",
+  "count": 2,
+  "results": [
+    {
+      "id": "4697462895",
+      "title": "FPGA Design Engineer",
+      "company": {"display_name": "Xilinx Research"},
+      "location": {"display_name": "Sheffield, South Yorkshire", "area": ["UK", "England", "South Yorkshire", "Sheffield"]},
+      "description": "We are looking for an FPGA Design Engineer to join our team. You will work on VHDL and Verilog designs for high-performance computing applications. Salary: £40,000 - £50,000 per year. Closing date: 30 June 2026.",
+      "salary_min": 40000,
+      "salary_max": 50000,
+      "salary_is_predicted": false,
+      "contract_type": "permanent",
+      "redirect_url": "https://www.adzuna.co.uk/jobs/details/4697462895",
+      "created": "2026-06-01T09:00:00Z"
+    },
+    {
+      "id": "4697462896",
+      "title": "Embedded Software Engineer",
+      "company": {"display_name": "ARM Ltd"},
+      "location": {"display_name": "Cambridge, Cambridgeshire", "area": ["UK", "England", "Cambridgeshire", "Cambridge"]},
+      "description": "Join our embedded C team working on next-generation SoC firmware. Requirements: 2+ years embedded C, RTOS experience preferred. Salary competitive. Apply by 15 July 2026.",
+      "salary_min": null,
+      "salary_max": null,
+      "salary_is_predicted": false,
+      "contract_type": "permanent",
+      "redirect_url": "https://www.adzuna.co.uk/jobs/details/4697462896",
+      "created": "2026-06-05T10:30:00Z"
+    }
+  ]
+}

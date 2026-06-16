@@ -1,0 +1,88 @@
+{# dashboard.html.j2 — rendered by output/dashboard.py (built in Phase 3) #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Search Dashboard</title>
+  <style>
+    /* Mobile-first, single-column layout. No external requests. */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; color: #1a1a1a; background: #f5f5f5; }
+    .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; border-bottom: 2px solid #ddd; padding-bottom: 0.25rem; }
+    .banner { background: #2563eb; color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    .banner p { margin: 0.25rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    th { background: #374151; color: white; padding: 0.5rem; text-align: left; }
+    td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #e5e7eb; }
+    tr:hover { background: #f9fafb; }
+    .score-high { background: #dcfce7; }
+    .score-mid  { background: #fef9c3; }
+    .score-low  { background: #fee2e2; }
+    .status-archive { color: #9ca3af; }
+    .closes-soon { font-weight: bold; color: #dc2626; }
+    .quota-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+    .quota-card { background: white; border-radius: 6px; padding: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+    .quota-card .label { font-size: 0.75rem; color: #6b7280; }
+    .quota-card .value { font-size: 1.25rem; font-weight: bold; }
+    @media (max-width: 600px) { th, td { font-size: 0.75rem; padding: 0.3rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="banner">
+    <h1>Job Search Dashboard</h1>
+    <p>Last run: {{ last_run.started_at | default('never') }}</p>
+    <p>{{ last_run.jobs_new | default(0) }} new jobs · {{ last_run.jobs_scraped | default(0) }} scraped · Mode: {{ mode }}</p>
+  </div>
+
+  <h2>API Quota</h2>
+  <div class="quota-panel">
+    <div class="quota-card"><div class="label">Today</div><div class="value">£{{ quota.today | default('0.00') }}</div></div>
+    <div class="quota-card"><div class="label">This Month</div><div class="value">£{{ quota.month | default('0.00') }}</div></div>
+    <div class="quota-card"><div class="label">Projected</div><div class="value">£{{ quota.projected | default('0.00') }}</div></div>
+    <div class="quota-card"><div class="label">Cache Hit Rate</div><div class="value">{{ quota.cache_hit_rate | default('—') }}</div></div>
+  </div>
+
+  <h2>New Today</h2>
+  <table>
+    <tr><th>Score</th><th>Title</th><th>Company</th><th>Location</th><th>Closes</th><th>URL</th></tr>
+    {% for job in new_today %}
+    <tr class="{% if job.fit_score >= 8 %}score-high{% elif job.fit_score >= 5 %}score-mid{% else %}score-low{% endif %}">
+      <td>{{ job.fit_score | round(1) if job.fit_score else '—' }}</td>
+      <td>{{ job.title }}</td>
+      <td>{{ job.company }}</td>
+      <td>{{ job.location }}</td>
+      <td class="{{ 'closes-soon' if job.closes_soon }}">{{ job.closes_on or '—' }}</td>
+      <td><a href="{{ job.url }}">Link</a></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">No new jobs today.</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Closing Soon</h2>
+  <table>
+    <tr><th>Score</th><th>Title</th><th>Company</th><th>Closes</th><th>Status</th><th>URL</th></tr>
+    {% for job in closing_soon %}
+    <tr>
+      <td>{{ job.fit_score | round(1) if job.fit_score else '—' }}</td>
+      <td>{{ job.title }}</td>
+      <td>{{ job.company }}</td>
+      <td class="closes-soon">{{ job.closes_on }}</td>
+      <td>{{ job.status }}</td>
+      <td><a href="{{ job.url }}">Link</a></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">Nothing closing within 7 days.</td></tr>
+    {% endfor %}
+  </table>
+
+  <p style="margin-top:2rem; color:#6b7280; font-size:0.75rem;">
+    Generated {{ generated_at }}. Source of truth: jobs.db.
+  </p>
+</div>
+</body>
+</html>

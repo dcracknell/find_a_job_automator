@@ -1,0 +1,44 @@
+name: general
+display_name: "General (No Domain Presets)"
+
+# No source recommendations — user configures sources.yaml manually.
+recommended_sources:
+  enable_by_default: []
+  disable_by_default: []
+
+domain_adapters: {}
+
+salary:
+  default_unit: annual_gbp
+  also_parse: [hourly_gbp, daily_gbp]
+  agenda_for_change_bands: false
+
+seniority_words:
+  junior: [junior, assistant, trainee, graduate, entry, entry-level, apprentice]
+  mid: [mid-level, experienced, qualified]
+  senior: [senior, lead, head of, director, principal, partner]
+  exclude_above_default: senior
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+
+# No domain-specific ranker context — uses universal ranker.yaml only.
+ranker_context: ""
+
+# No domain-specific CV extraction hints — uses generic extraction.
+cv_parser_context: |
+  Extract: qualifications, institutions, graduation years, job titles and employers,
+  skills, tools, and any professional registrations or certifications explicitly mentioned.
+  Use only facts present in the provided CV; do not invent or infer experience.
+
+example_skills:
+  core: []
+  adjacent: []
+
+example_target_roles:
+  core: []
+  adjacent: []
+  stretch: []

@@ -1,0 +1,65 @@
+name: hospitality
+display_name: "Hospitality, Catering & Events"
+
+recommended_sources:
+  enable_by_default:
+    - caterer
+    - adzuna
+    - reed
+  disable_by_default:
+    - nhs_jobs
+    - civil_service
+    - tes
+    - mandy
+    - hn_hiring
+    - findaphd
+
+domain_adapters:
+  caterer:
+    enabled: true
+    base_url: "https://www.caterer.com"
+
+salary:
+  default_unit: hourly_gbp     # most hospitality roles advertised hourly
+  also_parse: [annual_gbp]
+  agenda_for_change_bands: false
+  hourly_to_annual_multiplier: 1820   # 52 weeks × 35 hours (part-time assumption)
+
+seniority_words:
+  junior: [commis, trainee, apprentice, junior, kitchen porter, kp, runner]
+  mid: [chef de partie, barista, bartender, receptionist, supervisor, duty manager]
+  senior: [sous chef, head chef, executive chef, general manager, operations director]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "start date[:\\s]+([^\\n]+)"
+  - "immediate start"   # signal that role is live now
+
+ranker_context: |
+  This is a hospitality/catering role search. Pay attention to:
+  - Brigade position (Commis → CDP → Sous Chef → Head Chef → Executive Chef)
+  - Cuisine style match (fine dining, bistro, pub grub, high-volume, events/banqueting)
+  - FOH vs BOH vs management distinction
+  - Split shifts, weekend work, unsocial hours (flag if candidate has constraints)
+  - Food hygiene certificate level (Level 2 basic, Level 3 supervisory)
+  - Wage quoted hourly vs annual — convert appropriately; UK living wage is the floor
+  - Tip structures (TRONC) and whether included in quoted salary
+
+cv_parser_context: |
+  Extract: kitchen brigade positions held, cover sizes, cuisine styles, Michelin or AA
+  rosette experience, event catering capacity, food hygiene certificate level, allergen
+  awareness training, FOH experience (silver service, cocktail, barista), management scope
+  (team size, budget), employer names and venue type. Use only facts present in the
+  provided CV; do not invent or infer experience.
+
+example_skills:
+  core: ["food preparation", "mise en place", "brigade management", "food hygiene Level 2", "HACCP"]
+  adjacent: ["pastry", "butchery", "menu development", "stock control", "silver service"]
+
+example_target_roles:
+  core: ["Commis Chef", "Chef de Partie", "Sous Chef", "Bartender", "Receptionist"]
+  adjacent: ["Pastry Chef", "Duty Manager", "Events Coordinator", "Restaurant Supervisor"]
+  stretch: ["Head Chef", "General Manager", "Food & Beverage Manager"]

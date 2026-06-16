@@ -1,0 +1,64 @@
+name: government
+display_name: "Government & Public Sector"
+
+recommended_sources:
+  enable_by_default:
+    - civil_service
+    - gov_uk_find_a_job
+    - adzuna
+    - reed
+  disable_by_default:
+    - jobspy
+    - hn_hiring
+    - mandy
+    - otta
+    - findaphd
+
+domain_adapters:
+  civil_service:
+    enabled: true
+    base_url: "https://www.civilservicejobs.service.gov.uk"
+
+salary:
+  default_unit: annual_gbp
+  also_parse: []
+  agenda_for_change_bands: false
+
+seniority_words:
+  junior: [administrative officer, ao, executive officer, eo, fast stream, apprentice]
+  mid: [higher executive officer, heo, senior executive officer, seo, grade 7]
+  senior: [grade 6, deputy director, director, senior civil servant, scs]
+  exclude_above_default: mid
+
+closing_date_patterns:
+  - "closing date[:\\s]+([^\\n]+)"
+  - "applications close[:\\s]+([^\\n]+)"
+  - "deadline[:\\s]+([^\\n]+)"
+  - "apply by[:\\s]+([^\\n]+)"
+  - "vacancy closes[:\\s]+([^\\n]+)"
+
+ranker_context: |
+  This is a UK government / public sector role search. Pay attention to:
+  - Civil Service grades (AO, EO, HEO, SEO, Grade 7, Grade 6, SCS) — match to candidate level
+  - Security vetting requirements (CTC, SC, DV) — flag if candidate explicitly excludes these
+  - BPSS as baseline (most roles); SC is mid-level clearance; DV is highest
+  - "Success Profiles" framework: Civil Service competency behaviours vs. technical skills
+  - Location in specific government buildings (many are non-remote)
+  - Fast Stream vs mainstream recruitment distinction
+  - Local council vs central government vs arm's length body
+
+cv_parser_context: |
+  Extract: civil service grade (if known), security clearance held (if stated), competency
+  examples using STAR or behaviours framework, policy areas worked in, ministerial
+  correspondence experience, parliamentary process knowledge, project management
+  qualifications (Prince2, MSP), professional qualifications. Do not infer clearance levels
+  not stated. Use only facts present in the provided CV; do not invent or infer experience.
+
+example_skills:
+  core: ["policy analysis", "stakeholder engagement", "ministerial briefings", "project management", "data analysis"]
+  adjacent: ["budget management", "parliamentary work", "consultation", "risk management", "performance monitoring"]
+
+example_target_roles:
+  core: ["Policy Adviser", "Executive Officer", "Higher Executive Officer", "Fast Streamer", "Analyst"]
+  adjacent: ["Project Manager", "Programme Manager", "Communications Officer", "Data Analyst"]
+  stretch: ["Deputy Director", "Grade 7", "Senior Policy Adviser"]
