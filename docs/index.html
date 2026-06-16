@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Search Setup</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="4" y="7" width="24" height="19" rx="3"></rect>
+          <path d="M12 7V5.5A2.5 2.5 0 0 1 14.5 3h3A2.5 2.5 0 0 1 20 5.5V7"></path>
+          <path d="M4 14h24"></path>
+          <path d="M14 18h4"></path>
+        </svg>
+        <div>
+          <h1>Job Search Setup</h1>
+          <p>Configure CV parsing and search preferences for the GitHub runner.</p>
+        </div>
+      </div>
+      <div class="repo-field">
+        <label for="repo">GitHub repo</label>
+        <input id="repo" name="repo" autocomplete="off" placeholder="owner/repo">
+      </div>
+    </header>
+
+    <main class="layout">
+      <form id="profile-form" class="editor">
+        <section class="panel">
+          <div class="section-heading">
+            <span class="step">1</span>
+            <div>
+              <h2>CV</h2>
+              <p>Paste text here, or leave it blank and attach a PDF after the issue opens.</p>
+            </div>
+          </div>
+
+          <div class="grid two">
+            <label>
+              <span>Domain</span>
+              <select id="domain" name="domain">
+                <option value="general">general</option>
+                <option value="engineering">engineering</option>
+                <option value="healthcare">healthcare</option>
+                <option value="creative">creative</option>
+                <option value="government">government</option>
+                <option value="finance">finance</option>
+                <option value="legal">legal</option>
+                <option value="education">education</option>
+                <option value="hospitality">hospitality</option>
+                <option value="trades">trades</option>
+                <option value="science">science</option>
+              </select>
+            </label>
+            <label>
+              <span>Remote jobs</span>
+              <select id="remote-jobs" name="remoteJobs">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            <span>CV text</span>
+            <textarea id="cv-text" name="cvText" rows="10" placeholder="Paste your CV text here."></textarea>
+          </label>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <span class="step">2</span>
+            <div>
+              <h2>Search Basics</h2>
+              <p>These settings control location, distance, pay floor, and role families.</p>
+            </div>
+          </div>
+
+          <div class="grid three">
+            <label>
+              <span>Search city</span>
+              <input id="search-city" name="searchCity" placeholder="Sheffield">
+            </label>
+            <label>
+              <span>Radius miles</span>
+              <input id="search-radius" name="searchRadius" inputmode="numeric" placeholder="60">
+            </label>
+            <label>
+              <span>Minimum salary GBP</span>
+              <input id="minimum-salary" name="minimumSalary" inputmode="numeric" placeholder="25000">
+            </label>
+          </div>
+
+          <div class="grid three">
+            <label>
+              <span>Core target roles</span>
+              <textarea id="core-roles" name="coreRoles" rows="5" placeholder="Junior Data Analyst&#10;Data Analyst"></textarea>
+            </label>
+            <label>
+              <span>Adjacent target roles</span>
+              <textarea id="adjacent-roles" name="adjacentRoles" rows="5" placeholder="Business Analyst&#10;Reporting Analyst"></textarea>
+            </label>
+            <label>
+              <span>Stretch target roles</span>
+              <textarea id="stretch-roles" name="stretchRoles" rows="5" placeholder="Analytics Engineer"></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <span class="step">3</span>
+            <div>
+              <h2>Skills And Filters</h2>
+              <p>Use one item per line, or comma-separated values.</p>
+            </div>
+          </div>
+
+          <div class="grid two">
+            <label>
+              <span>Core skills</span>
+              <textarea id="core-skills" name="coreSkills" rows="5" placeholder="Python&#10;SQL&#10;Excel"></textarea>
+            </label>
+            <label>
+              <span>Adjacent skills</span>
+              <textarea id="adjacent-skills" name="adjacentSkills" rows="5" placeholder="Power BI&#10;Tableau"></textarea>
+            </label>
+          </div>
+
+          <div class="grid three">
+            <label>
+              <span>Title words to exclude</span>
+              <textarea id="title-excludes" name="titleExcludes" rows="4" placeholder="senior&#10;lead&#10;director"></textarea>
+            </label>
+            <label>
+              <span>Description terms to exclude</span>
+              <textarea id="description-excludes" name="descriptionExcludes" rows="4" placeholder="security clearance&#10;5 years experience"></textarea>
+            </label>
+            <label>
+              <span>Companies to exclude</span>
+              <textarea id="company-excludes" name="companyExcludes" rows="4" placeholder="Example Ltd"></textarea>
+            </label>
+          </div>
+        </section>
+      </form>
+
+      <aside class="preview">
+        <section class="panel sticky">
+          <div class="section-heading compact">
+            <span class="step">4</span>
+            <div>
+              <h2>Send To GitHub</h2>
+              <p>The issue triggers profile generation and starts the search workflow.</p>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="open-issue" class="primary" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5v14"></path>
+                <path d="M5 12h14"></path>
+              </svg>
+              Open GitHub issue
+            </button>
+            <button id="copy-body" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="9" y="9" width="10" height="10" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy issue body
+            </button>
+          </div>
+
+          <p id="status" class="status" role="status"></p>
+
+          <div class="query-preview">
+            <div class="preview-title">
+              <h3>Searches It Will Try</h3>
+              <span id="query-count">0</span>
+            </div>
+            <ol id="query-list"></ol>
+          </div>
+
+          <details>
+            <summary>Generated issue body</summary>
+            <textarea id="issue-body" rows="14" readonly></textarea>
+          </details>
+        </section>
+      </aside>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

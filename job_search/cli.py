@@ -6,6 +6,7 @@ All subcommands are registered here. Use `job-search --help` to see them.
 from __future__ import annotations
 
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -15,6 +16,16 @@ import yaml
 from job_search import PROJECT_ROOT, load_settings
 
 logger = logging.getLogger(__name__)
+
+
+def _source_enabled(source_cfg: dict, secret_names: tuple[str, ...] = ()) -> bool:
+    """Resolve a source's enabled flag, including auto-enable based on secrets."""
+    enabled = source_cfg.get("enabled", False)
+    if isinstance(enabled, str) and enabled.lower() == "auto":
+        from job_search.util.secrets import looks_configured_secret
+
+        return all(looks_configured_secret(os.environ.get(name)) for name in secret_names)
+    return bool(enabled)
 
 
 def _configure_logging(level: str = "INFO") -> None:
@@ -75,8 +86,45 @@ def parse_cv(cv_path: Path, domain: str | None) -> None:
     click.echo(f"Parsing {cv_path} with domain '{domain}'...")
     try:
         profile = _parse_cv(cv_path, domain)
-        click.echo(f"profile.json written. Name: {profile.get('name', '?')}, domain: {profile.get('domain', '?')}")
+        click.echo(
+            "profile.json written. "
+            f"Name: {profile.get('name', '?')}, domain: {profile.get('domain', '?')}"
+        )
         click.echo("Review config/profile.json and adjust skills/roles as needed.")
+    except Exception as exc:
+        click.echo(f"Error: {exc}", err=True)
+        sys.exit(1)
+
+
+# ---------------------------------------------------------------------------
+# profile-from-issue
+# ---------------------------------------------------------------------------
+
+
+@main.command("profile-from-issue")
+@click.argument("issue_body_path", type=click.Path(exists=True, dir_okay=False, path_type=Path))
+def profile_from_issue(issue_body_path: Path) -> None:
+    """Create/update config/profile.json from a GitHub profile issue body."""
+    _configure_logging()
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv(PROJECT_ROOT / ".env")
+    except ImportError:
+        pass
+
+    from job_search.profile.issue_profile import build_profile_from_issue
+
+    try:
+        body = issue_body_path.read_text(encoding="utf-8")
+        profile = build_profile_from_issue(body)
+        click.echo(
+            "profile.json updated. "
+            f"Name: {profile.get('name', '?')}, domain: {profile.get('domain', '?')}"
+        )
+        roles = profile.get("target_roles", {}).get("core", [])
+        if roles:
+            click.echo(f"Core roles: {', '.join(roles[:5])}")
     except Exception as exc:
         click.echo(f"Error: {exc}", err=True)
         sys.exit(1)
@@ -226,10 +274,8 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         domain_name = profile.get("domain", "general")
         try:
             domain_pack_obj = load_pack(domain_name)
-            domain_pack = domain_pack_obj.model_dump()
             domain_context = domain_pack_obj.ranker_context or ""
         except Exception:
-            domain_pack = {}
             domain_context = ""
 
         from job_search.adapters.adzuna import AdzunaAdapter
@@ -248,12 +294,29 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
 
         all_settings = {**settings, **sources_cfg}
 
+        apis_cfg = sources_cfg.get("apis", {})
+        ats_cfg = sources_cfg.get("ats", {})
         adapter_registry = {
-            "adzuna": (AdzunaAdapter(), sources_cfg.get("apis", {}).get("adzuna", {}).get("enabled", True)),
-            "reed": (ReedAdapter(), sources_cfg.get("apis", {}).get("reed", {}).get("enabled", False)),
-            "greenhouse": (GreenhouseAdapter(), bool(sources_cfg.get("ats", {}).get("greenhouse", {}).get("companies"))),
-            "lever": (LeverAdapter(), bool(sources_cfg.get("ats", {}).get("lever", {}).get("companies"))),
-            "workday": (WorkdayAdapter(), bool(sources_cfg.get("ats", {}).get("workday", {}).get("companies"))),
+            "adzuna": (
+                AdzunaAdapter(),
+                _source_enabled(apis_cfg.get("adzuna", {}), ("ADZUNA_APP_ID", "ADZUNA_APP_KEY")),
+            ),
+            "reed": (
+                ReedAdapter(),
+                _source_enabled(apis_cfg.get("reed", {}), ("REED_API_KEY",)),
+            ),
+            "greenhouse": (
+                GreenhouseAdapter(),
+                bool(ats_cfg.get("greenhouse", {}).get("companies")),
+            ),
+            "lever": (
+                LeverAdapter(),
+                bool(ats_cfg.get("lever", {}).get("companies")),
+            ),
+            "workday": (
+                WorkdayAdapter(),
+                bool(ats_cfg.get("workday", {}).get("companies")),
+            ),
         }
 
         # 5. Run adapters

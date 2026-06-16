@@ -1,61 +1,169 @@
 name: Daily Job Search
 
-on:
+"on":
   schedule:
-      - cron: '0 7 * * *'   # 07:00 UTC every day
-        workflow_dispatch:       # allow manual runs from the Actions tab
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run without saving DB/workbook changes"
+        required: false
+        type: boolean
+        default: false
+      source:
+        description: "Optional single adapter to run, for example greenhouse"
+        required: false
+        type: string
+        default: ""
 
-        jobs:
-          run-pipeline:
-              runs-on: ubuntu-latest
+permissions:
+  contents: write
+  actions: read
 
-                  steps:
-                        - name: Checkout repository
-                                uses: actions/checkout@v4
+concurrency:
+  group: job-search-pipeline
+  cancel-in-progress: false
 
-                                      - name: Set up Python
-                                              uses: actions/setup-python@v5
-                                                      with:
-                                                                python-version: '3.12'
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DRY_RUN_INPUT: ${{ github.event.inputs.dry_run || 'false' }}
+      SOURCE_INPUT: ${{ github.event.inputs.source || '' }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+      ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+      REED_API_KEY: ${{ secrets.REED_API_KEY }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      SMTP_FROM: ${{ secrets.SMTP_FROM }}
+      SMTP_TO: ${{ secrets.SMTP_TO }}
 
-                                                                      - name: Install uv
-                                                                              run: pip install uv
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-                                                                                    - name: Install dependencies
-                                                                                            run: uv pip install --system -e .
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-                                                                                                  - name: Restore persistent data
-                                                                                                          uses: actions/cache@v4
-                                                                                                                  with:
-                                                                                                                            path: data/
-                                                                                                                                      key: job-data-${{ github.run_id }}
-                                                                                                                                                restore-keys: |
-                                                                                                                                                            job-data-
-                                                                                                                                                            
-                                                                                                                                                                  - name: Write .env from secrets
-                                                                                                                                                                          run: |
-                                                                                                                                                                                    echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" > .env
-                                                                                                                                                                                    
-                                                                                                                                                                                          - name: Run migrations
-                                                                                                                                                                                                  run: job-search migrate
-                                                                                                                                                                                                  
-                                                                                                                                                                                                        - name: Run pipeline
-                                                                                                                                                                                                                run: job-search run
-                                                                                                                                                                                                                
-                                                                                                                                                                                                                      - name: Upload jobs workbook as artifact
-                                                                                                                                                                                                                              if: always()
-                                                                                                                                                                                                                                      uses: actions/upload-artifact@v4
-                                                                                                                                                                                                                                              with:
-                                                                                                                                                                                                                                                        name: jobs-xlsx-${{ github.run_number }}
-                                                                                                                                                                                                                                                                  path: data/jobs.xlsx
-                                                                                                                                                                                                                                                                            if-no-files-found: ignore
-                                                                                                                                                                                                                                                                                      retention-days: 30
-                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                            - name: Upload run log as artifact
-                                                                                                                                                                                                                                                                                                    if: always()
-                                                                                                                                                                                                                                                                                                            uses: actions/upload-artifact@v4
-                                                                                                                                                                                                                                                                                                                    with:
-                                                                                                                                                                                                                                                                                                                              name: run-log-${{ github.run_number }}
-                                                                                                                                                                                                                                                                                                                                        path: data/runs.log
-                                                                                                                                                                                                                                                                                                                                                  if-no-files-found: ignore
-                                                                                                                                                                                                                                                                                                                                                            retention-days: 14
+      - name: Cache uv downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ hashFiles('pyproject.toml', 'uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip uv
+          uv pip install --system -e .
+
+      - name: Restore persistent job data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data
+          if git ls-remote --exit-code --heads origin job-search-data >/dev/null 2>&1; then
+            git fetch --depth=1 origin job-search-data
+            git checkout FETCH_HEAD -- data || true
+            echo "Restored data/ from job-search-data branch."
+          else
+            echo "No job-search-data branch yet; starting with empty data/."
+          fi
+
+      - name: Run pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data
+
+          cmd=(job-search run)
+          if [[ "$DRY_RUN_INPUT" == "true" ]]; then
+            cmd+=(--dry-run)
+          fi
+          if [[ -n "$SOURCE_INPUT" ]]; then
+            cmd+=(--source "$SOURCE_INPUT")
+          fi
+
+          "${cmd[@]}" 2>&1 | tee data/runs.log
+
+      - name: Save persistent job data
+        if: success() && env.DRY_RUN_INPUT != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          data_worktree="$RUNNER_TEMP/job-search-data"
+          rm -rf "$data_worktree"
+
+          if git ls-remote --exit-code --heads origin job-search-data >/dev/null 2>&1; then
+            git fetch --depth=1 origin job-search-data
+            git worktree add "$data_worktree" FETCH_HEAD
+            git -C "$data_worktree" switch -c job-search-data
+          else
+            git worktree add --detach "$data_worktree"
+            git -C "$data_worktree" switch --orphan job-search-data
+            find "$data_worktree" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          fi
+
+          rm -rf "$data_worktree/data"
+          cp -a data "$data_worktree/data"
+
+          cat > "$data_worktree/README.md" <<'EOF'
+          # Job Search Runtime Data
+
+          This branch is maintained by GitHub Actions.
+          It stores `data/jobs.db`, `data/jobs.xlsx`, `data/dashboard.html`, logs, and quota files
+          so scheduled runs keep state without a local computer.
+
+          Do not make this repository public if the job data is sensitive.
+          EOF
+
+          git -C "$data_worktree" add README.md data
+          if git -C "$data_worktree" diff --cached --quiet; then
+            echo "No data changes to persist."
+            exit 0
+          fi
+
+          git -C "$data_worktree" commit -m "Update job search data from run $GITHUB_RUN_NUMBER"
+          git -C "$data_worktree" push origin HEAD:job-search-data
+
+      - name: Upload run outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: job-search-output-${{ github.run_number }}
+          path: |
+            data/jobs.db*
+            data/jobs.xlsx
+            data/dashboard.html
+            data/runs.log
+            data/quota.jsonl
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Write run summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## Job search run"
+            echo
+            echo "- Outputs are attached as the \`job-search-output-${GITHUB_RUN_NUMBER}\` artifact."
+            echo "- Persistent state is saved on the \`job-search-data\` branch after successful non-dry runs."
+            echo
+            if [[ -f data/runs.log ]]; then
+              echo "### Last log lines"
+              echo '```text'
+              tail -n 40 data/runs.log
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

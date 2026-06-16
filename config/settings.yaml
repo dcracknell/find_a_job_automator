@@ -2,12 +2,12 @@
 # Set mode to 'passive' or add SMTP secrets to enable email digests.
 # Without SMTP secrets the pipeline still runs and saves jobs.xlsx.
 email:
-  smtp_host: ""
+  smtp_host: "${SMTP_HOST}"
   smtp_port: 587
-  smtp_user: ""
-  smtp_pass: ""
-  smtp_from: ""
-  smtp_to: ""
+  smtp_user: "${SMTP_USER}"
+  smtp_pass: "${SMTP_PASS}"
+  smtp_from: "${SMTP_FROM}"
+  smtp_to: "${SMTP_TO}"
   use_tls: true
 
 

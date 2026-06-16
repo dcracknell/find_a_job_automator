@@ -69,9 +69,45 @@ job-search search "<query>"                      # FTS5 full-text search over hi
 
 ---
 
-## Scheduling
+## Running on GitHub Actions
 
-The pipeline is designed to run daily via cron (Linux/macOS) or Task Scheduler (Windows).
+The repository includes `.github/workflows/daily_run.yml`, so the pipeline can run
+entirely on GitHub's hosted runners without a local computer.
+
+1. Push the repository to GitHub. Keep it private if job data, notes, your CV, or your profile are sensitive.
+2. In GitHub, open **Settings > Secrets and variables > Actions** and add any secrets you use:
+   `ANTHROPIC_API_KEY`, `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `REED_API_KEY`,
+   `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, and `SMTP_TO`.
+   Adzuna and Reed searches auto-enable when their API secrets are present.
+3. Open **Actions > Publish Setup UI > Run workflow** once to publish the setup
+   page to GitHub Pages. After it deploys, use that page to paste your CV text,
+   fill in roles, skills, location, salary, and exclusions, then click
+   **Open GitHub issue**. You can also use **Issues > New issue > Job search
+   profile setup** directly.
+4. Submitting the generated issue runs **Configure Job Search Profile**, which
+   commits the generated `config/profile.json` and starts **Daily Job Search**.
+5. You can also open **Actions > Daily Job Search > Run workflow** to start a
+   manual run at any time.
+6. Download `job-search-output-<run_number>` from the completed workflow run to get
+   `jobs.xlsx`, `dashboard.html`, `jobs.db`, and `runs.log`.
+
+The workflow also runs every day at 07:00 UTC. Successful non-dry runs save `data/`
+to a `job-search-data` branch, so the SQLite database and workbook survive between
+GitHub-hosted runs. If GitHub blocks the branch push, enable read/write workflow
+permissions in **Settings > Actions > General > Workflow permissions**.
+
+To adjust what it searches for later, go back to the setup page or open a new
+**Job search profile setup** issue and change the roles, skills, location, salary,
+or exclusion fields. You can also edit `config/profile.json`, `config/sources.yaml`,
+and `config/settings.yaml` directly in GitHub's web editor. Set `mode: active` in
+`config/settings.yaml` if you want email digests sent from GitHub Actions; otherwise
+the workflow still saves downloadable artifacts.
+
+---
+
+## Local Scheduling
+
+The pipeline can also run daily via cron (Linux/macOS) or Task Scheduler (Windows).
 
 **Linux/macOS cron** (runs at 07:00 every day):
 

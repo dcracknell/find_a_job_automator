@@ -1,10 +1,10 @@
 apis:
   adzuna:
-    enabled: false   # requires ADZUNA_APP_ID + ADZUNA_APP_KEY
+    enabled: auto    # runs when ADZUNA_APP_ID + ADZUNA_APP_KEY are configured
     country: gb
     results_per_query: 50
   reed:
-    enabled: false   # requires REED_API_KEY
+    enabled: auto    # runs when REED_API_KEY is configured
   gov_uk_find_a_job:
     enabled: false
 
@@ -26,11 +26,10 @@ ats:
   greenhouse:
     companies:
       - {name: Graphcore, slug: graphcore}
-      - {name: Cerebras, slug: cerebras}
+      - {name: Cerebras, slug: cerebrassystems}
   lever:
-    companies:
-      - {name: SiFive, slug: sifive}
+    companies: []
   workday:
     companies:
-      - {name: Arm, url: "https://arm.wd3.myworkdayjobs.com/Careers"}
-      - {name: Dyson, url: "https://careers.dyson.com/en-gb/wday/cxs/dyson/dysonext/jobs"}
+      - {name: SiFive, url: "https://sifive.wd1.myworkdayjobs.com/sifivecareers"}
+      - {name: Dyson, url: "https://dyson.wd3.myworkdayjobs.com/dyson_careers"}

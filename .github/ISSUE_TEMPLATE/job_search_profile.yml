@@ -1,0 +1,161 @@
+name: Job search profile setup
+description: Add or update your CV and job-search preferences
+title: "Job search profile setup"
+labels: ["profile-setup"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to configure the search without a local computer.
+
+        Add your CV one of two ways:
+        - Paste plain CV text into **CV text**.
+        - Or attach a text-readable PDF in **CV PDF attachment**.
+
+        The workflow will update `config/profile.json`. Keep the repository private if
+        your CV or job-search data is sensitive.
+
+  - type: input
+    id: domain
+    attributes:
+      label: Domain
+      description: Use `general`, `engineering`, `healthcare`, `creative`, `government`, `finance`, `legal`, `education`, `hospitality`, `trades`, or `science`.
+      placeholder: general
+    validations:
+      required: true
+
+  - type: textarea
+    id: cv_text
+    attributes:
+      label: CV text
+      description: Paste your CV text here. Leave blank if you attach a PDF below.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: cv_pdf_attachment
+    attributes:
+      label: CV PDF attachment
+      description: Drag and drop your PDF here if you did not paste CV text above.
+    validations:
+      required: false
+
+  - type: input
+    id: search_city
+    attributes:
+      label: Search city
+      placeholder: Sheffield
+    validations:
+      required: false
+
+  - type: input
+    id: search_radius_miles
+    attributes:
+      label: Search radius miles
+      placeholder: "60"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: remote_jobs
+    attributes:
+      label: Remote jobs
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+
+  - type: input
+    id: minimum_salary_gbp
+    attributes:
+      label: Minimum salary GBP
+      placeholder: "25000"
+    validations:
+      required: false
+
+  - type: textarea
+    id: core_target_roles
+    attributes:
+      label: Core target roles
+      description: One per line, or comma-separated.
+      placeholder: |
+        Junior Data Analyst
+        Data Analyst
+    validations:
+      required: false
+
+  - type: textarea
+    id: adjacent_target_roles
+    attributes:
+      label: Adjacent target roles
+      description: One per line, or comma-separated.
+      placeholder: |
+        Business Analyst
+        Reporting Analyst
+    validations:
+      required: false
+
+  - type: textarea
+    id: stretch_target_roles
+    attributes:
+      label: Stretch target roles
+      description: Roles you would consider but want ranked more carefully.
+      placeholder: Analytics Engineer
+    validations:
+      required: false
+
+  - type: textarea
+    id: core_skills
+    attributes:
+      label: Core skills
+      description: One per line, or comma-separated.
+      placeholder: |
+        Python
+        SQL
+        Excel
+    validations:
+      required: false
+
+  - type: textarea
+    id: adjacent_skills
+    attributes:
+      label: Adjacent skills
+      description: One per line, or comma-separated.
+      placeholder: |
+        Power BI
+        Tableau
+    validations:
+      required: false
+
+  - type: textarea
+    id: title_words_to_exclude
+    attributes:
+      label: Title words to exclude
+      description: Jobs with these words in the title will be heavily penalised.
+      placeholder: |
+        senior
+        lead
+        director
+    validations:
+      required: false
+
+  - type: textarea
+    id: description_terms_to_exclude
+    attributes:
+      label: Description terms to exclude
+      description: Jobs with these terms in the description will be heavily penalised.
+      placeholder: |
+        security clearance
+        5 years experience
+    validations:
+      required: false
+
+  - type: textarea
+    id: companies_to_exclude
+    attributes:
+      label: Companies to exclude
+      description: One company per line.
+    validations:
+      required: false

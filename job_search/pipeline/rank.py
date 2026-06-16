@@ -29,6 +29,7 @@ import yaml
 from job_search import PROJECT_ROOT
 from job_search.adapters.base import JobRecord
 from job_search.util.quota import api_call_wrapper
+from job_search.util.secrets import looks_configured_secret
 
 logger = logging.getLogger(__name__)
 
@@ -128,11 +129,22 @@ def _build_system_prompt(ranker_cfg: dict, profile: dict, domain_context: str) -
     template = ranker_cfg.get("system_prompt_template", "")
     rubric = ranker_cfg.get("scoring_rubric", "")
     profile_json = json.dumps(profile, indent=None, separators=(",", ":"))
-    return template.format(
-        profile_json=profile_json,
-        scoring_rubric=rubric,
-        domain_context=domain_context,
+    return _render_prompt_template(
+        template,
+        {
+            "profile_json": profile_json,
+            "scoring_rubric": rubric,
+            "domain_context": domain_context,
+        },
     )
+
+
+def _render_prompt_template(template: str, values: dict[str, object]) -> str:
+    """Replace only supported prompt placeholders, leaving JSON braces intact."""
+    rendered = template
+    for key, value in values.items():
+        rendered = rendered.replace("{" + key + "}", str(value))
+    return rendered
 
 
 def _call_llm_batch(
@@ -144,13 +156,22 @@ def _call_llm_batch(
     ranker_cfg: dict,
 ) -> list[dict]:
     """Call the LLM to rank a batch of up to 5 jobs. Returns list of score dicts."""
-    user_template = ranker_cfg.get("user_prompt_template", "Rate the following {n} job(s):\n{jobs_json}")
+    user_template = ranker_cfg.get(
+        "user_prompt_template",
+        "Rate the following {n} job(s):\n{jobs_json}",
+    )
     jobs_data = [
         {"title": r.title, "company": r.company, "jd": r.description[:3000]}
         for r in batch
     ]
     jobs_json = json.dumps(jobs_data, indent=None, separators=(",", ":"))
-    user_message = user_template.format(n=len(batch), jobs_json=jobs_json)
+    user_message = _render_prompt_template(
+        user_template,
+        {
+            "n": len(batch),
+            "jobs_json": jobs_json,
+        },
+    )
 
     with api_call_wrapper("rank") as rec:
         response = client.messages.create(
@@ -227,7 +248,9 @@ def rank_jobs(
     batch_size = rank_cfg.get("batch_size", 5)
     max_tokens = rank_cfg.get("max_tokens_response", 200)
     pre_score_threshold = ranker_cfg.get("pre_score_threshold", 3.0)
-    ranker_version = f"{ranker_cfg.get('version', 'v1')}-{_prompt_content_hash(ranker_cfg, domain_context)}"
+    ranker_version = (
+        f"{ranker_cfg.get('version', 'v1')}-{_prompt_content_hash(ranker_cfg, domain_context)}"
+    )
 
     # Pass 1 — keyword pre-score all records
     for rec in records:
@@ -253,9 +276,21 @@ def rank_jobs(
         return records
 
     # Pass 2 — LLM ranking in batches
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not looks_configured_secret(api_key):
+        logger.warning(
+            "rank: ANTHROPIC_API_KEY is not configured; keeping keyword pre-scores for %d jobs",
+            len(needs_llm),
+        )
+        for rec in needs_llm:
+            rec.fit_reason = "keyword pre-score only; ANTHROPIC_API_KEY not configured"
+            rec.fit_confidence = 0.3
+            rec.ranker_version = ranker_version
+        return records
+
     try:
         import anthropic
-        client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
+        client = anthropic.Anthropic(api_key=api_key)
     except ImportError:
         logger.error("rank: anthropic package not installed; skipping LLM ranking")
         return records

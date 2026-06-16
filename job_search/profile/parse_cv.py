@@ -14,6 +14,7 @@ from pathlib import Path
 
 from job_search import PROJECT_ROOT
 from job_search.util.quota import api_call_wrapper
+from job_search.util.secrets import looks_configured_secret
 
 logger = logging.getLogger(__name__)
 
@@ -94,17 +95,10 @@ def _read_pdf(pdf_path: Path) -> str:
     )
 
 
-def parse_cv(pdf_path: Path, domain: str = "general") -> dict:
-    """Read a PDF CV and call the Anthropic API to produce a profile dict.
-
-    The domain's cv_parser_context is prepended to the system prompt.
-    The prompt unconditionally includes the no-inference instruction.
-    Writes the result to config/profile.json and returns it.
-    """
-    import anthropic
+def _load_parse_cv_config(domain: str) -> tuple[str, int, str]:
+    """Return (model, max_tokens, domain_context) for CV parsing."""
     import yaml
 
-    # Load settings for model config
     settings_path = PROJECT_ROOT / "config" / "settings.yaml"
     with settings_path.open() as f:
         settings = yaml.safe_load(f)
@@ -124,20 +118,58 @@ def parse_cv(pdf_path: Path, domain: str = "general") -> dict:
     except Exception as exc:
         logger.warning("parse_cv: could not load domain pack %r: %s", domain, exc)
 
-    system_prompt = _SYSTEM_PROMPT_TEMPLATE.format(domain_context=domain_context)
+    return model, max_tokens, domain_context
 
-    # Extract CV text
-    logger.info("Extracting text from %s", pdf_path)
-    cv_text = _read_pdf(pdf_path)
+
+def _seed_profile_from_domain(profile: dict, domain: str) -> None:
+    """Fill empty skills/roles from the selected domain pack."""
+    try:
+        from job_search.util.domain import load_pack
+
+        pack = load_pack(domain)
+        if not profile.get("core_skills") and pack.example_skills:
+            profile["core_skills"] = pack.example_skills.get("core", [])
+        if not profile.get("adjacent_skills") and pack.example_skills:
+            profile["adjacent_skills"] = pack.example_skills.get("adjacent", [])
+        if not profile.get("target_roles", {}).get("core") and pack.example_target_roles:
+            profile.setdefault("target_roles", {})["core"] = pack.example_target_roles.get(
+                "core",
+                [],
+            )
+    except Exception:
+        pass
+
+
+def _write_profile(profile: dict) -> None:
+    _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with _PROFILE_PATH.open("w", encoding="utf-8") as f:
+        json.dump(profile, f, indent=2)
+        f.write("\n")
+
+
+def parse_cv_text(cv_text: str, domain: str = "general", write: bool = True) -> dict:
+    """Parse raw CV text with Anthropic and optionally write config/profile.json."""
+    import anthropic
+
     if not cv_text.strip():
-        raise ValueError(f"Could not extract text from {pdf_path}. Is it a scanned PDF?")
+        raise ValueError("CV text is empty. Paste CV text or attach a text-readable PDF.")
+
+    model, max_tokens, domain_context = _load_parse_cv_config(domain)
+    system_prompt = _SYSTEM_PROMPT_TEMPLATE.format(domain_context=domain_context)
 
     user_message = (
         f"Domain: {domain}\n\n"
         f"CV text:\n{cv_text[:15000]}"  # cap at ~15k chars to stay within context
     )
 
-    client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not looks_configured_secret(api_key):
+        raise RuntimeError(
+            "ANTHROPIC_API_KEY is not configured. Copy .env.example to .env "
+            "or add the GitHub Actions secret before parsing a CV."
+        )
+
+    client = anthropic.Anthropic(api_key=api_key)
 
     with api_call_wrapper("parse_cv") as rec:
         response = client.messages.create(
@@ -173,23 +205,19 @@ def parse_cv(pdf_path: Path, domain: str = "general") -> dict:
     # Ensure domain is set
     profile["domain"] = domain
 
-    # Seed example skills/roles from domain pack if profile has empty lists
-    try:
-        from job_search.util.domain import load_pack
-        pack = load_pack(domain)
-        if not profile.get("core_skills") and pack.example_skills:
-            profile["core_skills"] = pack.example_skills.get("core", [])
-        if not profile.get("adjacent_skills") and pack.example_skills:
-            profile["adjacent_skills"] = pack.example_skills.get("adjacent", [])
-        if not profile.get("target_roles", {}).get("core") and pack.example_target_roles:
-            profile.setdefault("target_roles", {})["core"] = pack.example_target_roles.get("core", [])
-    except Exception:
-        pass
+    _seed_profile_from_domain(profile, domain)
+    if write:
+        _write_profile(profile)
+        logger.info("profile.json written to %s", _PROFILE_PATH)
 
-    # Write to config/profile.json
-    _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with _PROFILE_PATH.open("w") as f:
-        json.dump(profile, f, indent=2)
-
-    logger.info("profile.json written to %s", _PROFILE_PATH)
     return profile
+
+
+def parse_cv(pdf_path: Path, domain: str = "general") -> dict:
+    """Read a PDF CV, parse it, and write config/profile.json."""
+    logger.info("Extracting text from %s", pdf_path)
+    cv_text = _read_pdf(pdf_path)
+    if not cv_text.strip():
+        raise ValueError(f"Could not extract text from {pdf_path}. Is it a scanned PDF?")
+
+    return parse_cv_text(cv_text, domain=domain, write=True)
