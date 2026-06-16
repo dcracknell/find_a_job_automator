@@ -1,3 +1,15 @@
+## Download Latest Jobs
+
+**[Download jobs.xlsx](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.xlsx)** — updated automatically every day at 07:00 UTC
+
+| File | Link |
+|------|------|
+| jobs.xlsx (Excel workbook) | [Download](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.xlsx) |
+| dashboard.html (visual summary) | [View](https://github.com/dcracknell/find_a_job_automator/blob/job-search-data/data/dashboard.html) |
+| jobs.db (SQLite database) | [Download](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.db) |
+
+---
+
 # UK Job Search Pipeline
 
 A daily pipeline that scrapes UK job boards and company career pages, ranks matches against your CV with an LLM, deduplicates against a persistent Excel workbook, and emails a digest of new high-fit jobs.
