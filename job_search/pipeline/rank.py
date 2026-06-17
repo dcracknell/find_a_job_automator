@@ -7,7 +7,7 @@ Pass 1 — keyword pre-score (free, no API call):
 
 Pass 2 — LLM rank (Anthropic API, batched, cached):
   - Model from settings.yaml:models.rank
-  - System prompt = ranker.yaml template + active domain pack ranker_context (cache_control)
+  - System prompt = ranker.yaml template + active domain pack rankehr_context (cache_control)
   - Profile JSON in cached block
   - Up to 5 JDs batched per call
   - Compact short-key output: {"s": ..., "c": ..., "r": ..., "k": [...]}
@@ -244,7 +244,7 @@ def rank_jobs(
 
     ranker_cfg = _load_ranker()
     rank_cfg = settings.get("models", {}).get("rank", {})
-    model = rank_cfg.get("model", "claude-haiku-4-5-20251001")
+    model = rank_cfg.get("model", "claude-haiku-4-5")
     batch_size = rank_cfg.get("batch_size", 5)
     max_tokens = rank_cfg.get("max_tokens_response", 200)
     pre_score_threshold = ranker_cfg.get("pre_score_threshold", 3.0)
