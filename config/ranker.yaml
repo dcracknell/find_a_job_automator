@@ -1,30 +1,45 @@
-version: "v1"
+version: "v2-cv-accuracy"
 
-# Minimum keyword pre-score to proceed to LLM ranking (Pass 1 threshold).
-# Jobs below this get fit_score = pre_score, fit_confidence = "low".
-pre_score_threshold: 3.0
+# Minimum keyword pre-score to proceed to Claude ranking.
+# Set to 0.0 so Claude ranks every job that passes the hard filters when
+# ANTHROPIC_API_KEY is configured. The keyword score is only a fallback.
+pre_score_threshold: 0.0
 
 # --- Scoring rubric (baked into the system prompt) ---
 scoring_rubric: |
-  Score 0–10. Use this rubric:
-    9–10: Near-perfect match — the candidate's core skills are the job's requirements; little
-          ramp-up needed.
-     7–8: Strong match — most core skills present; one or two gaps are learnable quickly.
-     5–6: Partial match — some relevant skills; significant gaps or seniority mismatch.
-     3–4: Weak match — domain is right but skills are misaligned or the role is too senior.
-     1–2: Poor match — only tangential relevance.
+  Score 0-10 for CV accuracy, not generic attractiveness. Treat the candidate
+  profile as the source of truth and require evidence from the job description.
+
+    9-10: Excellent match. The job's main responsibilities and must-have skills
+          directly match the candidate's core roles, proven skills, experience
+          level, location/remote preference, and salary constraints.
+     7-8: Strong match. Most must-have requirements match the CV/profile, with
+          only small learnable gaps and no major seniority/location/salary issue.
+     5-6: Possible match. Some relevant skills or role overlap, but there are
+          meaningful gaps, unclear requirements, or weaker evidence.
+     3-4: Weak match. The domain is related, but required skills, seniority,
+          experience, or responsibilities are mostly misaligned.
+     1-2: Poor match. Only tangential relevance to the CV/profile.
        0: No match.
 
   Penalise heavily for:
-  - Any 'title_excludes' term appearing in the job title (e.g. "Senior", "Lead").
-  - Any 'description_excludes' term in the JD (e.g. "SC clearance required").
-  - Required years of experience > profile.filters.requires_years_above.
+  - Any 'title_excludes' term appearing in the job title (for example "Senior", "Lead").
+  - Any 'description_excludes' term in the JD (for example "SC clearance required").
+  - Required years of experience > profile.negative_signals.requires_years_above.
   - Company in profile.negative_signals.company_blocklist.
+  - Missing hard requirements that are not present in core_skills, adjacent_skills,
+    education, registrations, or experience_summary.
+  - A role that is above the candidate's experience level even if keywords match.
 
-  Bonus for:
+  Give modest credit for:
   - Salary above profile.filters.salary_floor_gbp.
   - Location within profile.search_radius_miles or remote.
   - Exact match to a core target role.
+
+  Confidence rules:
+  - High confidence requires enough JD detail to compare against the profile.
+  - Use lower confidence when the JD is short, vague, or missing requirements.
+  - Do not inflate scores for vague jobs just because they contain a core keyword.
 
 # --- Prompt template ---
 # {domain_context} is replaced with the active domain pack's ranker_context.
@@ -32,7 +47,8 @@ scoring_rubric: |
 # {jobs_json} is replaced with an array of up to 5 cleaned JDs.
 system_prompt_template: |
   You are an expert job-match ranker for UK roles. You will be given a candidate profile
-  and one or more job descriptions. For each job, output a JSON object.
+  built from a CV and one or more job descriptions. Rank for accurate fit to that CV,
+  not for broad possibility.
 
   CANDIDATE PROFILE:
   {profile_json}
@@ -42,24 +58,33 @@ system_prompt_template: |
 
   {domain_context}
 
-  OUTPUT FORMAT — respond with a JSON array, one object per job, in the same order received.
+  Before scoring internally, compare:
+  - role title and seniority against target_roles and negative_signals
+  - must-have skills against core_skills, adjacent_skills, education, and experience_summary
+  - salary, location, remote policy, and exclusions against filters
+  - evidence in the JD against evidence in the profile
+
+  High scores require explicit evidence. If the JD asks for a skill or experience
+  not present in the profile, mention the gap in the reason and lower the score.
+
+  OUTPUT FORMAT - respond with a JSON array, one object per job, in the same order received.
   Use ONLY these short keys to minimise tokens:
-    s  — fit_score (float 0–10, one decimal place)
-    c  — fit_confidence (float 0–1, two decimal places)
-    r  — fit_reason (one sentence, max 20 words, no preamble)
-    k  — matched_keywords (JSON array of strings, max 5 items)
+    s  - fit_score (float 0-10, one decimal place)
+    c  - fit_confidence (float 0-1, two decimal places)
+    r  - fit_reason (one sentence, max 30 words, include key match or key gap)
+    k  - matched_keywords (JSON array of profile-backed strings, max 5 items)
 
   Example output for two jobs:
   [
-    {"s": 8.2, "c": 0.85, "r": "FPGA + SoC validation align closely with core skills.", "k": ["FPGA", "RTL", "SystemVerilog"]},
-    {"s": 3.1, "c": 0.60, "r": "Role requires 5+ years; candidate has 1.", "k": ["Python"]}
+    {"s": 8.2, "c": 0.85, "r": "Python and SQL duties match core skills; minor cloud tooling gap.", "k": ["Python", "SQL"]},
+    {"s": 3.1, "c": 0.60, "r": "Role requires 5+ years and lead ownership, both above the profile.", "k": ["Python"]}
   ]
 
   Respond with the JSON array only. No markdown, no preamble, no trailing text.
-  Max tokens: 200 per job.
+  Max tokens: 250 per job.
 
 user_prompt_template: |
-  Rate the following {n} job(s):
+  Rate the following {n} job(s) against the candidate profile:
   {jobs_json}
 
 # Compact output schema (for documentation / prompt validation)
@@ -71,5 +96,5 @@ output_schema:
     properties:
       s: {type: number, minimum: 0, maximum: 10}
       c: {type: number, minimum: 0, maximum: 1}
-      r: {type: string, maxLength: 200}
+      r: {type: string, maxLength: 240}
       k: {type: array, items: {type: string}, maxItems: 5}

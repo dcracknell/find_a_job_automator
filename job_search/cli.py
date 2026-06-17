@@ -229,12 +229,14 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
 
     from job_search.output.workbook_export import regenerate_workbook
     from job_search.output.workbook_import import import_user_edits
-    from job_search.storage.db import get_connection, migrate, set_meta
+    from job_search.storage.db import get_connection, migrate
 
     db_path = PROJECT_ROOT / settings.get("paths", {}).get("db", "data/jobs.db")
     xlsx_path = PROJECT_ROOT / settings.get("paths", {}).get("xlsx", "data/jobs.xlsx")
     backups_path = PROJECT_ROOT / settings.get("paths", {}).get("backups", "data/backups")
-    dashboard_path = PROJECT_ROOT / settings.get("paths", {}).get("dashboard_html", "data/dashboard.html")
+    dashboard_path = PROJECT_ROOT / settings.get(
+        "paths", {}
+    ).get("dashboard_html", "data/dashboard.html")
 
     # 1. Open + migrate DB
     conn = get_connection(db_path)
@@ -265,11 +267,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             )
             return
 
-        from job_search.profile.queries import generate_queries
-        queries = generate_queries(profile)
-        click.echo(f"Generated {len(queries)} search queries.")
-
-        # 4. Build adapter registry
+        # 4. Load domain context before generating Claude-assisted search queries
         from job_search.util.domain import load_pack
         domain_name = profile.get("domain", "general")
         try:
@@ -278,10 +276,22 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         except Exception:
             domain_context = ""
 
+        from job_search.profile.queries import generate_queries
+        from job_search.util.secrets import looks_configured_secret
+        queries = generate_queries(profile, settings, domain_context)
+        query_mode = (
+            "Claude-assisted"
+            if looks_configured_secret(os.environ.get("ANTHROPIC_API_KEY"))
+            else "deterministic"
+        )
+        click.echo(f"Generated {len(queries)} {query_mode} search queries.")
+
+        # 5. Build adapter registry
+
         from job_search.adapters.adzuna import AdzunaAdapter
-        from job_search.adapters.reed import ReedAdapter
         from job_search.adapters.greenhouse import GreenhouseAdapter
         from job_search.adapters.lever import LeverAdapter
+        from job_search.adapters.reed import ReedAdapter
         from job_search.adapters.workday import WorkdayAdapter
 
         sources_cfg = {}
@@ -320,10 +330,11 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         }
 
         # 5. Run adapters
-        from job_search.pipeline.dedup import sync_job, mark_closed_stale
+        from datetime import datetime
+
+        from job_search.pipeline.dedup import mark_closed_stale, sync_job
         from job_search.pipeline.filter import apply_filters
         from job_search.pipeline.rank import rank_jobs
-        from datetime import datetime
 
         all_records = []
         for adapter_name, (adapter, enabled) in adapter_registry.items():
@@ -490,11 +501,12 @@ def rank(job_id: str) -> None:
 
     settings = load_settings()
 
-    from job_search.storage.db import get_connection, migrate
-    from job_search.pipeline.rank import rank_jobs
-    from job_search.adapters.base import JobRecord
-    from job_search import load_profile
     import json as _json
+
+    from job_search import load_profile
+    from job_search.adapters.base import JobRecord
+    from job_search.pipeline.rank import rank_jobs
+    from job_search.storage.db import get_connection, migrate
 
     db_path = PROJECT_ROOT / settings.get("paths", {}).get("db", "data/jobs.db")
     conn = get_connection(db_path)
@@ -530,8 +542,23 @@ def rank(job_id: str) -> None:
 
         # Update DB
         conn.execute(
-            "UPDATE jobs SET fit_score=?, fit_confidence=?, fit_reason=?, matched_keywords=?, ranker_version=? WHERE job_id=?",
-            (r.fit_score, r.fit_confidence, r.fit_reason, _json.dumps(r.matched_keywords), r.ranker_version, job_id),
+            """
+            UPDATE jobs
+            SET fit_score = ?,
+                fit_confidence = ?,
+                fit_reason = ?,
+                matched_keywords = ?,
+                ranker_version = ?
+            WHERE job_id = ?
+            """,
+            (
+                r.fit_score,
+                r.fit_confidence,
+                r.fit_reason,
+                _json.dumps(r.matched_keywords),
+                r.ranker_version,
+                job_id,
+            ),
         )
         conn.commit()
     finally:
@@ -554,9 +581,9 @@ def health() -> None:
         pass
 
     from job_search.adapters.adzuna import AdzunaAdapter
-    from job_search.adapters.reed import ReedAdapter
     from job_search.adapters.greenhouse import GreenhouseAdapter
     from job_search.adapters.lever import LeverAdapter
+    from job_search.adapters.reed import ReedAdapter
 
     adapters = [AdzunaAdapter(), ReedAdapter(), GreenhouseAdapter(), LeverAdapter()]
     click.echo(f"{'Adapter':<20} {'Status'}")

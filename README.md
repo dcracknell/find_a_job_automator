@@ -12,7 +12,10 @@
 
 # UK Job Search Pipeline
 
-A daily pipeline that scrapes UK job boards and company career pages, ranks matches against your CV with an LLM, deduplicates against a persistent Excel workbook, and emails a digest of new high-fit jobs.
+A daily pipeline that uses Claude to turn your CV/profile into targeted search
+queries, scrapes UK job boards and company career pages, ranks matches against
+your CV with stricter Claude scoring, deduplicates against a persistent Excel
+workbook, and emails a digest of new high-fit jobs.
 
 For AI assistant orientation, see [AI_README.md](AI_README.md).
 
@@ -57,7 +60,8 @@ job-search run
 
 Output files land in `data/` (gitignored):
 - `data/jobs.db` — SQLite primary store
-- `data/jobs.xlsx` — regenerated Excel view (edit `status` / `notes` here)
+- `data/jobs.xlsx` — regenerated Excel view. Use the `Status` dropdown to mark
+  `applied`, `interview`, etc., and keep application dates/follow-ups in `Notes`.
 - `data/runs.log` — per-run log
 - `data/quota.jsonl` — API token + cost log
 
