@@ -21,10 +21,7 @@ For AI assistant orientation, see [AI_README.md](AI_README.md).
 
 ## Current status
 
-This repository currently implements the Phase 1 scaffold: installation, CLI wiring,
-domain-pack loading, SQLite migrations, empty Excel export, search, and backups.
-The actual scraping, CV parsing, salary parsing, dedup sync, LLM ranking, dashboard,
-and email digest are still Phase 2+ placeholders.
+The pipeline is fully implemented end-to-end: CV parsing via Claude, Claude-assisted search query generation, keyword pre-scoring, LLM job ranking via Claude, deduplication, Excel workbook export with tracking columns, visual HTML dashboard, and email digest.
 
 ---
 
@@ -48,6 +45,7 @@ pip install -e .
 # 4. Configure secrets
 cp .env.example .env
 # Edit .env and fill in ANTHROPIC_API_KEY, ADZUNA_APP_ID/KEY, REED_API_KEY, SMTP_*
+# ANTHROPIC_API_KEY enables CV parsing, query generation, and job ranking via Claude
 
 # 5. Parse your CV (choose a domain, or omit for 'general')
 job-search parse-cv path/to/your-cv.pdf --domain engineering

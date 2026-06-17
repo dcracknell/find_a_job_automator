@@ -52,7 +52,7 @@ _JOBS_COLUMNS: list[tuple[str, str | None]] = [
     ("Days Left", None),
     ("Source", "source"),
     ("Apply Link", "url"),
-    ("Anthropic Response", "fit_reason"),
+    ("Claude's Fit Reason", "fit_reason"),
     ("Matched Keywords", "matched_keywords"),
     ("First Seen", "first_seen"),
     ("Last Seen", "last_seen"),
@@ -129,7 +129,7 @@ _WRAPPED_HEADERS = {
     "Title",
     "Location",
     "Salary (raw)",
-    "Anthropic Response",
+    "Claude's Fit Reason",
     "Matched Keywords",
     "Query",
     "Notes",
@@ -475,7 +475,7 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
         "Days Left": 10,
         "Source": 16,
         "Apply Link": 16,
-        "Anthropic Response": 52,
+        "Claude's Fit Reason": 52,
         "Matched Keywords": 30,
         "First Seen": 12,
         "Last Seen": 12,
@@ -516,7 +516,7 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
         "Add application date, contact name, follow-up reminder, or anything you want to keep.",
         "job-search",
     )
-    ws.cell(row=1, column=cols["Anthropic Response"]).comment = Comment(
+    ws.cell(row=1, column=cols["Claude's Fit Reason"]).comment = Comment(
         "This is the model's fit rationale from the ranking step.",
         "job-search",
     )
@@ -695,7 +695,7 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
         "Location",
         "Closes",
         "Apply Link",
-        "Anthropic Response",
+        "Claude's Fit Reason",
     ]
     for col_idx, header in enumerate(headers, start=1):
         cell = ws.cell(row=top_start + 1, column=col_idx)

@@ -125,7 +125,7 @@ def _generate_queries_with_claude(
         return []
 
     query_cfg = settings.get("models", {}).get("queries", {})
-    model = query_cfg.get("model", "claude-haiku-4-5-20251001")
+    model = query_cfg.get("model", "claude-haiku-4-5")
     max_tokens = int(query_cfg.get("max_tokens_response", 512))
 
     client = anthropic.Anthropic(api_key=api_key)
