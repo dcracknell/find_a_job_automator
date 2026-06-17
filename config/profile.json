@@ -15,23 +15,23 @@
     "registrations": []
   },
 
-  "experience_years": 0,
-  "experience_summary": "",
+  "experience_years": 2,
+  "experience_summary": "2 years experience in software development and data analysis. Python, SQL, JavaScript, REST APIs, Git.",
 
-  "core_skills": [],
-  "adjacent_skills": [],
+  "core_skills": ["Python", "SQL", "JavaScript", "REST APIs", "Git", "software development", "web development", "data analysis"],
+  "adjacent_skills": ["TypeScript", "React", "PostgreSQL", "AWS", "Docker", "pandas", "Excel", "Linux", "Agile", "machine learning"],
 
   "negative_signals": {
-    "title_excludes": ["senior", "staff", "principal", "lead", "head of", "director"],
+    "title_excludes": ["senior", "staff", "principal", "lead", "head of", "director", "manager", "vp", "vice president"],
     "requires_years_above": 3,
-    "description_excludes": [],
+    "description_excludes": ["sc clearance required", "security clearance", "10+ years", "8+ years"],
     "company_blocklist": []
   },
 
   "target_roles": {
-    "core": [],
-    "adjacent": [],
-    "stretch": []
+    "core": ["Software Developer", "Software Engineer", "Python Developer", "Junior Software Developer", "Backend Developer", "Full Stack Developer"],
+    "adjacent": ["Data Analyst", "Data Engineer", "Web Developer", "Application Developer", "DevOps Engineer"],
+    "stretch": ["Machine Learning Engineer", "Cloud Engineer", "Platform Engineer"]
   },
 
   "filters": {
