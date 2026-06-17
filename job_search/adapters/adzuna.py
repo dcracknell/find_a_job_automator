@@ -70,7 +70,6 @@ class AdzunaAdapter(Adapter):
                             "where": "UK",
                             "results_per_page": page_size,
                             "content-type": "application/json",
-                            "full_time": 1,
                         },
                     )
                     data = resp.json()

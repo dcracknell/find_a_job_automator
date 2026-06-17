@@ -293,6 +293,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         from job_search.adapters.lever import LeverAdapter
         from job_search.adapters.reed import ReedAdapter
         from job_search.adapters.workday import WorkdayAdapter
+        from job_search.adapters.jobspy_adapter import JobSpyAdapter
 
         sources_cfg = {}
         try:
@@ -326,6 +327,10 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             "workday": (
                 WorkdayAdapter(),
                 bool(ats_cfg.get("workday", {}).get("companies")),
+            ),
+            "jobspy": (
+                JobSpyAdapter(),
+                bool(sources_cfg.get("jobspy", {}).get("enabled", False)),
             ),
         }
 

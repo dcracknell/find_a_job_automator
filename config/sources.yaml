@@ -27,6 +27,13 @@ ats:
     companies:
       - {name: Graphcore, slug: graphcore}
       - {name: Cerebras, slug: cerebrassystems}
+    - {name: Monzo, slug: monzo}
+    - {name: Deliveroo, slug: deliveroo}
+    - {name: Starling Bank, slug: starlingbank}
+    - {name: Wise, slug: wise}
+    - {name: Improbable, slug: improbable}
+    - {name: Faculty AI, slug: faculty}
+    - {name: Thought Machine, slug: thoughtmachine}
   lever:
     companies: []
   workday:

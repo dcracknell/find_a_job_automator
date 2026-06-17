@@ -76,7 +76,7 @@ models:
     output_gbp_per_million: 12.00
     cached_input_gbp_per_million: 0.24
     max_tokens_response: 700
-    max_queries: 30
+    max_queries: 15
   extract_closing_date:
     model: claude-haiku-4-5
     input_gbp_per_million: 0.64
