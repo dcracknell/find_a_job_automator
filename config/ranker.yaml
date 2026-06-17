@@ -3,7 +3,7 @@ version: "v2-cv-accuracy"
 # Minimum keyword pre-score to proceed to Claude ranking.
 # Set to 0.0 so Claude ranks every job that passes the hard filters when
 # ANTHROPIC_API_KEY is configured. The keyword score is only a fallback.
-pre_score_threshold: 0.0
+pre_score_threshold: 2.0
 
 # --- Scoring rubric (baked into the system prompt) ---
 scoring_rubric: |

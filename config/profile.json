@@ -2,11 +2,13 @@
   "name": "Your Name",
   "domain": "general",
   "secondary_domains": [],
-
-  "location": {"city": "Sheffield", "lat": 53.38, "lon": -1.47},
+  "location": {
+    "city": "Sheffield",
+    "lat": 53.38,
+    "lon": -1.47
+  },
   "search_radius_miles": 60,
   "remote_ok": true,
-
   "education": {
     "highest_qualification": "",
     "institution": "",
@@ -14,26 +16,122 @@
     "grade": "",
     "registrations": []
   },
-
   "experience_years": 2,
   "experience_summary": "2 years experience in software development and data analysis. Python, SQL, JavaScript, REST APIs, Git.",
-
-  "core_skills": ["Python", "SQL", "JavaScript", "REST APIs", "Git", "software development", "web development", "data analysis"],
-  "adjacent_skills": ["TypeScript", "React", "PostgreSQL", "AWS", "Docker", "pandas", "Excel", "Linux", "Agile", "machine learning"],
-
+  "core_skills": [
+    "Python",
+    "SQL",
+    "JavaScript",
+    "REST APIs",
+    "Git",
+    "software development",
+    "web development",
+    "data analysis"
+  ],
+  "adjacent_skills": [
+    "TypeScript",
+    "React",
+    "PostgreSQL",
+    "AWS",
+    "Docker",
+    "pandas",
+    "Excel",
+    "Linux",
+    "Agile",
+    "machine learning"
+  ],
   "negative_signals": {
-    "title_excludes": ["senior", "staff", "principal", "lead", "head of", "director", "manager", "vp", "vice president"],
-    "requires_years_above": 3,
-    "description_excludes": ["sc clearance required", "security clearance", "10+ years", "8+ years"],
+    "title_excludes": [
+      "senior",
+      "staff",
+      "principal",
+      "lead",
+      "head of",
+      "director",
+      "manager",
+      "vp",
+      "vice president",
+      "hardware",
+      "electrical",
+      "electronics",
+      "mechanical",
+      "silicon",
+      "soc",
+      "chip",
+      "asic",
+      "fpga",
+      "firmware",
+      "embedded",
+      "lab technician",
+      "lab support",
+      "technician",
+      "sales",
+      "retail",
+      "account manager",
+      "business development",
+      "marketing",
+      "compliance",
+      "sourcing",
+      "procurement",
+      "legal",
+      "finance",
+      "hr",
+      "recruitment",
+      "office manager",
+      "security engineer",
+      "security analyst",
+      "network engineer",
+      "network administrator",
+      "test engineer",
+      "validation engineer",
+      "support engineer",
+      "field engineer",
+      "operations manager",
+      "programme manager",
+      "program manager",
+      "product manager"
+    ],
+    "requires_years_above": 4,
+    "description_excludes": [
+      "sc clearance required",
+      "security clearance",
+      "10+ years",
+      "8+ years",
+      "7+ years",
+      "6+ years",
+      "degree in electrical",
+      "degree in electronics",
+      "degree in mechanical",
+      "hardware design",
+      "ASIC",
+      "FPGA",
+      "silicon design",
+      "must have right to work"
+    ],
     "company_blocklist": []
   },
-
   "target_roles": {
-    "core": ["Software Developer", "Software Engineer", "Python Developer", "Junior Software Developer", "Backend Developer", "Full Stack Developer"],
-    "adjacent": ["Data Analyst", "Data Engineer", "Web Developer", "Application Developer", "DevOps Engineer"],
-    "stretch": ["Machine Learning Engineer", "Cloud Engineer", "Platform Engineer"]
+    "core": [
+      "Software Developer",
+      "Software Engineer",
+      "Python Developer",
+      "Junior Software Developer",
+      "Backend Developer",
+      "Full Stack Developer"
+    ],
+    "adjacent": [
+      "Data Analyst",
+      "Data Engineer",
+      "Web Developer",
+      "Application Developer",
+      "DevOps Engineer"
+    ],
+    "stretch": [
+      "Machine Learning Engineer",
+      "Cloud Engineer",
+      "Platform Engineer"
+    ]
   },
-
   "filters": {
     "salary_floor_gbp": 25000,
     "salary_unit": "annual",

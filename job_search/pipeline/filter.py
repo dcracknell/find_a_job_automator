@@ -45,6 +45,47 @@ def _company_in_cooldown(
     return row is not None
 
 
+
+# Broad set of role families that are clearly NOT software development
+_IRRELEVANT_TITLE_PATTERNS = re.compile(
+    r"\b("
+    r"hardware|electrical|electronics|electronic|mechanical|silicon|soc\b|asic|fpga|firmware|"
+    r"lab technician|lab support|lab engineer|"
+    r"retail|sales( associate| manager| exec)?|account manager|account executive|"
+    r"marketing|compliance manager|global sourcing|sourcing manager|procurement|"
+    r"field engineer|field service|"
+    r"network engineer|network admin|"
+    r"hardware validation|hardware reliability|hardware development|"
+    r"board test|gpu architect|processor|silicon engineer|"
+    r"chip design|vlsi|rtl|verilog|vhdl|"
+    r"operations manager|programme manager|program manager|project manager|"
+    r"product manager|product owner|"
+    r"legal|finance|accounting|hr manager|talent|recruitment"
+    r")\b",
+    re.IGNORECASE,
+)
+
+# Minimum positive signal — at least one of these must appear in title
+_SOFTWARE_TITLE_PATTERNS = re.compile(
+    r"\b("
+    r"software|developer|engineer|data|analyst|python|backend|frontend|full.?stack|"
+    r"devops|cloud|platform|ml|machine learning|ai|api|web developer|"
+    r"site reliability|sre|infrastructure|automation|application"
+    r")\b",
+    re.IGNORECASE,
+)
+
+def _title_is_relevant(title: str, target_roles: list[str]) -> bool:
+    """Return False if title is clearly a non-software role."""
+    if _IRRELEVANT_TITLE_PATTERNS.search(title):
+        return False
+    # Allow through if it matches a target role keyword
+    if _SOFTWARE_TITLE_PATTERNS.search(title):
+        return True
+    # If the title doesn't have any software signal but also isn't blocked,
+    # let it through (it might be a generic posting)
+    return True
+
 def apply_filters(
     records: list[JobRecord],
     profile: dict,
@@ -72,6 +113,11 @@ def apply_filters(
 
     passed: list[JobRecord] = []
 
+    # Get target role keywords for title relevance check
+    target_core = profile.get("target_roles", {}).get("core", [])
+    target_adjacent = profile.get("target_roles", {}).get("adjacent", [])
+    target_all_roles = target_core + target_adjacent
+
     for rec in records:
         # Salary floor (keep nulls)
         if rec.salary_max is not None and salary_floor and rec.salary_max < salary_floor:
@@ -87,6 +133,11 @@ def apply_filters(
         company_lower = rec.company.lower()
         if company_lower in exclude_companies or company_lower in company_blocklist:
             logger.debug("filter: dropped %s (company blocklisted)", rec.company)
+            continue
+
+        # Title relevance — drop clearly non-software roles
+        if not _title_is_relevant(rec.title or "", target_all_roles):
+            logger.debug("filter: dropped %s (title not software-relevant)", rec.title)
             continue
 
         # Cooldown

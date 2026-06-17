@@ -35,7 +35,14 @@ ats:
     - {name: Faculty AI, slug: faculty}
     - {name: Thought Machine, slug: thoughtmachine}
   lever:
-    companies: []
+    companies:
+    - {name: Revolut, slug: revolut}
+    - {name: Octopus Energy, slug: octopusenergy}
+    - {name: Tractable, slug: tractable}
+    - {name: Phoebe, slug: phoebe}
+    - {name: Wayve, slug: wayve}
+    - {name: Cazoo, slug: cazoo}
+    - {name: Hopin, slug: hopin}
   workday:
     companies:
       - {name: SiFive, url: "https://sifive.wd1.myworkdayjobs.com/sifivecareers"}

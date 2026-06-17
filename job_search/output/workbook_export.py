@@ -448,7 +448,7 @@ def _add_status_dropdown(ws, headers: list[str]) -> None:
 
 def _style_jobs_sheet(ws, headers: list[str]) -> None:
     cols = _header_map(headers)
-    ws.freeze_panes = "I2"
+    ws.freeze_panes = "E2"
     ws.sheet_view.showGridLines = False
     ws.sheet_view.zoomScale = 90
     ws.auto_filter.ref = ws.dimensions
@@ -493,7 +493,7 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
         "Salary Min",
         "Salary Max",
         "Source",
-        "Anthropic Response",
+        "Claude's Fit Reason",
         "Matched Keywords",
         "First Seen",
         "Last Seen",
@@ -526,7 +526,7 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
     )
 
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row):
-        ws.row_dimensions[row[0].row].height = 42
+        ws.row_dimensions[row[0].row].height = 28
         for cell in row:
             header = headers[cell.column - 1]
             cell.alignment = Alignment(
@@ -561,6 +561,13 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
         for cell in ws.iter_cols(min_col=col_idx, max_col=col_idx, min_row=2, max_row=ws.max_row):
             for c in cell:
                 c.number_format = number_format
+
+    # Bold, large font for Score column to make it easy to scan
+    score_col_idx = cols["Score"]
+    for cell in ws.iter_cols(min_col=score_col_idx, max_col=score_col_idx, min_row=2, max_row=ws.max_row):
+        for c in cell:
+            c.font = Font(bold=True, size=12)
+            c.alignment = Alignment(horizontal="center", vertical="center")
 
     _add_status_dropdown(ws, headers)
     _add_jobs_table(ws)
@@ -631,6 +638,24 @@ def _add_jobs_conditional_formatting(ws, headers: list[str]) -> None:
             font=soon_font,
             fill=soon_fill,
         ),
+    )
+
+    # Whole-row colour bands by score (applied to all data columns A-Z)
+    last_col_letter = get_column_letter(ws.max_column)
+    score_ref = f"${score_col}2"
+    row_range = f"A2:{last_col_letter}{last_row}"
+
+    # Excellent (9-10): light green rows
+    excel_green = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")
+    ws.conditional_formatting.add(
+        row_range,
+        FormulaRule(formula=[f"{score_ref}>=9"], fill=excel_green),
+    )
+    # Strong (7-8.9): light blue rows
+    strong_fill = PatternFill(start_color="DDEEFF", end_color="DDEEFF", fill_type="solid")
+    ws.conditional_formatting.add(
+        row_range,
+        FormulaRule(formula=[f"AND({score_ref}>=7,{score_ref}<9)"], fill=strong_fill),
     )
 
 
@@ -709,6 +734,7 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
         SELECT status, fit_score, title, company, location, closes_on, url,
                fit_reason, description
         FROM jobs
+        WHERE fit_score IS NULL OR fit_score >= 5 OR status NOT IN ('new')
         ORDER BY fit_score DESC NULLS LAST, closes_on IS NULL, closes_on ASC, first_seen DESC
         LIMIT 50
         """
