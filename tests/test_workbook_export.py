@@ -4,8 +4,9 @@ import sqlite3
 from datetime import date, timedelta
 
 from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
 
-from job_search.output.workbook_export import regenerate_workbook
+from job_search.output.workbook_export import _infer_experience_level, regenerate_workbook
 from job_search.output.workbook_import import import_user_edits
 from job_search.storage.db import migrate
 
@@ -30,7 +31,7 @@ def _conn_with_job() -> sqlite3.Connection:
             date.today().isoformat(),
             date.today().isoformat(),
             "new",
-            "Python Developer",
+            "Graduate Python Developer",
             "Example Ltd",
             "Sheffield",
             "https://example.com/jobs/1",
@@ -75,6 +76,7 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
             "Score",
             "Confidence",
             "Score Band",
+            "Experience Level",
             "Title",
             "Company",
             "Location",
@@ -99,6 +101,7 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
         assert ws.cell(2, col["Priority"]).value.startswith("=IF(")
         assert ws.cell(2, col["Next Step"]).value.startswith("=IF(")
         assert ws.cell(2, col["Score Band"]).value.startswith("=IF(")
+        assert ws.cell(2, col["Experience Level"]).value == "Graduate/Entry"
         assert ws.cell(2, col["Days Left"]).value.startswith("=IF(")
         assert ws.cell(2, col["Anthropic Response"]).value == (
             "Python and service work align closely with the profile."
@@ -109,9 +112,22 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
         assert link_cell.value == "Open posting"
         assert link_cell.hyperlink.target == "https://example.com/jobs/1"
 
-        assert ws.freeze_panes == "E2"
-        assert ws.column_dimensions["A"].hidden is True
-        assert ws.column_dimensions["Y"].hidden is True
+        assert ws.freeze_panes == "I2"
+        assert ws.sheet_view.zoomScale == 90
+        for header in (
+            "Job ID",
+            "Confidence",
+            "Salary Min",
+            "Salary Max",
+            "Source",
+            "Anthropic Response",
+            "Matched Keywords",
+            "First Seen",
+            "Last Seen",
+            "Query",
+            "Ranker Ver.",
+        ):
+            assert ws.column_dimensions[get_column_letter(col[header])].hidden is True
 
         validations = ws.data_validations.dataValidation
         assert len(validations) == 1
@@ -146,3 +162,10 @@ def test_exported_workbook_still_imports_status_and_notes(tmp_path) -> None:
     assert row["status"] == "applied"
     assert row["notes"] == "Applied 2026-06-17; follow up next week."
     conn.close()
+
+
+def test_infer_experience_level_from_title_and_description() -> None:
+    assert _infer_experience_level("2026 Graduate Firmware Engineer") == "Graduate/Entry"
+    assert _infer_experience_level("Senior Software Engineer") == "Senior/Lead"
+    assert _infer_experience_level("Project Manager") == "Manager/Owner"
+    assert _infer_experience_level("Software Engineer", "Requires 3+ years Python.") == "Mid-level"

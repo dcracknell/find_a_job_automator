@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import shutil
 import sqlite3
 from datetime import date, datetime
@@ -39,6 +40,7 @@ _JOBS_COLUMNS: list[tuple[str, str | None]] = [
     ("Score", "fit_score"),
     ("Confidence", "fit_confidence"),
     ("Score Band", None),
+    ("Experience Level", None),
     ("Title", "title"),
     ("Company", "company"),
     ("Location", "location"),
@@ -58,6 +60,8 @@ _JOBS_COLUMNS: list[tuple[str, str | None]] = [
     ("Notes", "notes"),
     ("Ranker Ver.", "ranker_version"),
 ]
+
+_EXTRA_JOB_SELECT_COLUMNS: tuple[str, ...] = ("description",)
 
 # Status values users can set in Excel and import back into SQLite.
 _VALID_STATUSES: tuple[str, ...] = (
@@ -96,6 +100,17 @@ _PRIORITY_FILLS: dict[str, str] = {
     "Ignore": "D9D9D9",
     "Archive": "D9D9D9",
     "Unscored": "E7E6E6",
+}
+
+_EXPERIENCE_FILLS: dict[str, str] = {
+    "Internship": "D9EAF7",
+    "Apprentice/Trainee": "D9EAF7",
+    "Graduate/Entry": "D9EAD3",
+    "Junior": "E2F0D9",
+    "Mid-level": "FFF2CC",
+    "Senior/Lead": "F4CCCC",
+    "Manager/Owner": "EADCF8",
+    "Unspecified": "E7E6E6",
 }
 
 _SCORE_GREEN = "00B050"   # fit_score ≥ 8
@@ -161,7 +176,8 @@ def _db_columns() -> list[str]:
     """Return unique DB columns required for the jobs workbook."""
     seen: set[str] = set()
     cols: list[str] = []
-    for _, db_col in _JOBS_COLUMNS:
+    helper_columns = [("", column) for column in _EXTRA_JOB_SELECT_COLUMNS]
+    for _, db_col in [*_JOBS_COLUMNS, *helper_columns]:
         if db_col and db_col not in seen:
             seen.add(db_col)
             cols.append(db_col)
@@ -213,6 +229,54 @@ def _format_job_value(header: str, value: object) -> object:
     if header == "Matched Keywords":
         return _format_keywords(value)
     return value
+
+
+def _matches_any(text: str, patterns: tuple[str, ...]) -> bool:
+    return any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in patterns)
+
+
+def _infer_experience_level(title: object, description: object = "") -> str:
+    """Infer a quick-read seniority label from title/JD text."""
+    title_text = str(title or "").lower()
+    full_text = f"{title_text} {description or ''}".lower()
+
+    title_patterns: tuple[tuple[str, tuple[str, ...]], ...] = (
+        ("Senior/Lead", (r"\b(senior|staff|principal|lead|head of|director)\b",)),
+        ("Manager/Owner", (r"\b(manager|product owner|programme manager|program manager)\b",)),
+        ("Internship", (r"\b(intern|internship|placement|sandwich year)\b",)),
+        ("Apprentice/Trainee", (r"\b(apprentice|trainee)\b",)),
+        ("Graduate/Entry", (r"\b(graduate|new grad|entry[- ]level|early career)\b",)),
+        ("Junior", (r"\b(junior|associate)\b",)),
+        ("Mid-level", (r"\b(mid[- ]level|intermediate)\b",)),
+    )
+    for label, patterns in title_patterns:
+        if _matches_any(title_text, patterns):
+            return label
+
+    if _matches_any(full_text, (r"\b(entry[- ]level|early career|no experience required)\b",)):
+        return "Graduate/Entry"
+    if _matches_any(full_text, (r"\b(junior|associate)\b",)):
+        return "Junior"
+    if _matches_any(full_text, (r"\b(mid[- ]level|intermediate|experienced)\b",)):
+        return "Mid-level"
+    if _matches_any(full_text, (r"\b(senior|staff|principal|lead)\b",)):
+        return "Senior/Lead"
+
+    years = [
+        int(match.group(1))
+        for match in re.finditer(r"(?<!\d)(\d{1,2})\s*\+?\s*(?:years?|yrs?)", full_text)
+    ]
+    if years:
+        max_years = max(years)
+        if max_years >= 6:
+            return "Senior/Lead"
+        if max_years >= 3:
+            return "Mid-level"
+        if max_years >= 1:
+            return "Junior"
+        return "Graduate/Entry"
+
+    return "Unspecified"
 
 
 def _priority_label(status: str, score: float | None, closes_on: object) -> str:
@@ -384,22 +448,25 @@ def _add_status_dropdown(ws, headers: list[str]) -> None:
 
 def _style_jobs_sheet(ws, headers: list[str]) -> None:
     cols = _header_map(headers)
-    ws.freeze_panes = "E2"
+    ws.freeze_panes = "I2"
     ws.sheet_view.showGridLines = False
+    ws.sheet_view.zoomScale = 90
     ws.auto_filter.ref = ws.dimensions
+    ws.row_dimensions[1].height = 28
     _style_header_row(ws)
 
     col_widths = {
         "Job ID": 10,
-        "Status": 13,
-        "Priority": 13,
-        "Next Step": 16,
-        "Score": 8,
+        "Status": 12,
+        "Priority": 12,
+        "Next Step": 14,
+        "Score": 7,
         "Confidence": 11,
-        "Score Band": 16,
-        "Title": 38,
+        "Score Band": 15,
+        "Experience Level": 18,
+        "Title": 44,
         "Company": 24,
-        "Location": 24,
+        "Location": 28,
         "Salary (raw)": 20,
         "Salary Min": 12,
         "Salary Max": 12,
@@ -420,7 +487,20 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
         letter = get_column_letter(cols[header])
         ws.column_dimensions[letter].width = col_widths.get(header, 15)
 
-    for header in ("Job ID", "Ranker Ver."):
+    default_hidden_headers = (
+        "Job ID",
+        "Confidence",
+        "Salary Min",
+        "Salary Max",
+        "Source",
+        "Anthropic Response",
+        "Matched Keywords",
+        "First Seen",
+        "Last Seen",
+        "Query",
+        "Ranker Ver.",
+    )
+    for header in default_hidden_headers:
         ws.column_dimensions[get_column_letter(cols[header])].hidden = True
 
     for header in ("Status", "Notes"):
@@ -440,9 +520,13 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
         "This is the model's fit rationale from the ranking step.",
         "job-search",
     )
+    ws.cell(row=1, column=cols["Experience Level"]).comment = Comment(
+        "Inferred from the title and job description. Treat as a quick filter, not a guarantee.",
+        "job-search",
+    )
 
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row):
-        ws.row_dimensions[row[0].row].height = 48
+        ws.row_dimensions[row[0].row].height = 42
         for cell in row:
             header = headers[cell.column - 1]
             cell.alignment = Alignment(
@@ -451,7 +535,13 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
             )
             if header in ("Status", "Notes"):
                 cell.fill = _EDITABLE_FILL
-            elif header in ("Priority", "Next Step", "Score Band", "Days Left"):
+            elif header in (
+                "Priority",
+                "Next Step",
+                "Score Band",
+                "Experience Level",
+                "Days Left",
+            ):
                 cell.fill = _FORMULA_FILL
 
     for header in _DATE_HEADERS:
@@ -519,6 +609,15 @@ def _add_jobs_conditional_formatting(ws, headers: list[str]) -> None:
         ws.conditional_formatting.add(
             priority_range,
             FormulaRule(formula=[f'{priority_col}2="{label}"'], fill=fill),
+        )
+
+    experience_col = get_column_letter(cols["Experience Level"])
+    experience_range = f"{experience_col}2:{experience_col}{last_row}"
+    for label, colour in _EXPERIENCE_FILLS.items():
+        fill = PatternFill(start_color=colour, end_color=colour, fill_type="solid")
+        ws.conditional_formatting.add(
+            experience_range,
+            FormulaRule(formula=[f'{experience_col}2="{label}"'], fill=fill),
         )
 
     days_col = get_column_letter(cols["Days Left"])
@@ -589,6 +688,7 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
     headers = [
         "Priority",
         "Score",
+        "Experience",
         "Status",
         "Title",
         "Company",
@@ -606,7 +706,8 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
 
     rows = conn.execute(
         """
-        SELECT status, fit_score, title, company, location, closes_on, url, fit_reason
+        SELECT status, fit_score, title, company, location, closes_on, url,
+               fit_reason, description
         FROM jobs
         ORDER BY fit_score DESC NULLS LAST, closes_on IS NULL, closes_on ASC, first_seen DESC
         LIMIT 50
@@ -628,6 +729,7 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
         values = [
             priority,
             row["fit_score"],
+            _infer_experience_level(row["title"], row["description"]),
             row["status"],
             row["title"],
             row["company"],
@@ -639,22 +741,23 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
         for col_idx, value in enumerate(values, start=1):
             cell = ws.cell(row=row_idx, column=col_idx)
             cell.value = value
-            cell.alignment = Alignment(vertical="top", wrap_text=col_idx in (4, 6, 9))
+            cell.alignment = Alignment(vertical="top", wrap_text=col_idx in (5, 7, 10))
         if row["url"]:
-            link_cell = ws.cell(row=row_idx, column=8)
+            link_cell = ws.cell(row=row_idx, column=9)
             link_cell.hyperlink = row["url"]
             link_cell.style = "Hyperlink"
 
     widths = {
         "A": 16,
         "B": 10,
-        "C": 12,
-        "D": 38,
-        "E": 24,
+        "C": 18,
+        "D": 12,
+        "E": 38,
         "F": 24,
-        "G": 12,
-        "H": 16,
-        "I": 52,
+        "G": 24,
+        "H": 12,
+        "I": 16,
+        "J": 52,
     }
     for letter, width in widths.items():
         ws.column_dimensions[letter].width = width
@@ -674,10 +777,14 @@ def _build_jobs_sheet(ws, conn: sqlite3.Connection) -> None:
 
     cols = _header_map(headers)
     for row_idx, row in enumerate(rows, start=2):
-        values = [
-            _format_job_value(header, row[db_col]) if db_col else None
-            for header, db_col in _JOBS_COLUMNS
-        ]
+        values = []
+        for header, db_col in _JOBS_COLUMNS:
+            if header == "Experience Level":
+                values.append(_infer_experience_level(row["title"], row["description"]))
+            elif db_col:
+                values.append(_format_job_value(header, row[db_col]))
+            else:
+                values.append(None)
         ws.append(values)
         _apply_job_formulas(ws, headers, row_idx)
         if row["url"]:
