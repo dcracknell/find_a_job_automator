@@ -86,7 +86,7 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
             "Days Left",
             "Source",
             "Apply Link",
-            "Anthropic Response",
+            "Claude's Fit Reason",
             "Matched Keywords",
             "First Seen",
             "Last Seen",
@@ -100,7 +100,7 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
         assert ws.cell(2, col["Next Step"]).value.startswith("=IF(")
         assert ws.cell(2, col["Score Band"]).value.startswith("=IF(")
         assert ws.cell(2, col["Days Left"]).value.startswith("=IF(")
-        assert ws.cell(2, col["Anthropic Response"]).value == (
+        assert ws.cell(2, col["Claude's Fit Reason"]).value == (
             "Python and service work align closely with the profile."
         )
         assert ws.cell(2, col["Matched Keywords"]).value == "Python, services"
