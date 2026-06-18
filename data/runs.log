@@ -1,117 +1,113 @@
-2026-06-18 20:31:17 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:31:17 WARNING  job_search.profile.queries: queries: Claude query generation failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBMqnpxjuHeUwyzVZuyi'}
+2026-06-18 20:44:42 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:44:42 WARNING  job_search.profile.queries: queries: Claude query generation failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNs7C9ukAwGc4GbHpJ6'}
 Generated 20 Claude-assisted search queries.
 Running adapter: greenhouse...
-2026-06-18 20:31:23 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Deliveroo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/deliveroo/jobs?content=true
-2026-06-18 20:31:24 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Starling Bank: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/starlingbank/jobs?content=true
-2026-06-18 20:31:25 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Wise: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/wise/jobs?content=true
-2026-06-18 20:31:26 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
-2026-06-18 20:31:27 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
-2026-06-18 20:31:28 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
-2026-06-18 20:31:29 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Checkout.com: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/checkout/jobs?content=true
-2026-06-18 20:31:30 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/phoebe/jobs?content=true
-2026-06-18 20:31:31 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Multiverse: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/multiverse/jobs?content=true
-2026-06-18 20:31:35 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zilch: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zilch/jobs?content=true
-2026-06-18 20:31:37 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Curve: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/curve/jobs?content=true
-2026-06-18 20:31:39 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cleo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cleomoney/jobs?content=true
-2026-06-18 20:31:40 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Nested: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/nested/jobs?content=true
-2026-06-18 20:31:41 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Penfold: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/penfold/jobs?content=true
-2026-06-18 20:31:42 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zepz: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zepz/jobs?content=true
+2026-06-18 20:44:47 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Deliveroo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/deliveroo/jobs?content=true
+2026-06-18 20:44:48 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Starling Bank: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/starlingbank/jobs?content=true
+2026-06-18 20:44:49 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Wise: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/wise/jobs?content=true
+2026-06-18 20:44:50 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
+2026-06-18 20:44:51 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
+2026-06-18 20:44:52 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
+2026-06-18 20:44:53 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Checkout.com: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/checkout/jobs?content=true
+2026-06-18 20:44:54 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/phoebe/jobs?content=true
+2026-06-18 20:44:55 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Multiverse: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/multiverse/jobs?content=true
+2026-06-18 20:45:00 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zilch: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zilch/jobs?content=true
+2026-06-18 20:45:01 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Curve: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/curve/jobs?content=true
+2026-06-18 20:45:02 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cleo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cleomoney/jobs?content=true
+2026-06-18 20:45:03 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Nested: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/nested/jobs?content=true
+2026-06-18 20:45:04 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Penfold: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/penfold/jobs?content=true
+2026-06-18 20:45:05 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zepz: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zepz/jobs?content=true
   greenhouse: 643 jobs normalised.
 Running adapter: lever...
-2026-06-18 20:31:46 WARNING  job_search.adapters.lever: lever: fetch failed for Revolut: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/revolut?mode=json
-2026-06-18 20:31:47 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
-2026-06-18 20:31:48 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
-2026-06-18 20:31:49 WARNING  job_search.adapters.lever: lever: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/phoebe?mode=json
-2026-06-18 20:31:50 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
-2026-06-18 20:31:51 WARNING  job_search.adapters.lever: lever: fetch failed for Cazoo: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/cazoo?mode=json
-2026-06-18 20:31:53 WARNING  job_search.adapters.lever: lever: fetch failed for Hopin: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hopin?mode=json
-2026-06-18 20:31:54 WARNING  job_search.adapters.lever: lever: fetch failed for Rippling: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/rippling?mode=json
-2026-06-18 20:31:55 WARNING  job_search.adapters.lever: lever: fetch failed for Scale AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/scaleai?mode=json
-2026-06-18 20:31:56 WARNING  job_search.adapters.lever: lever: fetch failed for Vercel: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/vercel?mode=json
-2026-06-18 20:31:57 WARNING  job_search.adapters.lever: lever: fetch failed for Notion: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/notion?mode=json
-2026-06-18 20:31:58 WARNING  job_search.adapters.lever: lever: fetch failed for Figma: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/figma?mode=json
-2026-06-18 20:31:59 WARNING  job_search.adapters.lever: lever: fetch failed for Lyst: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/lyst?mode=json
-2026-06-18 20:32:00 WARNING  job_search.adapters.lever: lever: fetch failed for Appear Here: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/appearhere?mode=json
-2026-06-18 20:32:01 WARNING  job_search.adapters.lever: lever: fetch failed for Onfido: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/onfido?mode=json
-2026-06-18 20:32:02 WARNING  job_search.adapters.lever: lever: fetch failed for Modulr: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/modulr?mode=json
-2026-06-18 20:32:03 WARNING  job_search.adapters.lever: lever: fetch failed for Nuvei: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/nuvei?mode=json
+2026-06-18 20:45:09 WARNING  job_search.adapters.lever: lever: fetch failed for Revolut: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/revolut?mode=json
+2026-06-18 20:45:10 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
+2026-06-18 20:45:11 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
+2026-06-18 20:45:13 WARNING  job_search.adapters.lever: lever: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/phoebe?mode=json
+2026-06-18 20:45:14 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
+2026-06-18 20:45:15 WARNING  job_search.adapters.lever: lever: fetch failed for Cazoo: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/cazoo?mode=json
+2026-06-18 20:45:16 WARNING  job_search.adapters.lever: lever: fetch failed for Hopin: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hopin?mode=json
+2026-06-18 20:45:18 WARNING  job_search.adapters.lever: lever: fetch failed for Rippling: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/rippling?mode=json
+2026-06-18 20:45:19 WARNING  job_search.adapters.lever: lever: fetch failed for Scale AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/scaleai?mode=json
+2026-06-18 20:45:20 WARNING  job_search.adapters.lever: lever: fetch failed for Vercel: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/vercel?mode=json
+2026-06-18 20:45:21 WARNING  job_search.adapters.lever: lever: fetch failed for Notion: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/notion?mode=json
+2026-06-18 20:45:22 WARNING  job_search.adapters.lever: lever: fetch failed for Figma: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/figma?mode=json
+2026-06-18 20:45:23 WARNING  job_search.adapters.lever: lever: fetch failed for Lyst: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/lyst?mode=json
+2026-06-18 20:45:24 WARNING  job_search.adapters.lever: lever: fetch failed for Appear Here: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/appearhere?mode=json
+2026-06-18 20:45:25 WARNING  job_search.adapters.lever: lever: fetch failed for Onfido: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/onfido?mode=json
+2026-06-18 20:45:26 WARNING  job_search.adapters.lever: lever: fetch failed for Modulr: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/modulr?mode=json
+2026-06-18 20:45:27 WARNING  job_search.adapters.lever: lever: fetch failed for Nuvei: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/nuvei?mode=json
   lever: 0 jobs normalised.
 Running adapter: workday...
-2026-06-18 20:32:11 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
-2026-06-18 20:32:13 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 405 Client Error: Method Not Allowed for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/en-US/external/jobs
-2026-06-18 20:32:14 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
-2026-06-18 20:32:15 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
-2026-06-18 20:32:17 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 405 Client Error: Method Not Allowed for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/en-US/rolr/jobs
-2026-06-18 20:32:18 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 405 Client Error: Method Not Allowed for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/en-US/BAES_Jobs/jobs
+2026-06-18 20:45:35 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
+2026-06-18 20:45:37 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 405 Client Error: Method Not Allowed for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/en-US/external/jobs
+2026-06-18 20:45:38 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
+2026-06-18 20:45:39 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
+2026-06-18 20:45:42 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 405 Client Error: Method Not Allowed for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/en-US/rolr/jobs
+2026-06-18 20:45:43 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 405 Client Error: Method Not Allowed for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/en-US/BAES_Jobs/jobs
   workday: 80 jobs normalised.
 Running adapter: jobspy...
-2026-06-18 20:32:43,269 - INFO - JobSpy:Linkedin - finished scraping
-2026-06-18 20:39:29 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 319 jobs across 20 queries
-  jobspy: 319 jobs normalised.
+2026-06-18 20:46:07,077 - INFO - JobSpy:Linkedin - finished scraping
+2026-06-18 20:52:57 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 314 jobs across 20 queries
+  jobspy: 314 jobs normalised.
 Running adapter: workable...
-2026-06-18 20:39:39 WARNING  job_search.adapters.workable_adapter: workable: Monzo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/monzo/jobs?details=true
-2026-06-18 20:39:40 WARNING  job_search.adapters.workable_adapter: workable: Babylon Health failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/babylonhealth/jobs?details=true
-2026-06-18 20:39:41 WARNING  job_search.adapters.workable_adapter: workable: Habito failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/habito/jobs?details=true
-2026-06-18 20:39:42 WARNING  job_search.adapters.workable_adapter: workable: Cuvva failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/cuvva/jobs?details=true
-2026-06-18 20:39:43 WARNING  job_search.adapters.workable_adapter: workable: Pleo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/pleo/jobs?details=true
-2026-06-18 20:39:44 WARNING  job_search.adapters.workable_adapter: workable: Plum failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/plum-fintech/jobs?details=true
-2026-06-18 20:39:45 WARNING  job_search.adapters.workable_adapter: workable: Chip failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/chip/jobs?details=true
-2026-06-18 20:39:46 WARNING  job_search.adapters.workable_adapter: workable: Freetrade failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/freetrade/jobs?details=true
-2026-06-18 20:39:47 WARNING  job_search.adapters.workable_adapter: workable: Emma failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/emma-technologies/jobs?details=true
-2026-06-18 20:39:48 WARNING  job_search.adapters.workable_adapter: workable: Yonder failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/yonder/jobs?details=true
-2026-06-18 20:39:49 WARNING  job_search.adapters.workable_adapter: workable: Tide failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tide-fintech/jobs?details=true
-2026-06-18 20:39:50 WARNING  job_search.adapters.workable_adapter: workable: Coconut failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/coconut/jobs?details=true
-2026-06-18 20:39:51 WARNING  job_search.adapters.workable_adapter: workable: Marshmallow failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/marshmallow/jobs?details=true
-2026-06-18 20:39:52 WARNING  job_search.adapters.workable_adapter: workable: Kroo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/kroo/jobs?details=true
-2026-06-18 20:39:53 WARNING  job_search.adapters.workable_adapter: workable: Abound failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/abound/jobs?details=true
+2026-06-18 20:53:03 WARNING  job_search.adapters.workable_adapter: workable: Monzo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/monzo/jobs?details=true
+2026-06-18 20:53:04 WARNING  job_search.adapters.workable_adapter: workable: Babylon Health failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/babylonhealth/jobs?details=true
+2026-06-18 20:53:05 WARNING  job_search.adapters.workable_adapter: workable: Habito failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/habito/jobs?details=true
+2026-06-18 20:53:06 WARNING  job_search.adapters.workable_adapter: workable: Cuvva failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/cuvva/jobs?details=true
+2026-06-18 20:53:07 WARNING  job_search.adapters.workable_adapter: workable: Pleo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/pleo/jobs?details=true
+2026-06-18 20:53:08 WARNING  job_search.adapters.workable_adapter: workable: Plum failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/plum-fintech/jobs?details=true
+2026-06-18 20:53:09 WARNING  job_search.adapters.workable_adapter: workable: Chip failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/chip/jobs?details=true
+2026-06-18 20:53:11 WARNING  job_search.adapters.workable_adapter: workable: Freetrade failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/freetrade/jobs?details=true
+2026-06-18 20:53:12 WARNING  job_search.adapters.workable_adapter: workable: Emma failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/emma-technologies/jobs?details=true
+2026-06-18 20:53:13 WARNING  job_search.adapters.workable_adapter: workable: Yonder failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/yonder/jobs?details=true
+2026-06-18 20:53:14 WARNING  job_search.adapters.workable_adapter: workable: Tide failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tide-fintech/jobs?details=true
+2026-06-18 20:53:15 WARNING  job_search.adapters.workable_adapter: workable: Coconut failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/coconut/jobs?details=true
+2026-06-18 20:53:16 WARNING  job_search.adapters.workable_adapter: workable: Marshmallow failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/marshmallow/jobs?details=true
+2026-06-18 20:53:17 WARNING  job_search.adapters.workable_adapter: workable: Kroo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/kroo/jobs?details=true
+2026-06-18 20:53:18 WARNING  job_search.adapters.workable_adapter: workable: Abound failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/abound/jobs?details=true
   workable: 0 jobs normalised.
-After filtering: 770/1042 jobs kept.
-Ranking 770 jobs...
-2026-06-18 20:39:54 INFO     job_search.pipeline.rank: rank: 670/770 jobs skipped LLM (pre-score < 2.0)
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVtNdv8fyWJg1okCc2'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVtx7xLA2fN6bfMQoC'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVuMRonEuuXRHBzhGa'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVv1NFuG6QYHZu7g4B'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVvLxcJnD76UkPKXkH'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVvhHxQWrbgRxnNTL2'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVwAZvbpJ7gkxnrBt5'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVwVAY4ZV1FqQD9yVm'}
-2026-06-18 20:39:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:54 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVwpkde8HhyQAT65nT'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVxEKDYJu4FG9G2Ew1'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVy5R7kSWWwXNuAa9Z'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVyRVvXAqJFT8ZGBFZ'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVymLL7KyD43oyKgE6'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVz9A8gAxdKpcxZsE3'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNVzevD7oYVfP8q3TC4'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNW1F8xbhV31vqPXLV2'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNW1bDw4GhS5MAJhi26'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNW1xYfvggEovMtHzmB'}
-2026-06-18 20:39:55 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:55 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNW2NMHU5MMpwKHwFP3'}
-2026-06-18 20:39:56 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-18 20:39:56 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBNW2iC1xhRi3obMqLhh'}
-Run complete: 1042 scraped, 32 new, 0 closed.
-2026-06-18 20:39:56 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-06-18.4.xlsx
-2026-06-18 20:39:57 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
+After filtering: 765/1037 jobs kept.
+Ranking 765 jobs...
+2026-06-18 20:53:18 INFO     job_search.pipeline.rank: rank: 676/765 jobs skipped LLM (pre-score < 2.0)
+2026-06-18 20:53:18 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:18 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXCbAHDa3Aw8uzQZXk'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXDdfKtsz4dwVa39Hx'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXEAALLZKcExzTsTsK'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXEcT7aMjRj2qVSL4C'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXF2zvErtAhA5pxuBS'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXFVXgfT1eV3389BmX'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXFwKjVzkoSUdUttzP'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXGNNHzd1ktA6NQpZV'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXGpA2cg757aDQwpeC'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXHGCKx2EbCvVM6iqp'}
+2026-06-18 20:53:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:19 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXHhVHuNSKVjYaLuLD'}
+2026-06-18 20:53:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXJAmGuuUBdpuXmcHn'}
+2026-06-18 20:53:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXJdYWPWBX7Pdycnhv'}
+2026-06-18 20:53:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXK756NoaNptE98hgP'}
+2026-06-18 20:53:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXKZ73iR7GCEF4rLjq'}
+2026-06-18 20:53:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXL2dtiKMRnaoQY5pT'}
+2026-06-18 20:53:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXLdqyKpDYxjWE97ij'}
+2026-06-18 20:53:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 20:53:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcBPXMFJf8mhS8aMHcjF3'}
+Run complete: 1037 scraped, 21 new, 0 closed.
+2026-06-18 20:53:21 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-06-18.5.xlsx
+2026-06-18 20:53:22 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
 Excel regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
-2026-06-18 20:39:57 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
+2026-06-18 20:53:22 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
 Dashboard: /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
