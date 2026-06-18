@@ -34,6 +34,18 @@ ats:
     - {name: Improbable, slug: improbable}
     - {name: Faculty AI, slug: faculty}
     - {name: Thought Machine, slug: thoughtmachine}
+    - {name: Checkout.com, slug: checkout}
+    - {name: Phoebe, slug: phoebe}
+    - {name: Multiverse, slug: multiverse}
+    - {name: Typeform, slug: typeform}
+    - {name: GoCardless, slug: gocardless}
+    - {name: Cloudflare, slug: cloudflare}
+    - {name: Zilch, slug: zilch}
+    - {name: Curve, slug: curve}
+    - {name: Cleo, slug: cleomoney}
+    - {name: Nested, slug: nested}
+    - {name: Penfold, slug: penfold}
+    - {name: Zepz, slug: zepz}
   lever:
     companies:
     - {name: Revolut, slug: revolut}
@@ -43,7 +55,41 @@ ats:
     - {name: Wayve, slug: wayve}
     - {name: Cazoo, slug: cazoo}
     - {name: Hopin, slug: hopin}
+    - {name: Rippling, slug: rippling}
+    - {name: Scale AI, slug: scaleai}
+    - {name: Vercel, slug: vercel}
+    - {name: Notion, slug: notion}
+    - {name: Figma, slug: figma}
+    - {name: Lyst, slug: lyst}
+    - {name: Appear Here, slug: appearhere}
+    - {name: Onfido, slug: onfido}
+    - {name: Modulr, slug: modulr}
+    - {name: Nuvei, slug: nuvei}
   workday:
     companies:
       - {name: SiFive, url: "https://sifive.wd1.myworkdayjobs.com/sifivecareers"}
       - {name: Dyson, url: "https://dyson.wd3.myworkdayjobs.com/dyson_careers"}
+    - {name: ARM, url: "https://arm.wd1.myworkdayjobs.com/Arm_Careers"}
+    - {name: Bentley Systems, url: "https://bentley.wd3.myworkdayjobs.com/en-US/external"}
+    - {name: Aveva, url: "https://aveva.wd3.myworkdayjobs.com/aveva_jobs"}
+    - {name: Ultra Electronics, url: "https://ultra.wd1.myworkdayjobs.com/ultra_electronics"}
+    - {name: Rolls-Royce, url: "https://rollsroyce.wd3.myworkdayjobs.com/en-US/rolr"}
+    - {name: BAE Systems, url: "https://baesystems.wd3.myworkdayjobs.com/en-US/BAES_Jobs"}
+
+  workable:
+    companies:
+    - {name: Monzo, slug: monzo}
+    - {name: Babylon Health, slug: babylonhealth}
+    - {name: Habito, slug: habito}
+    - {name: Cuvva, slug: cuvva}
+    - {name: Pleo, slug: pleo}
+    - {name: Plum, slug: plum-fintech}
+    - {name: Chip, slug: chip}
+    - {name: Freetrade, slug: freetrade}
+    - {name: Emma, slug: emma-technologies}
+    - {name: Yonder, slug: yonder}
+    - {name: Tide, slug: tide-fintech}
+    - {name: Coconut, slug: coconut}
+    - {name: Marshmallow, slug: marshmallow}
+    - {name: Kroo, slug: kroo}
+    - {name: Abound, slug: abound}

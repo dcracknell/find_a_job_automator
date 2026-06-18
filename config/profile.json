@@ -29,16 +29,31 @@
     "data analysis"
   ],
   "adjacent_skills": [
-    "TypeScript",
     "React",
-    "PostgreSQL",
+    "GitHub Actions",
+    "Redis",
+    "Spark",
+    "matplotlib",
+    "Node.js",
+    "Flask",
+    "MongoDB",
+    "scikit-learn",
+    "Jupyter",
     "AWS",
-    "Docker",
-    "pandas",
+    "Django",
     "Excel",
+    "Terraform",
+    "PostgreSQL",
+    "NumPy",
     "Linux",
+    "FastAPI",
+    "TypeScript",
+    "CI/CD",
+    "machine learning",
+    "Docker",
+    "Kubernetes",
     "Agile",
-    "machine learning"
+    "pandas"
   ],
   "negative_signals": {
     "title_excludes": [
@@ -112,19 +127,36 @@
   },
   "target_roles": {
     "core": [
+      "Graduate Software Developer",
+      "Junior Python Developer",
+      "Full Stack Developer",
       "Software Developer",
-      "Software Engineer",
       "Python Developer",
       "Junior Software Developer",
+      "Graduate Software Engineer",
+      "Junior Web Developer",
       "Backend Developer",
-      "Full Stack Developer"
+      "Junior Data Analyst",
+      "Associate Software Engineer",
+      "Software Engineer",
+      "Software Development Engineer"
     ],
     "adjacent": [
-      "Data Analyst",
-      "Data Engineer",
-      "Web Developer",
+      "DevOps Engineer",
       "Application Developer",
-      "DevOps Engineer"
+      "Junior Full Stack Developer",
+      "ETL Developer",
+      "Data Developer",
+      "API Developer",
+      "Graduate Data Analyst",
+      "Junior Backend Developer",
+      "Data Engineer",
+      "Business Intelligence Analyst",
+      "Web Developer",
+      "Junior Data Scientist",
+      "Analytics Engineer",
+      "Python Analyst",
+      "Data Analyst"
     ],
     "stretch": [
       "Machine Learning Engineer",

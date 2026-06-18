@@ -294,6 +294,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         from job_search.adapters.reed import ReedAdapter
         from job_search.adapters.workday import WorkdayAdapter
         from job_search.adapters.jobspy_adapter import JobSpyAdapter
+        from job_search.adapters.workable_adapter import WorkableAdapter as WorkableATS
 
         sources_cfg = {}
         try:
@@ -331,6 +332,10 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             "jobspy": (
                 JobSpyAdapter(),
                 bool(sources_cfg.get("jobspy", {}).get("enabled", False)),
+            ),
+            "workable": (
+                WorkableATS(),
+                bool(ats_cfg.get("workable", {}).get("companies")),
             ),
         }
 
