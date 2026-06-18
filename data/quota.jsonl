@@ -103,3 +103,4 @@
 {"timestamp": "2026-06-17T11:42:37.393713Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
 {"timestamp": "2026-06-17T11:42:40.867216Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
 {"timestamp": "2026-06-17T11:42:40.973670Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-06-18T08:39:44.506301Z", "operation": "queries", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}

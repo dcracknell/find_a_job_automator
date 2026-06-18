@@ -1,84 +1,12 @@
-Generated 0 search queries.
-Running adapter: greenhouse...
-  greenhouse: 321 jobs normalised.
-Running adapter: workday...
-  workday: 80 jobs normalised.
-After filtering: 401/401 jobs kept.
-Ranking 401 jobs...
-2026-06-17 11:42:32 INFO     job_search.pipeline.rank: rank: 228/401 jobs skipped LLM (pre-score < 3.0)
-2026-06-17 11:42:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miMSpGoT2XmVd7Y16K'}
-2026-06-17 11:42:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miNBE7XxFvfMFEEp22'}
-2026-06-17 11:42:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miNbmxdYuFN97835TT'}
-2026-06-17 11:42:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miP3K23hZUdUbPaHJd'}
-2026-06-17 11:42:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miPUc7ax4vKUN3UMha'}
-2026-06-17 11:42:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miPuewzL3mmwvqjuNn'}
-2026-06-17 11:42:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miQSu6EBmKCtRmuigt'}
-2026-06-17 11:42:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miQzPq7rRrAhAZGxSg'}
-2026-06-17 11:42:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miSi5cUqaxJuyAdBt2'}
-2026-06-17 11:42:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miTA7N3bymEjtvGodc'}
-2026-06-17 11:42:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miTc9bzn44bGe3AejS'}
-2026-06-17 11:42:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miU3CF5nABLiQGhAaZ'}
-2026-06-17 11:42:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miUUz7rMKP52sdviwm'}
-2026-06-17 11:42:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miUunWDxG4WjdGwJzH'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miVMKd32ccWbfP7iX9'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miVocZVJwZoe9P2UFg'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miWjfi7owkcp8po2Pa'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miXBTUzYqFqbaJxYAV'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miXeywZZrL4dGRrdRh'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miY7GVZZgQ5iKDmLYE'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miYc2uEX1EZhE4Z7fy'}
-2026-06-17 11:42:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miZ8nTfGkPK5z9MsQi'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miZaKbFcWDX5h6BVEf'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8mia2MpjNG4zRLj2q85'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miaVPcRY7m5LuRex4i'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8miavSLfarLLGkDDt9q'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8mibNibjfTGJcfmC9Ys'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8mibpWTnsguukYchLYA'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8micN1FxtTHLuMQsYQK'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8micnodaq3DjrwrbQL5'}
-2026-06-17 11:42:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8midEb3kSfbroxaugBs'}
-2026-06-17 11:42:37 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:37 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8midx12eBqFqejdMaaA'}
-2026-06-17 11:42:37 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:37 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8mifNLCELtzAKdM9MA1'}
-2026-06-17 11:42:40 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:40 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8mifp85AQdPTw5ykkgo'}
-2026-06-17 11:42:40 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-06-17 11:42:40 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cc8mivfb2Ph97W9sXSkqs'}
-Run complete: 401 scraped, 14 new, 0 closed.
-2026-06-17 11:42:41 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-06-17.xlsx
-2026-06-17 11:42:41 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
+2026-06-18 08:39:44 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-06-18 08:39:44 WARNING  job_search.profile.queries: queries: Claude query generation failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcARaiRLnwwNksKB6Mzti'}
+Generated 20 Claude-assisted search queries.
+Warning: could not load sources.yaml: mapping values are not allowed here
+  in "/home/runner/work/find_a_job_automator/find_a_job_automator/config/sources.yaml", line 15, column 12
+After filtering: 0/0 jobs kept.
+Run complete: 0 scraped, 0 new, 0 closed.
+2026-06-18 08:39:44 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-06-18.xlsx
+2026-06-18 08:39:45 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
 Excel regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
-2026-06-17 11:42:41 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
+2026-06-18 08:39:46 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
 Dashboard: /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
