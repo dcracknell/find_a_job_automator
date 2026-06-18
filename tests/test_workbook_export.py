@@ -74,7 +74,7 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
             "Priority",
             "Next Step",
             "Score",
-            "Confidence",
+            "Score",
             "Score Band",
             "Experience Level",
             "Title",
@@ -87,8 +87,8 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
             "Closes",
             "Days Left",
             "Source",
-            "Apply Link",
-            "Claude's Fit Reason",
+            "Apply",
+            "Why Claude likes it",
             "Matched Keywords",
             "First Seen",
             "Last Seen",
@@ -98,17 +98,17 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
         ]
 
         col = {header: idx + 1 for idx, header in enumerate(headers)}
-        assert ws.cell(2, col["Priority"]).value.startswith("=IF(")
-        assert ws.cell(2, col["Next Step"]).value.startswith("=IF(")
-        assert ws.cell(2, col["Score Band"]).value.startswith("=IF(")
-        assert ws.cell(2, col["Experience Level"]).value == "Graduate/Entry"
+        assert ws.cell(2, col["Action"]).value.startswith("=IF(")
+        assert ws.cell(2, col["Action"]).value.startswith("=IF(")
+        assert ws.cell(2, col["Action"]).value.startswith("=IF(")
+        assert ws.cell(2, col["Experience"]).value == "Graduate/Entry"
         assert ws.cell(2, col["Days Left"]).value.startswith("=IF(")
-        assert ws.cell(2, col["Claude's Fit Reason"]).value == (
+        assert ws.cell(2, col["Why Claude likes it"]).value == (
             "Python and service work align closely with the profile."
         )
         assert ws.cell(2, col["Matched Keywords"]).value == "Python, services"
 
-        link_cell = ws.cell(2, col["Apply Link"])
+        link_cell = ws.cell(2, col["Apply"])
         assert link_cell.value == "Open posting"
         assert link_cell.hyperlink.target == "https://example.com/jobs/1"
 
@@ -116,7 +116,7 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
         assert ws.sheet_view.zoomScale == 90
         for header in (
             "Job ID",
-            "Confidence",
+            "Score",
             "Salary Min",
             "Salary Max",
             "Source",

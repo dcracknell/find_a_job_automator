@@ -33,31 +33,27 @@ _BACKUPS_DIR: Path = PROJECT_ROOT / "data" / "backups"
 # Column definitions for the 'jobs' sheet: (header, db_column).
 # Columns with db_column=None are workbook-only formula/helper columns.
 _JOBS_COLUMNS: list[tuple[str, str | None]] = [
-    ("Job ID", "job_id"),
-    ("Status", "status"),
-    ("Priority", None),
-    ("Next Step", None),
+    ("Action", None),
     ("Score", "fit_score"),
-    ("Confidence", "fit_confidence"),
-    ("Score Band", None),
-    ("Experience Level", None),
+    ("Experience", None),
     ("Title", "title"),
     ("Company", "company"),
     ("Location", "location"),
-    ("Salary (raw)", "salary_raw"),
-    ("Salary Min", "salary_min"),
-    ("Salary Max", "salary_max"),
-    ("Posted", "posted_date"),
+    ("Salary", "salary_raw"),
     ("Closes", "closes_on"),
     ("Days Left", None),
-    ("Source", "source"),
-    ("Apply Link", "url"),
-    ("Claude's Fit Reason", "fit_reason"),
-    ("Matched Keywords", "matched_keywords"),
-    ("First Seen", "first_seen"),
-    ("Last Seen", "last_seen"),
-    ("Query", "matched_query"),
+    ("Apply", "url"),
+    ("Why Claude likes it", "fit_reason"),
+    ("Status", "status"),
     ("Notes", "notes"),
+    ("Job ID", "job_id"),
+    ("Posted", "posted_date"),
+    ("Source", "source"),
+    ("Matched Keywords", "matched_keywords"),
+    ("Query", "matched_query"),
+    ("Salary Min", "salary_min"),
+    ("Salary Max", "salary_max"),
+    ("First Seen", "first_seen"),
     ("Ranker Ver.", "ranker_version"),
 ]
 
@@ -123,13 +119,13 @@ _SUBHEADER_FILL = PatternFill("solid", fgColor="D9EAF7")
 _EDITABLE_FILL = PatternFill("solid", fgColor="FFF2CC")
 _FORMULA_FILL = PatternFill("solid", fgColor="EAF3F8")
 _LIGHT_BORDER = Border(bottom=Side(style="thin", color="D9E2F3"))
-_DATE_HEADERS = {"Posted", "Closes", "First Seen", "Last Seen"}
+_DATE_HEADERS = {"Posted", "Closes", "First Seen"}
 _MONEY_HEADERS = {"Salary Min", "Salary Max"}
 _WRAPPED_HEADERS = {
     "Title",
     "Location",
-    "Salary (raw)",
-    "Claude's Fit Reason",
+    "Salary",
+    "Why Claude likes it",
     "Matched Keywords",
     "Query",
     "Notes",
@@ -402,9 +398,7 @@ def _days_left_formula(headers: list[str], row_idx: int) -> str:
 
 def _apply_job_formulas(ws, headers: list[str], row_idx: int) -> None:
     cols = _header_map(headers)
-    ws.cell(row=row_idx, column=cols["Priority"]).value = _priority_formula(headers, row_idx)
-    ws.cell(row=row_idx, column=cols["Next Step"]).value = _next_step_formula(headers, row_idx)
-    ws.cell(row=row_idx, column=cols["Score Band"]).value = _score_band_formula(headers, row_idx)
+    ws.cell(row=row_idx, column=cols["Action"]).value = _priority_formula(headers, row_idx)
     ws.cell(row=row_idx, column=cols["Days Left"]).value = _days_left_formula(headers, row_idx)
 
 
@@ -456,31 +450,27 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
     _style_header_row(ws)
 
     col_widths = {
-        "Job ID": 10,
-        "Status": 12,
-        "Priority": 12,
-        "Next Step": 14,
-        "Score": 7,
-        "Confidence": 11,
-        "Score Band": 15,
-        "Experience Level": 18,
-        "Title": 44,
-        "Company": 24,
-        "Location": 28,
-        "Salary (raw)": 20,
-        "Salary Min": 12,
-        "Salary Max": 12,
-        "Posted": 12,
+        "Action": 14,
+        "Score": 8,
+        "Experience": 16,
+        "Title": 46,
+        "Company": 26,
+        "Location": 30,
+        "Salary": 20,
         "Closes": 12,
         "Days Left": 10,
-        "Source": 16,
-        "Apply Link": 16,
-        "Claude's Fit Reason": 52,
-        "Matched Keywords": 30,
-        "First Seen": 12,
-        "Last Seen": 12,
-        "Query": 28,
+        "Apply": 16,
+        "Why Claude likes it": 52,
+        "Status": 14,
         "Notes": 48,
+        "Job ID": 10,
+        "Posted": 12,
+        "Source": 16,
+        "Matched Keywords": 30,
+        "Query": 28,
+        "Salary Min": 12,
+        "Salary Max": 12,
+        "First Seen": 12,
         "Ranker Ver.": 12,
     }
     for header in headers:
@@ -489,15 +479,13 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
 
     default_hidden_headers = (
         "Job ID",
-        "Confidence",
+        "Posted",
+        "Source",
+        "Matched Keywords",
+        "Query",
         "Salary Min",
         "Salary Max",
-        "Source",
-        "Claude's Fit Reason",
-        "Matched Keywords",
         "First Seen",
-        "Last Seen",
-        "Query",
         "Ranker Ver.",
     )
     for header in default_hidden_headers:
@@ -516,11 +504,11 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
         "Add application date, contact name, follow-up reminder, or anything you want to keep.",
         "job-search",
     )
-    ws.cell(row=1, column=cols["Claude's Fit Reason"]).comment = Comment(
+    ws.cell(row=1, column=cols["Why Claude likes it"]).comment = Comment(
         "This is the model's fit rationale from the ranking step.",
         "job-search",
     )
-    ws.cell(row=1, column=cols["Experience Level"]).comment = Comment(
+    ws.cell(row=1, column=cols["Experience"]).comment = Comment(
         "Inferred from the title and job description. Treat as a quick filter, not a guarantee.",
         "job-search",
     )
@@ -536,10 +524,8 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
             if header in ("Status", "Notes"):
                 cell.fill = _EDITABLE_FILL
             elif header in (
-                "Priority",
-                "Next Step",
-                "Score Band",
-                "Experience Level",
+                "Action",
+                "Experience",
                 "Days Left",
             ):
                 cell.fill = _FORMULA_FILL
@@ -556,7 +542,7 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
             for c in cell:
                 c.number_format = '£#,##0'
 
-    for header, number_format in {"Score": "0.0", "Confidence": "0%", "Days Left": "0"}.items():
+    for header, number_format in {"Score": "0.0", "Days Left": "0"}.items():
         col_idx = cols[header]
         for cell in ws.iter_cols(min_col=col_idx, max_col=col_idx, min_row=2, max_row=ws.max_row):
             for c in cell:
@@ -609,8 +595,8 @@ def _add_jobs_conditional_formatting(ws, headers: list[str]) -> None:
             FormulaRule(formula=[f'{status_col}2="{status}"'], fill=fill),
         )
 
-    priority_col = get_column_letter(cols["Priority"])
-    priority_range = f"{priority_col}2:{priority_col}{last_row}"
+    priority_col = get_column_letter(cols["Action"])
+    action_range = f"{priority_col}2:{priority_col}{last_row}"
     for label, colour in _PRIORITY_FILLS.items():
         fill = PatternFill(start_color=colour, end_color=colour, fill_type="solid")
         ws.conditional_formatting.add(
@@ -618,7 +604,7 @@ def _add_jobs_conditional_formatting(ws, headers: list[str]) -> None:
             FormulaRule(formula=[f'{priority_col}2="{label}"'], fill=fill),
         )
 
-    experience_col = get_column_letter(cols["Experience Level"])
+    experience_col = get_column_letter(cols["Experience"])
     experience_range = f"{experience_col}2:{experience_col}{last_row}"
     for label, colour in _EXPERIENCE_FILLS.items():
         fill = PatternFill(start_color=colour, end_color=colour, fill_type="solid")
@@ -707,7 +693,7 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
         ws.cell(row=row_idx, column=2).value = f'=COUNTIF(jobs!$C:$C,A{row_idx})'
 
     top_start = 27
-    ws.cell(row=top_start, column=1).value = "Top Priorities"
+    ws.cell(row=top_start, column=1).value = "Top Jobs to Apply For"
     ws.cell(row=top_start, column=1).font = Font(bold=True, size=14, color="1F4E78")
 
     headers = [
@@ -719,8 +705,8 @@ def _build_overview_sheet(ws, conn: sqlite3.Connection) -> None:
         "Company",
         "Location",
         "Closes",
-        "Apply Link",
-        "Claude's Fit Reason",
+        "Apply",
+        "Why Claude likes it",
     ]
     for col_idx, header in enumerate(headers, start=1):
         cell = ws.cell(row=top_start + 1, column=col_idx)
@@ -805,7 +791,7 @@ def _build_jobs_sheet(ws, conn: sqlite3.Connection) -> None:
     for row_idx, row in enumerate(rows, start=2):
         values = []
         for header, db_col in _JOBS_COLUMNS:
-            if header == "Experience Level":
+            if header == "Experience":
                 values.append(_infer_experience_level(row["title"], row["description"]))
             elif db_col:
                 values.append(_format_job_value(header, row[db_col]))
@@ -814,7 +800,7 @@ def _build_jobs_sheet(ws, conn: sqlite3.Connection) -> None:
         ws.append(values)
         _apply_job_formulas(ws, headers, row_idx)
         if row["url"]:
-            link_cell = ws.cell(row=row_idx, column=cols["Apply Link"])
+            link_cell = ws.cell(row=row_idx, column=cols["Apply"])
             link_cell.value = "Open posting"
             link_cell.hyperlink = row["url"]
             link_cell.style = "Hyperlink"
