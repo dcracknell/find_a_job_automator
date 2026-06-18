@@ -600,7 +600,7 @@ def _add_jobs_conditional_formatting(ws, headers: list[str]) -> None:
     for label, colour in _PRIORITY_FILLS.items():
         fill = PatternFill(start_color=colour, end_color=colour, fill_type="solid")
         ws.conditional_formatting.add(
-            priority_range,
+            action_range,
             FormulaRule(formula=[f'{priority_col}2="{label}"'], fill=fill),
         )
 
