@@ -1,81 +1,80 @@
-2026-06-19 20:23:12 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-20 09:59:04 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
 Generated 20 Claude-assisted search queries.
 Running adapter: greenhouse...
-2026-06-19 20:23:18 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Deliveroo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/deliveroo/jobs?content=true
-2026-06-19 20:23:19 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Starling Bank: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/starlingbank/jobs?content=true
-2026-06-19 20:23:20 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Wise: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/wise/jobs?content=true
-2026-06-19 20:23:21 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
-2026-06-19 20:23:22 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
-2026-06-19 20:23:23 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
-2026-06-19 20:23:24 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Checkout.com: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/checkout/jobs?content=true
-2026-06-19 20:23:25 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/phoebe/jobs?content=true
-2026-06-19 20:23:26 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Multiverse: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/multiverse/jobs?content=true
-2026-06-19 20:23:30 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zilch: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zilch/jobs?content=true
-2026-06-19 20:23:31 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Curve: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/curve/jobs?content=true
-2026-06-19 20:23:32 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cleo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cleomoney/jobs?content=true
-2026-06-19 20:23:34 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Nested: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/nested/jobs?content=true
-2026-06-19 20:23:35 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Penfold: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/penfold/jobs?content=true
-2026-06-19 20:23:36 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zepz: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zepz/jobs?content=true
-  greenhouse: 640 jobs normalised.
+2026-06-20 09:59:09 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Deliveroo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/deliveroo/jobs?content=true
+2026-06-20 09:59:10 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Starling Bank: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/starlingbank/jobs?content=true
+2026-06-20 09:59:11 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Wise: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/wise/jobs?content=true
+2026-06-20 09:59:12 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
+2026-06-20 09:59:13 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
+2026-06-20 09:59:14 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
+2026-06-20 09:59:15 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Checkout.com: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/checkout/jobs?content=true
+2026-06-20 09:59:16 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/phoebe/jobs?content=true
+2026-06-20 09:59:17 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Multiverse: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/multiverse/jobs?content=true
+2026-06-20 09:59:21 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zilch: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zilch/jobs?content=true
+2026-06-20 09:59:22 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Curve: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/curve/jobs?content=true
+2026-06-20 09:59:23 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cleo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cleomoney/jobs?content=true
+2026-06-20 09:59:24 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Nested: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/nested/jobs?content=true
+2026-06-20 09:59:25 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Penfold: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/penfold/jobs?content=true
+2026-06-20 09:59:26 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Zepz: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/zepz/jobs?content=true
+  greenhouse: 643 jobs normalised.
 Running adapter: lever...
-2026-06-19 20:23:40 WARNING  job_search.adapters.lever: lever: fetch failed for Revolut: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/revolut?mode=json
-2026-06-19 20:23:41 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
-2026-06-19 20:23:42 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
-2026-06-19 20:23:43 WARNING  job_search.adapters.lever: lever: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/phoebe?mode=json
-2026-06-19 20:23:44 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
-2026-06-19 20:23:45 WARNING  job_search.adapters.lever: lever: fetch failed for Cazoo: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/cazoo?mode=json
-2026-06-19 20:23:47 WARNING  job_search.adapters.lever: lever: fetch failed for Hopin: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hopin?mode=json
-2026-06-19 20:23:48 WARNING  job_search.adapters.lever: lever: fetch failed for Rippling: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/rippling?mode=json
-2026-06-19 20:23:49 WARNING  job_search.adapters.lever: lever: fetch failed for Scale AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/scaleai?mode=json
-2026-06-19 20:23:51 WARNING  job_search.adapters.lever: lever: fetch failed for Vercel: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/vercel?mode=json
-2026-06-19 20:23:52 WARNING  job_search.adapters.lever: lever: fetch failed for Notion: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/notion?mode=json
-2026-06-19 20:23:53 WARNING  job_search.adapters.lever: lever: fetch failed for Figma: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/figma?mode=json
-2026-06-19 20:23:54 WARNING  job_search.adapters.lever: lever: fetch failed for Lyst: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/lyst?mode=json
-2026-06-19 20:23:55 WARNING  job_search.adapters.lever: lever: fetch failed for Appear Here: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/appearhere?mode=json
-2026-06-19 20:23:56 WARNING  job_search.adapters.lever: lever: fetch failed for Onfido: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/onfido?mode=json
-2026-06-19 20:23:57 WARNING  job_search.adapters.lever: lever: fetch failed for Modulr: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/modulr?mode=json
-2026-06-19 20:23:58 WARNING  job_search.adapters.lever: lever: fetch failed for Nuvei: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/nuvei?mode=json
+2026-06-20 09:59:31 WARNING  job_search.adapters.lever: lever: fetch failed for Revolut: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/revolut?mode=json
+2026-06-20 09:59:32 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
+2026-06-20 09:59:33 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
+2026-06-20 09:59:34 WARNING  job_search.adapters.lever: lever: fetch failed for Phoebe: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/phoebe?mode=json
+2026-06-20 09:59:35 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
+2026-06-20 09:59:36 WARNING  job_search.adapters.lever: lever: fetch failed for Cazoo: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/cazoo?mode=json
+2026-06-20 09:59:37 WARNING  job_search.adapters.lever: lever: fetch failed for Hopin: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hopin?mode=json
+2026-06-20 09:59:38 WARNING  job_search.adapters.lever: lever: fetch failed for Rippling: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/rippling?mode=json
+2026-06-20 09:59:40 WARNING  job_search.adapters.lever: lever: fetch failed for Scale AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/scaleai?mode=json
+2026-06-20 09:59:41 WARNING  job_search.adapters.lever: lever: fetch failed for Vercel: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/vercel?mode=json
+2026-06-20 09:59:42 WARNING  job_search.adapters.lever: lever: fetch failed for Notion: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/notion?mode=json
+2026-06-20 09:59:43 WARNING  job_search.adapters.lever: lever: fetch failed for Figma: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/figma?mode=json
+2026-06-20 09:59:44 WARNING  job_search.adapters.lever: lever: fetch failed for Lyst: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/lyst?mode=json
+2026-06-20 09:59:45 WARNING  job_search.adapters.lever: lever: fetch failed for Appear Here: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/appearhere?mode=json
+2026-06-20 09:59:46 WARNING  job_search.adapters.lever: lever: fetch failed for Onfido: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/onfido?mode=json
+2026-06-20 09:59:47 WARNING  job_search.adapters.lever: lever: fetch failed for Modulr: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/modulr?mode=json
+2026-06-20 09:59:48 WARNING  job_search.adapters.lever: lever: fetch failed for Nuvei: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/nuvei?mode=json
   lever: 0 jobs normalised.
 Running adapter: workday...
-2026-06-19 20:24:08 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
-2026-06-19 20:24:09 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 405 Client Error: Method Not Allowed for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/en-US/external/jobs
-2026-06-19 20:24:11 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
-2026-06-19 20:24:12 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
-2026-06-19 20:24:13 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 405 Client Error: Method Not Allowed for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/en-US/rolr/jobs
-2026-06-19 20:24:15 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 405 Client Error: Method Not Allowed for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/en-US/BAES_Jobs/jobs
+2026-06-20 09:59:56 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
+2026-06-20 09:59:57 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 405 Client Error: Method Not Allowed for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/en-US/external/jobs
+2026-06-20 09:59:59 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
+2026-06-20 10:00:00 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
+2026-06-20 10:00:01 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 405 Client Error: Method Not Allowed for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/en-US/rolr/jobs
+2026-06-20 10:00:03 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 405 Client Error: Method Not Allowed for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/en-US/BAES_Jobs/jobs
   workday: 80 jobs normalised.
 Running adapter: jobspy...
-2026-06-19 20:24:47,386 - INFO - JobSpy:Linkedin - finished scraping
-2026-06-19 20:29:06 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 214 jobs across 20 queries
-  jobspy: 214 jobs normalised.
+2026-06-20 10:00:15,001 - INFO - JobSpy:Linkedin - finished scraping
+2026-06-20 10:03:20 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 149 jobs across 20 queries
+  jobspy: 149 jobs normalised.
 Running adapter: workable...
-2026-06-19 20:29:42 WARNING  job_search.adapters.workable_adapter: workable: Monzo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/monzo/jobs?details=true
-2026-06-19 20:29:43 WARNING  job_search.adapters.workable_adapter: workable: Babylon Health failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/babylonhealth/jobs?details=true
-2026-06-19 20:29:44 WARNING  job_search.adapters.workable_adapter: workable: Habito failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/habito/jobs?details=true
-2026-06-19 20:29:45 WARNING  job_search.adapters.workable_adapter: workable: Cuvva failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/cuvva/jobs?details=true
-2026-06-19 20:29:46 WARNING  job_search.adapters.workable_adapter: workable: Pleo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/pleo/jobs?details=true
-2026-06-19 20:29:47 WARNING  job_search.adapters.workable_adapter: workable: Plum failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/plum-fintech/jobs?details=true
-2026-06-19 20:29:48 WARNING  job_search.adapters.workable_adapter: workable: Chip failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/chip/jobs?details=true
-2026-06-19 20:29:49 WARNING  job_search.adapters.workable_adapter: workable: Freetrade failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/freetrade/jobs?details=true
-2026-06-19 20:29:50 WARNING  job_search.adapters.workable_adapter: workable: Emma failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/emma-technologies/jobs?details=true
-2026-06-19 20:29:51 WARNING  job_search.adapters.workable_adapter: workable: Yonder failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/yonder/jobs?details=true
-2026-06-19 20:29:53 WARNING  job_search.adapters.workable_adapter: workable: Tide failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tide-fintech/jobs?details=true
-2026-06-19 20:29:54 WARNING  job_search.adapters.workable_adapter: workable: Coconut failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/coconut/jobs?details=true
-2026-06-19 20:29:55 WARNING  job_search.adapters.workable_adapter: workable: Marshmallow failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/marshmallow/jobs?details=true
-2026-06-19 20:29:56 WARNING  job_search.adapters.workable_adapter: workable: Kroo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/kroo/jobs?details=true
-2026-06-19 20:29:57 WARNING  job_search.adapters.workable_adapter: workable: Abound failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/abound/jobs?details=true
+2026-06-20 10:03:27 WARNING  job_search.adapters.workable_adapter: workable: Monzo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/monzo/jobs?details=true
+2026-06-20 10:03:28 WARNING  job_search.adapters.workable_adapter: workable: Babylon Health failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/babylonhealth/jobs?details=true
+2026-06-20 10:03:29 WARNING  job_search.adapters.workable_adapter: workable: Habito failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/habito/jobs?details=true
+2026-06-20 10:03:30 WARNING  job_search.adapters.workable_adapter: workable: Cuvva failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/cuvva/jobs?details=true
+2026-06-20 10:03:31 WARNING  job_search.adapters.workable_adapter: workable: Pleo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/pleo/jobs?details=true
+2026-06-20 10:03:32 WARNING  job_search.adapters.workable_adapter: workable: Plum failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/plum-fintech/jobs?details=true
+2026-06-20 10:03:33 WARNING  job_search.adapters.workable_adapter: workable: Chip failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/chip/jobs?details=true
+2026-06-20 10:03:35 WARNING  job_search.adapters.workable_adapter: workable: Freetrade failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/freetrade/jobs?details=true
+2026-06-20 10:03:36 WARNING  job_search.adapters.workable_adapter: workable: Emma failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/emma-technologies/jobs?details=true
+2026-06-20 10:03:37 WARNING  job_search.adapters.workable_adapter: workable: Yonder failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/yonder/jobs?details=true
+2026-06-20 10:03:38 WARNING  job_search.adapters.workable_adapter: workable: Tide failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tide-fintech/jobs?details=true
+2026-06-20 10:03:39 WARNING  job_search.adapters.workable_adapter: workable: Coconut failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/coconut/jobs?details=true
+2026-06-20 10:03:40 WARNING  job_search.adapters.workable_adapter: workable: Marshmallow failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/marshmallow/jobs?details=true
+2026-06-20 10:03:41 WARNING  job_search.adapters.workable_adapter: workable: Kroo failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/kroo/jobs?details=true
+2026-06-20 10:03:42 WARNING  job_search.adapters.workable_adapter: workable: Abound failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/abound/jobs?details=true
   workable: 0 jobs normalised.
-After filtering: 622/934 jobs kept.
-Ranking 622 jobs...
-2026-06-19 20:29:57 INFO     job_search.pipeline.rank: rank: 598/622 jobs skipped LLM (pre-score < 2.0)
-2026-06-19 20:30:06 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
-2026-06-19 20:30:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
-2026-06-19 20:30:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
-2026-06-19 20:30:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
-2026-06-19 20:30:38 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
-Run complete: 934 scraped, 90 new, 0 closed.
-2026-06-19 20:30:38 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-06-19.3.xlsx
-2026-06-19 20:30:40 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
+After filtering: 580/872 jobs kept.
+Ranking 580 jobs...
+2026-06-20 10:03:42 INFO     job_search.pipeline.rank: rank: 563/580 jobs skipped LLM (pre-score < 2.0)
+2026-06-20 10:03:52 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-20 10:03:59 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-20 10:04:08 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-20 10:04:12 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+Run complete: 872 scraped, 52 new, 0 closed.
+2026-06-20 10:04:12 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-06-20.xlsx
+2026-06-20 10:04:14 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
 Excel regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
-2026-06-19 20:30:40 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
+2026-06-20 10:04:14 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
 Dashboard: /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html

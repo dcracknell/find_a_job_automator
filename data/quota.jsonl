@@ -274,3 +274,8 @@
 {"timestamp": "2026-06-19T20:30:23.137522Z", "operation": "rank", "model": "claude-sonnet-4-6", "input_tokens": 3564, "cached_input_tokens": 1643, "output_tokens": 325, "est_cost_gbp": 0.008905}
 {"timestamp": "2026-06-19T20:30:31.121669Z", "operation": "rank", "model": "claude-sonnet-4-6", "input_tokens": 3705, "cached_input_tokens": 1643, "output_tokens": 307, "est_cost_gbp": 0.009027}
 {"timestamp": "2026-06-19T20:30:38.255047Z", "operation": "rank", "model": "claude-sonnet-4-6", "input_tokens": 4493, "cached_input_tokens": 1643, "output_tokens": 286, "est_cost_gbp": 0.010666}
+{"timestamp": "2026-06-20T09:59:04.241151Z", "operation": "queries", "model": "claude-sonnet-4-6", "input_tokens": 1045, "cached_input_tokens": 0, "output_tokens": 256, "est_cost_gbp": 0.00558}
+{"timestamp": "2026-06-20T10:03:52.204372Z", "operation": "rank", "model": "claude-sonnet-4-6", "input_tokens": 3682, "cached_input_tokens": 0, "output_tokens": 384, "est_cost_gbp": 0.013445}
+{"timestamp": "2026-06-20T10:03:59.754829Z", "operation": "rank", "model": "claude-sonnet-4-6", "input_tokens": 3898, "cached_input_tokens": 1643, "output_tokens": 349, "est_cost_gbp": 0.009994}
+{"timestamp": "2026-06-20T10:04:08.302268Z", "operation": "rank", "model": "claude-sonnet-4-6", "input_tokens": 5443, "cached_input_tokens": 1643, "output_tokens": 366, "est_cost_gbp": 0.013906}
+{"timestamp": "2026-06-20T10:04:12.200756Z", "operation": "rank", "model": "claude-sonnet-4-6", "input_tokens": 1548, "cached_input_tokens": 1643, "output_tokens": 131, "est_cost_gbp": 0.001966}
