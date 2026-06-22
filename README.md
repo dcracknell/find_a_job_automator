@@ -1,171 +1,251 @@
-## Download Latest Jobs
+# UK Job Search Automator
 
-**[Download jobs.xlsx](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.xlsx)** — updated automatically every day at 07:00 UTC
+A daily pipeline that scrapes UK job boards and company career pages, ranks every result against your CV using Claude, and delivers a scored Excel workbook of matches. Set it up once; it runs automatically every day on GitHub — no server required.
 
-| File | Link |
-|------|------|
-| jobs.xlsx (Excel workbook) | [Download](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.xlsx) |
-| dashboard.html (visual summary) | [View](https://github.com/dcracknell/find_a_job_automator/blob/job-search-data/data/dashboard.html) |
-| jobs.db (SQLite database) | [Download](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.db) |
+> **Want to use this yourself?** Jump straight to [Setup for your own use](#setup-for-your-own-use).
 
 ---
 
-# UK Job Search Pipeline
+## How it works
 
-A daily pipeline that uses Claude to turn your CV/profile into targeted search
-queries, scrapes UK job boards and company career pages, ranks matches against
-your CV with stricter Claude scoring, deduplicates against a persistent Excel
-workbook, and emails a digest of new high-fit jobs.
-
-For AI assistant orientation, see [AI_README.md](AI_README.md).
-
-## Current status
-
-The pipeline is fully implemented end-to-end: CV parsing via Claude, Claude-assisted search query generation, keyword pre-scoring, LLM job ranking via Claude, deduplication, Excel workbook export with tracking columns, visual HTML dashboard, and email digest.
+1. **Parses your CV** into a structured profile (`config/profile.json`) using Claude
+2. **Generates search queries** tailored to your skills and target roles
+3. **Scrapes** Indeed, LinkedIn, Google Jobs, Adzuna, Reed, and 40+ company career pages
+4. **Scores every job** against your CV — a 0–10 fit score with a one-line reason
+5. **Saves results** to a deduplicated Excel workbook you can filter, sort, and annotate
+6. **Emails a daily digest** of new high-scoring jobs (optional)
 
 ---
 
-## Quick start
+## Setup for your own use
+
+You don't need to write any code. The whole setup happens through GitHub's web interface.
+
+### What you'll need
+
+| Requirement | Cost | Notes |
+|---|---|---|
+| GitHub account | Free | The pipeline runs on GitHub Actions |
+| Anthropic API key | ~£0.10–0.50/day | Powers CV parsing and job ranking. Get one at [console.anthropic.com](https://console.anthropic.com/) |
+| Adzuna API key | Free | [developer.adzuna.com](https://developer.adzuna.com/) — takes 2 minutes to register |
+| Reed API key | Free | [reed.co.uk/developers/jobseeker](https://www.reed.co.uk/developers/jobseeker) |
+| Email (optional) | Free | Gmail works. Only needed if you want daily email digests |
+
+You can run with **just the Anthropic key** to start — Adzuna and Reed auto-enable when their keys are added.
+
+---
+
+### Step 1 — Fork the repository
+
+Click **Fork** at the top right of this page. Keep it **private** if your CV or job notes are sensitive (recommended).
+
+---
+
+### Step 2 — Add your API keys
+
+In your forked repo, go to **Settings → Secrets and variables → Actions → New repository secret** and add:
+
+| Secret name | Where to get it |
+|---|---|
+| `ANTHROPIC_API_KEY` | [console.anthropic.com](https://console.anthropic.com/) |
+| `ADZUNA_APP_ID` | [developer.adzuna.com](https://developer.adzuna.com/) |
+| `ADZUNA_APP_KEY` | Same as above |
+| `REED_API_KEY` | [reed.co.uk/developers/jobseeker](https://www.reed.co.uk/developers/jobseeker) |
+
+**Optional — for email digests:**
+
+| Secret name | Example value |
+|---|---|
+| `SMTP_HOST` | `smtp.gmail.com` |
+| `SMTP_USER` | `you@gmail.com` |
+| `SMTP_PASS` | Your Gmail app password ([how to create one](https://support.google.com/accounts/answer/185833)) |
+| `SMTP_FROM` | `you@gmail.com` |
+| `SMTP_TO` | `you@gmail.com` |
+
+---
+
+### Step 3 — Set up your profile
+
+Go to **Issues → New issue** and choose **Job search profile setup**. Fill in the form with your CV text, target roles, skills, location, and salary. Submitting it automatically generates your `config/profile.json` and kicks off the first run.
+
+You can re-submit this issue any time to update your profile (e.g. new skills, different roles, changed location).
+
+---
+
+### Step 4 — Enable email digests (optional)
+
+Open `config/settings.yaml` in GitHub's web editor and change:
+
+```yaml
+mode: passive   # change this to: active
+```
+
+With `mode: active` and SMTP secrets added, you'll get a daily email of new high-fit jobs.
+
+---
+
+### Step 5 — Get your results
+
+After the first run completes (check **Actions** to see progress), download your results from the workflow run's **Artifacts** section:
+
+- `jobs.xlsx` — the main workbook. Use the **Status** column to track applications, and **Notes** for follow-ups
+- `dashboard.html` — visual summary of scores and sources
+- `jobs.db` — SQLite database if you want to query it directly
+
+The pipeline runs automatically at **07:00 UTC every day**. Results accumulate — previously seen jobs are deduplicated, and your status/notes are never overwritten.
+
+---
+
+## Customising your profile
+
+Your profile lives in `config/profile.json`. You can edit it directly in GitHub's web editor at any time — no code knowledge needed, just edit the file and commit.
+
+### target_roles
+
+What job titles to search for. Split into three tiers — `core` (best matches, searched first), `adjacent` (related roles), and `stretch` (long shots worth catching).
+
+```json
+"target_roles": {
+  "core": ["Graduate Hardware Engineer", "Graduate FPGA Engineer"],
+  "adjacent": ["Firmware Engineer", "Digital Design Engineer"],
+  "stretch": ["Software Developer", "Test Engineer"]
+}
+```
+
+### core_skills and adjacent_skills
+
+Skills from your CV. `core_skills` are things you're confident in; `adjacent_skills` are things you've touched but aren't your main selling point. These drive both search queries and job scoring.
+
+### filters
+
+Hard limits — jobs outside these are discarded before any scoring:
+
+```json
+"filters": {
+  "salary_floor_gbp": 25000,
+  "max_days_since_posted": 30
+}
+```
+
+### negative_signals
+
+Words in job titles or descriptions that should disqualify a role. `"senior"` in `title_excludes` means no senior roles will score well; `"5+ years"` in `description_excludes` filters out roles requiring too much experience.
+
+### search_radius_miles and remote_ok
+
+Controls location filtering. Set `remote_ok: true` to include fully remote roles anywhere in the UK regardless of distance.
+
+---
+
+## Customising which companies are searched
+
+Open `config/sources.yaml` in GitHub's web editor. You can add companies that use Greenhouse, Lever, Workday, or Workable ATS systems — scraped directly from career pages, not just what appears on public job boards.
+
+To add a company, find which ATS they use (usually visible in their careers page URL) and add an entry:
+
+```yaml
+greenhouse:
+  companies:
+    - {name: Your Company, slug: yourcompanyslug}
+
+workday:
+  companies:
+    - {name: Your Company, url: "https://yourcompany.wd1.myworkdayjobs.com/careers"}
+```
+
+---
+
+## Running locally (optional)
+
+If you prefer to run on your own machine instead of GitHub Actions:
 
 ```bash
-# 1. Clone
-git clone <repo-url> job-search
-cd job-search
+# 1. Clone your fork
+git clone https://github.com/YOUR_USERNAME/find_a_job_automator
+cd find_a_job_automator
 
-# 2. Create and activate a virtual environment
+# 2. Create a virtual environment
 python -m venv .venv
-# macOS/Linux:
-source .venv/bin/activate
-# Windows:
-.venv\Scripts\activate
+source .venv/bin/activate        # macOS/Linux
+# .venv\Scripts\activate         # Windows
 
 # 3. Install
 pip install -e .
 
-# 4. Configure secrets
+# 4. Add your secrets
 cp .env.example .env
-# Edit .env and fill in ANTHROPIC_API_KEY, ADZUNA_APP_ID/KEY, REED_API_KEY, SMTP_*
-# ANTHROPIC_API_KEY enables CV parsing, query generation, and job ranking via Claude
+# Edit .env and fill in your API keys
 
-# 5. Parse your CV (choose a domain, or omit for 'general')
+# 5. Parse your CV to generate profile.json
 job-search parse-cv path/to/your-cv.pdf --domain engineering
 
-# 6. Review / edit config/profile.json, config/sources.yaml
-
-# 7. Run the pipeline
+# 6. Run the pipeline
 job-search run
 ```
 
-Output files land in `data/` (gitignored):
-- `data/jobs.db` — SQLite primary store
-- `data/jobs.xlsx` — regenerated Excel view. Use the `Status` dropdown to mark
-  `applied`, `interview`, etc., and keep application dates/follow-ups in `Notes`.
-- `data/runs.log` — per-run log
-- `data/quota.jsonl` — API token + cost log
+Results land in `data/jobs.xlsx`.
 
----
-
-## Available commands
+**Useful commands:**
 
 ```
-job-search parse-cv <cv.pdf> [--domain <name>]  # regenerate profile.json from CV
-job-search domains                               # list available domain packs
-job-search domains show <name>                   # print a domain pack's details
-job-search run [--dry-run] [--source <name>] [--rerank-stale] [--save-fixture <src>]
-job-search rank <job_id>                         # re-rank a single job
-job-search health                                # adapter health check
-job-search migrate                               # run pending DB schema migrations
-job-search backup                                # manual DB + Excel backup
-job-search recover                               # rebuild DB from cached raw responses
-job-search export                                # regenerate Excel from DB (no pipeline)
-job-search search "<query>"                      # FTS5 full-text search over historical jobs
+job-search run              # full pipeline run
+job-search run --dry-run    # fetch and score jobs, but don't save anything
+job-search export           # regenerate Excel from the database without fetching new jobs
+job-search search "FPGA"    # full-text search over all stored jobs
+job-search health           # check all configured sources are reachable
+job-search domains          # list available domain packs
 ```
-
----
-
-## Running on GitHub Actions
-
-The repository includes `.github/workflows/daily_run.yml`, so the pipeline can run
-entirely on GitHub's hosted runners without a local computer.
-
-1. Push the repository to GitHub. Keep it private if job data, notes, your CV, or your profile are sensitive.
-2. In GitHub, open **Settings > Secrets and variables > Actions** and add any secrets you use:
-   `ANTHROPIC_API_KEY`, `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `REED_API_KEY`,
-   `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, and `SMTP_TO`.
-   Adzuna and Reed searches auto-enable when their API secrets are present.
-3. Open **Issues > New issue > Job search profile setup**. Paste your CV text or
-   attach a text-readable PDF, then fill in roles, skills, location, salary, and
-   exclusions.
-4. Submitting that issue runs **Configure Job Search Profile**, which
-   commits the generated `config/profile.json` and starts **Daily Job Search**.
-5. You can also open **Actions > Daily Job Search > Run workflow** to start a
-   manual run at any time.
-6. Download `job-search-output-<run_number>` from the completed workflow run to get
-   `jobs.xlsx`, `dashboard.html`, `jobs.db`, and `runs.log`.
-
-The workflow also runs every day at 07:00 UTC. Successful non-dry runs save `data/`
-to a `job-search-data` branch, so the SQLite database and workbook survive between
-GitHub-hosted runs. If GitHub blocks the branch push, enable read/write workflow
-permissions in **Settings > Actions > General > Workflow permissions**.
-
-To adjust what it searches for later, open a new **Job search profile setup** issue
-and change the roles, skills, location, salary, or exclusion fields. You can also
-edit `config/profile.json`, `config/sources.yaml`, and `config/settings.yaml`
-directly in GitHub's web editor. Set `mode: active` in `config/settings.yaml` if
-you want email digests sent from GitHub Actions; otherwise the workflow still saves
-downloadable artifacts.
-
-The optional static setup page lives in `docs/`, but the supported no-permissions
-setup path is the GitHub Issue Form above. GitHub Pages can require repository
-owner/admin setup that the workflow token cannot do by itself.
-
----
-
-## Local Scheduling
-
-The pipeline can also run daily via cron (Linux/macOS) or Task Scheduler (Windows).
-
-**Linux/macOS cron** (runs at 07:00 every day):
-
-```cron
-0 7 * * * cd /path/to/job-search && .venv/bin/job-search run >> data/runs.log 2>&1
-```
-
-**Windows Task Scheduler**: create a basic daily task that runs:
-```
-C:\path\to\job-search\.venv\Scripts\job-search.exe run
-```
-with Start In set to `C:\path\to\job-search`.
-
-**Tip**: point your `data/` folder at a cloud-synced directory (Dropbox, OneDrive, Google Drive) so `data/jobs.xlsx` and the generated `dashboard.html` are accessible from your phone.
 
 ---
 
 ## Domain packs
 
-The pipeline supports any professional field. Run `job-search domains` to see available packs, or `job-search domains show engineering` to inspect one.
+Domain packs tune the pipeline for different professions — adjusting seniority detection, closing date patterns, and ranker hints. Available packs:
 
-Available packs: `engineering`, `healthcare`, `creative`, `government`, `finance`, `legal`, `education`, `hospitality`, `trades`, `science`, `general`.
+`engineering` · `healthcare` · `finance` · `legal` · `government` · `education` · `science` · `creative` · `hospitality` · `trades` · `general`
 
-To add a new domain, create a single YAML file in `config/domains/` matching the schema of an existing pack. No code changes required.
+To use a pack, set `"domain": "engineering"` in `config/profile.json`. When parsing a CV locally, pass `--domain engineering` to `parse-cv`.
 
----
-
-## Prior art
-
-This project's design was informed by:
-
-- **[JobFunnel](https://github.com/PaulMcInnis/JobFunnel)** (archived Dec 2025) — pioneered the YAML-config + master spreadsheet workflow. Archived because direct LinkedIn/Indeed scraping became infeasible; we use JobSpy and official APIs instead.
-- **[python-jobspy](https://github.com/Bunsly/JobSpy)** — actively maintained multi-board scraping library (LinkedIn, Indeed, Glassdoor, Google Jobs, ZipRecruiter). We use it as a dependency rather than rolling our own fragile scrapers.
-- **[BjornMelin/ai-job-scraper](https://github.com/BjornMelin/ai-job-scraper)** — most architecturally similar: SQLite + FTS5, content-hash sync, cost tracking, 90/10 structured/AI adapter split. Key lessons adopted here.
+To create a new pack for an unlisted profession, add a YAML file to `config/domains/` — no code changes needed.
 
 ---
 
-## Configuration
+## Frequently asked questions
 
-All non-secret config lives in `config/`:
-- `profile.json` — your CV data, skills, target roles, filters. Generated by `parse-cv`, hand-editable.
-- `sources.yaml` — which job boards and company ATS pages to scrape (on/off per source).
-- `ranker.yaml` — LLM ranking prompt, scoring rubric, pre-score threshold.
-- `settings.yaml` — email, paths, schedule, model selection, API cost rates.
-- `domains/` — one YAML per profession (seeded defaults, fully overridable).
+**How much does it cost to run?**  
+A typical daily run costs around £0.10–0.30 in Anthropic API credits. The pipeline tracks spend in `data/quota.jsonl` and logs a warning if the daily soft cap is exceeded (default: £2.00, set in `settings.yaml`).
+
+**Will it overwrite my notes or application status in the spreadsheet?**  
+No. The `Status` and `Notes` columns are user-owned. The pipeline imports your changes before each run and never overwrites them.
+
+**The pipeline ran but I got no results — what's wrong?**  
+Check the run log in **Actions**. Common causes: no API keys set (Adzuna/Reed both disabled), `profile.json` not yet generated (submit the Issue Form first), or `pre_score_threshold` in `ranker.yaml` is too high.
+
+**Can I use this outside the UK?**  
+JobSpy (Indeed, LinkedIn, Google Jobs) works globally. Change `"city"` and coordinates in `profile.json`, remove UK-only sources from `sources.yaml`, and it'll work for most English-speaking markets.
+
+**I want to search for PhD or research roles — is that supported?**  
+Yes — add them to `target_roles` in `profile.json` just like any other title (e.g. `"PhD Studentship Electronics"`, `"Research Engineer"`). The ranker scores them against your CV like any other job.
+
+**How do I pause it while I'm on holiday or have accepted a job?**  
+Set `mode: paused` in `config/settings.yaml`. The workflow will still trigger daily but skip every run immediately.
+
+---
+
+## Configuration reference
+
+| File | What it controls |
+|---|---|
+| `config/profile.json` | Your CV data, skills, target roles, location, salary floor, exclusions |
+| `config/sources.yaml` | Which job boards and company ATS pages to scrape |
+| `config/settings.yaml` | Email, run mode, cost caps, model selection |
+| `config/ranker.yaml` | Scoring rubric and LLM prompt — rarely needs changing |
+| `config/domains/*.yaml` | Profession-specific tuning packs |
+
+---
+
+## Credits
+
+Built on top of [python-jobspy](https://github.com/Bunsly/JobSpy) for multi-board scraping, inspired by [JobFunnel](https://github.com/PaulMcInnis/JobFunnel) and [ai-job-scraper](https://github.com/BjornMelin/ai-job-scraper).
+
+For developer/AI assistant documentation, see [AI_README.md](AI_README.md).
