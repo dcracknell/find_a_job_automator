@@ -6,6 +6,23 @@ A daily pipeline that scrapes UK job boards and company career pages, ranks ever
 
 ---
 
+
+---
+
+## 📥 Download your results
+
+> These files are updated automatically every day at 07:00 UTC.
+
+| File | Description | Link |
+|---|---|---|
+| **jobs.xlsx** | Scored job matches — open in Excel or Google Sheets | [⬇️ Download](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.xlsx) |
+| **dashboard.html** | Visual summary of scores and sources | [🔗 View](https://github.com/dcracknell/find_a_job_automator/blob/job-search-data/data/dashboard.html) |
+| **jobs.db** | SQLite database (advanced use) | [⬇️ Download](https://github.com/dcracknell/find_a_job_automator/raw/job-search-data/data/jobs.db) |
+
+> **jobs.xlsx not updating?** Check [Actions](https://github.com/dcracknell/find_a_job_automator/actions) to see if the latest run succeeded.
+
+---
+
 ## How it works
 
 1. **Parses your CV** into a structured profile (`config/profile.json`) using Claude
