@@ -2,28 +2,28 @@ apis:
   adzuna:
     enabled: auto
     country: gb
-    results_per_query: 20
+    results_per_query: 50        # raised from 20 — fetch more per query
   reed:
     enabled: auto
   gov_uk_find_a_job:
-    enabled: false
+    enabled: true                # enabled — lists PhD studentships, research posts, public sector
 
 jobspy:
   enabled: true
   sites: [indeed, linkedin, google]
   country: uk
-  results_wanted_per_query: 20
+  results_wanted_per_query: 50  # raised from 20
   proxies: []
 
 aggregators:
   hn_hiring:
-    enabled: false
+    enabled: true               # enabled — good for AI/tech startups
 
 # These ATS sources are completely free - no API keys needed.
 ats:
   greenhouse:
     companies:
-      # --- Original companies ---
+      # --- Original tech / fintech ---
       - {name: Graphcore, slug: graphcore}
       - {name: Cerebras, slug: cerebrassystems}
       - {name: Monzo, slug: monzo}
@@ -34,7 +34,6 @@ ats:
       - {name: Faculty AI, slug: faculty}
       - {name: Thought Machine, slug: thoughtmachine}
       - {name: Checkout.com, slug: checkout}
-      - {name: Phoebe, slug: phoebe}
       - {name: Multiverse, slug: multiverse}
       - {name: Typeform, slug: typeform}
       - {name: GoCardless, slug: gocardless}
@@ -66,6 +65,9 @@ ats:
       - {name: Exscientia, slug: exscientia}
       - {name: Shield AI, slug: shieldai}
       - {name: Primer AI, slug: primerai}
+      - {name: Recursion Pharmaceuticals, slug: recursionpharmaceuticals}
+      - {name: Waymo, slug: waymo}
+      - {name: Nuro, slug: nuro}
       # --- SAP / Oracle / ERP / Finance tech ---
       - {name: Accenture, slug: accenture}
       - {name: Deloitte, slug: deloitte}
@@ -87,6 +89,16 @@ ats:
       - {name: Unit4, slug: unit4}
       - {name: Sage, slug: sage}
       - {name: Xero, slug: xero}
+      # --- UK defence / aerospace / research ---
+      - {name: Thales, slug: thales}
+      - {name: Leonardo, slug: leonardo}
+      - {name: QinetiQ, slug: qinetiq}
+      - {name: Cobham, slug: cobham}
+      - {name: GKN Aerospace, slug: gknaerospace}
+      - {name: Mott MacDonald, slug: mottmacdonaldgroup}
+      - {name: Arup, slug: arup}
+      - {name: Atkins, slug: atkins}
+      - {name: Ricardo, slug: ricardo}
 
   lever:
     companies:
@@ -115,6 +127,9 @@ ats:
       - {name: Observe AI, slug: observeai}
       - {name: Cognigy, slug: cognigy}
       - {name: Arcee AI, slug: arceeai}
+      - {name: Mistral AI, slug: mistralai}
+      - {name: Adept, slug: adept}
+      - {name: Together AI, slug: together}
       # --- SAP / Oracle / Finance tech ---
       - {name: Veeva Systems, slug: veeva}
       - {name: nCino, slug: ncino}
@@ -130,6 +145,13 @@ ats:
       - {name: Spendesk, slug: spendesk}
       - {name: Pleo, slug: pleo}
       - {name: Avalara, slug: avalara}
+      # --- Additional tech ---
+      - {name: Depop, slug: depop}
+      - {name: Bumble, slug: bumble}
+      - {name: Monolith AI, slug: monolith}
+      - {name: Hadean, slug: hadean}
+      - {name: Cervest, slug: cervest}
+      - {name: Ori Biotech, slug: oribiotech}
 
   workday:
     companies:
@@ -150,6 +172,14 @@ ats:
       - {name: Bosch, url: "https://bosch.wd3.myworkdayjobs.com/en-US/boschcareers"}
       - {name: Siemens, url: "https://siemens.wd3.myworkdayjobs.com/en-US/Siemensjobs"}
       - {name: Microsoft, url: "https://microsoft.wd5.myworkdayjobs.com/en-US/msftcareers"}
+      - {name: Nokia, url: "https://nokia.wd3.myworkdayjobs.com/en-US/External_Referral"}
+      - {name: Ericsson, url: "https://ericsson.wd1.myworkdayjobs.com/en-US/Ericsson_Careers_Global"}
+      - {name: NXP Semiconductors, url: "https://nxp.wd3.myworkdayjobs.com/en-US/careers"}
+      - {name: Texas Instruments, url: "https://ti.wd5.myworkdayjobs.com/en-US/TIjobs"}
+      - {name: Analog Devices, url: "https://analogdevices.wd1.myworkdayjobs.com/en-US/External"}
+      - {name: Infineon, url: "https://infineon.wd3.myworkdayjobs.com/en-US/Karriere"}
+      - {name: STMicroelectronics, url: "https://stmicro.wd3.myworkdayjobs.com/en-US/ST"}
+      - {name: Microchip Technology, url: "https://microchip.wd1.myworkdayjobs.com/en-US/External"}
       # --- SAP / Oracle / ERP / Finance ---
       - {name: SAP, url: "https://sap.wd3.myworkdayjobs.com/en-US/SAP"}
       - {name: Oracle, url: "https://oracle.wd1.myworkdayjobs.com/en-US/OracleCareer"}
@@ -174,6 +204,27 @@ ats:
       - {name: EY, url: "https://ey.wd5.myworkdayjobs.com/en-US/EY_External_Careers"}
       - {name: Capgemini, url: "https://capgemini.wd3.myworkdayjobs.com/en-US/Capgemini_Careers"}
       - {name: Accenture, url: "https://accenture.wd3.myworkdayjobs.com/en-US/AccentureCareers"}
+      # --- UK universities posting PhD / EngD / research roles ---
+      - {name: University of Sheffield, url: "https://sheffield.wd1.myworkdayjobs.com/en-US/external"}
+      - {name: University of Manchester, url: "https://manchester.wd3.myworkdayjobs.com/en-US/external"}
+      - {name: University of Leeds, url: "https://leeds.wd3.myworkdayjobs.com/en-US/external"}
+      - {name: University of Nottingham, url: "https://nottingham.wd3.myworkdayjobs.com/en-US/External"}
+      - {name: University of Birmingham, url: "https://bham.wd3.myworkdayjobs.com/en-US/External_Career_Site"}
+      - {name: University of Bristol, url: "https://bristol.wd3.myworkdayjobs.com/en-US/jobs"}
+      - {name: University of Edinburgh, url: "https://edinburgh.wd3.myworkdayjobs.com/en-US/UoE_External_Careers"}
+      - {name: Imperial College London, url: "https://imperial.wd3.myworkdayjobs.com/en-US/Imperial_Careers"}
+      - {name: UCL, url: "https://ucl.wd3.myworkdayjobs.com/en-US/UCLjobs"}
+      - {name: University of Cambridge, url: "https://cambridge.wd3.myworkdayjobs.com/en-US/External"}
+      - {name: University of Oxford, url: "https://oxford.wd3.myworkdayjobs.com/en-US/External_Vacancies"}
+      - {name: King's College London, url: "https://kcl.wd3.myworkdayjobs.com/en-US/KCLjobs"}
+      - {name: University of Southampton, url: "https://southampton.wd3.myworkdayjobs.com/en-US/Jobs"}
+      - {name: Newcastle University, url: "https://ncl.wd3.myworkdayjobs.com/en-US/External_Career_Site"}
+      - {name: University of York, url: "https://york.wd3.myworkdayjobs.com/en-US/External_Career_Site"}
+      - {name: University of Liverpool, url: "https://liverpool.wd3.myworkdayjobs.com/en-US/Liverpool_External"}
+      - {name: University of Warwick, url: "https://warwick.wd3.myworkdayjobs.com/en-US/External"}
+      - {name: Cranfield University, url: "https://cranfield.wd3.myworkdayjobs.com/en-US/Cranfield_External"}
+      # --- Research institutes / catapults ---
+      - {name: Innovate UK, url: "https://ktn.wd3.myworkdayjobs.com/en-US/KTN_Jobs"}
 
   workable:
     companies:
@@ -196,6 +247,9 @@ ats:
       # --- AI companies ---
       - {name: Featurespace, slug: featurespace}
       - {name: Darktrace, slug: darktrace}
+      - {name: Behavox, slug: behavox}
+      - {name: Eigen Technologies, slug: eigentech}
+      - {name: Faculty, slug: faculty-ai}
       # --- SAP / Finance tech ---
       - {name: Soldo, slug: soldo}
       - {name: Payhawk, slug: payhawk}
@@ -206,3 +260,9 @@ ats:
       - {name: ClearBank, slug: clearbank}
       - {name: Griffin Bank, slug: griffin}
       - {name: Banked, slug: banked}
+      # --- UK defence / engineering ---
+      - {name: Sifted, slug: sifted}
+      - {name: Paragraf, slug: paragraf}
+      - {name: Tokamak Energy, slug: tokamak}
+      - {name: First Light Fusion, slug: firstlightfusion}
+      - {name: Reaction Engines, slug: reactionengines}
