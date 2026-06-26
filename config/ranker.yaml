@@ -3,7 +3,7 @@ version: "v2-cv-accuracy"
 # Minimum keyword pre-score to proceed to Claude ranking.
 # Set to 0.0 so Claude ranks every job that passes the hard filters when
 # ANTHROPIC_API_KEY is configured. The keyword score is only a fallback.
-pre_score_threshold: 2.0
+pre_score_threshold: 0.0
 
 # --- Scoring rubric (baked into the system prompt) ---
 scoring_rubric: |
@@ -34,67 +34,3 @@ scoring_rubric: |
   Give modest credit for:
   - Salary above profile.filters.salary_floor_gbp.
   - Location within profile.search_radius_miles or remote.
-  - Exact match to a core target role.
-
-  Confidence rules:
-  - High confidence requires enough JD detail to compare against the profile.
-  - Use lower confidence when the JD is short, vague, or missing requirements.
-  - Do not inflate scores for vague jobs just because they contain a core keyword.
-
-# --- Prompt template ---
-# {domain_context} is replaced with the active domain pack's ranker_context.
-# {profile_json} is replaced with a compact JSON summary of the candidate profile.
-# {jobs_json} is replaced with an array of up to 5 cleaned JDs.
-system_prompt_template: |
-  You are an expert job-match ranker for UK roles. You will be given a candidate profile
-  built from a CV and one or more job descriptions. Rank for accurate fit to that CV,
-  not for broad possibility.
-
-  CANDIDATE PROFILE:
-  {profile_json}
-
-  SCORING RUBRIC:
-  {scoring_rubric}
-
-  {domain_context}
-
-  Before scoring internally, compare:
-  - role title and seniority against target_roles and negative_signals
-  - must-have skills against core_skills, adjacent_skills, education, and experience_summary
-  - salary, location, remote policy, and exclusions against filters
-  - evidence in the JD against evidence in the profile
-
-  High scores require explicit evidence. If the JD asks for a skill or experience
-  not present in the profile, mention the gap in the reason and lower the score.
-
-  OUTPUT FORMAT - respond with a JSON array, one object per job, in the same order received.
-  Use ONLY these short keys to minimise tokens:
-    s  - fit_score (float 0-10, one decimal place)
-    c  - fit_confidence (float 0-1, two decimal places)
-    r  - fit_reason (one sentence, max 30 words, include key match or key gap)
-    k  - matched_keywords (JSON array of profile-backed strings, max 5 items)
-
-  Example output for two jobs:
-  [
-    {"s": 8.2, "c": 0.85, "r": "Python and SQL duties match core skills; minor cloud tooling gap.", "k": ["Python", "SQL"]},
-    {"s": 3.1, "c": 0.60, "r": "Role requires 5+ years and lead ownership, both above the profile.", "k": ["Python"]}
-  ]
-
-  Respond with the JSON array only. No markdown, no preamble, no trailing text.
-  Max tokens: 250 per job.
-
-user_prompt_template: |
-  Rate the following {n} job(s) against the candidate profile:
-  {jobs_json}
-
-# Compact output schema (for documentation / prompt validation)
-output_schema:
-  type: array
-  items:
-    type: object
-    required: [s, c, r, k]
-    properties:
-      s: {type: number, minimum: 0, maximum: 10}
-      c: {type: number, minimum: 0, maximum: 1}
-      r: {type: string, maxLength: 240}
-      k: {type: array, items: {type: string}, maxItems: 5}
