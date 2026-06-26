@@ -23,6 +23,7 @@ aggregators:
 ats:
   greenhouse:
     companies:
+      # --- Original companies ---
       - {name: Graphcore, slug: graphcore}
       - {name: Cerebras, slug: cerebrassystems}
       - {name: Monzo, slug: monzo}
@@ -44,27 +45,95 @@ ats:
       - {name: Nested, slug: nested}
       - {name: Penfold, slug: penfold}
       - {name: Zepz, slug: zepz}
+      # --- AI companies ---
+      - {name: Anthropic, slug: anthropic}
+      - {name: OpenAI, slug: openai}
+      - {name: DeepMind, slug: deepmind}
+      - {name: Cohere, slug: cohere}
+      - {name: Hugging Face, slug: huggingface}
+      - {name: Stability AI, slug: stabilityai}
+      - {name: Aleph Alpha, slug: alephalpha}
+      - {name: Coreweave, slug: coreweave}
+      - {name: Weights and Biases, slug: wandb}
+      - {name: Scale AI, slug: scaleai}
+      - {name: Labelbox, slug: labelbox}
+      - {name: Landing AI, slug: landingai}
+      - {name: DataRobot, slug: datarobot}
+      - {name: SambaNova, slug: sambanovasystems}
+      - {name: Tenstorrent, slug: tenstorrent}
+      - {name: Palantir, slug: palantir}
+      - {name: BenevolentAI, slug: benevolentai}
+      - {name: Exscientia, slug: exscientia}
+      - {name: Shield AI, slug: shieldai}
+      - {name: Primer AI, slug: primerai}
+      # --- SAP / Oracle / ERP / Finance tech ---
+      - {name: Accenture, slug: accenture}
+      - {name: Deloitte, slug: deloitte}
+      - {name: KPMG, slug: kpmg}
+      - {name: Capgemini, slug: capgemini}
+      - {name: Cognizant, slug: cognizant}
+      - {name: Infosys, slug: infosys}
+      - {name: Wipro, slug: wipro}
+      - {name: HCL Technologies, slug: hcltech}
+      - {name: Atos, slug: atos}
+      - {name: Experian, slug: experian}
+      - {name: Equifax, slug: equifax}
+      - {name: SS&C Technologies, slug: ssctech}
+      - {name: Finastra, slug: finastra}
+      - {name: FIS Global, slug: fisglobal}
+      - {name: Fiserv, slug: fiserv}
+      - {name: OpenText, slug: opentext}
+      - {name: Epicor, slug: epicor}
+      - {name: Unit4, slug: unit4}
+      - {name: Sage, slug: sage}
+      - {name: Xero, slug: xero}
+
   lever:
     companies:
+      # --- Original companies ---
       - {name: Revolut, slug: revolut}
       - {name: Octopus Energy, slug: octopusenergy}
       - {name: Tractable, slug: tractable}
-      - {name: Phoebe, slug: phoebe}
       - {name: Wayve, slug: wayve}
       - {name: Cazoo, slug: cazoo}
       - {name: Hopin, slug: hopin}
       - {name: Rippling, slug: rippling}
-      - {name: Scale AI, slug: scaleai}
       - {name: Vercel, slug: vercel}
       - {name: Notion, slug: notion}
       - {name: Figma, slug: figma}
       - {name: Lyst, slug: lyst}
-      - {name: Appear Here, slug: appearhere}
       - {name: Onfido, slug: onfido}
       - {name: Modulr, slug: modulr}
       - {name: Nuvei, slug: nuvei}
+      # --- AI companies ---
+      - {name: Synthesia, slug: synthesia}
+      - {name: Eleven Labs, slug: elevenlabs}
+      - {name: Runway ML, slug: runwayml}
+      - {name: Glean, slug: glean}
+      - {name: Harvey AI, slug: harvey}
+      - {name: Moveworks, slug: moveworks}
+      - {name: Observe AI, slug: observeai}
+      - {name: Cognigy, slug: cognigy}
+      - {name: Arcee AI, slug: arceeai}
+      # --- SAP / Oracle / Finance tech ---
+      - {name: Veeva Systems, slug: veeva}
+      - {name: nCino, slug: ncino}
+      - {name: Kyriba, slug: kyriba}
+      - {name: Anaplan, slug: anaplan}
+      - {name: Planful, slug: planful}
+      - {name: Pigment, slug: pigment}
+      - {name: Ramp, slug: ramp}
+      - {name: Brex, slug: brex}
+      - {name: Coupa Software, slug: coupa}
+      - {name: Tipalti, slug: tipalti}
+      - {name: Airbase, slug: airbase}
+      - {name: Spendesk, slug: spendesk}
+      - {name: Pleo, slug: pleo}
+      - {name: Avalara, slug: avalara}
+
   workday:
     companies:
+      # --- Original companies ---
       - {name: SiFive, url: "https://sifive.wd1.myworkdayjobs.com/sifivecareers"}
       - {name: Dyson, url: "https://dyson.wd3.myworkdayjobs.com/dyson_careers"}
       - {name: ARM, url: "https://arm.wd1.myworkdayjobs.com/Arm_Careers"}
@@ -73,8 +142,42 @@ ats:
       - {name: Ultra Electronics, url: "https://ultra.wd1.myworkdayjobs.com/ultra_electronics"}
       - {name: Rolls-Royce, url: "https://rollsroyce.wd3.myworkdayjobs.com/en-US/rolr"}
       - {name: BAE Systems, url: "https://baesystems.wd3.myworkdayjobs.com/en-US/BAES_Jobs"}
+      # --- AI / tech majors ---
+      - {name: IBM, url: "https://ibm.wd12.myworkdayjobs.com/en-US/IBMExternalJobBoard"}
+      - {name: NVIDIA, url: "https://nvidia.wd5.myworkdayjobs.com/en-US/UniversityJobs"}
+      - {name: Intel, url: "https://intel.wd1.myworkdayjobs.com/en-US/External"}
+      - {name: Qualcomm, url: "https://qualcomm.wd5.myworkdayjobs.com/en-US/External"}
+      - {name: Bosch, url: "https://bosch.wd3.myworkdayjobs.com/en-US/boschcareers"}
+      - {name: Siemens, url: "https://siemens.wd3.myworkdayjobs.com/en-US/Siemensjobs"}
+      - {name: Microsoft, url: "https://microsoft.wd5.myworkdayjobs.com/en-US/msftcareers"}
+      # --- SAP / Oracle / ERP / Finance ---
+      - {name: SAP, url: "https://sap.wd3.myworkdayjobs.com/en-US/SAP"}
+      - {name: Oracle, url: "https://oracle.wd1.myworkdayjobs.com/en-US/OracleCareer"}
+      - {name: Workday, url: "https://workday.wd5.myworkdayjobs.com/en-US/Workday"}
+      - {name: Infor, url: "https://infor.wd5.myworkdayjobs.com/en-US/inforCareers"}
+      - {name: Salesforce, url: "https://salesforce.wd12.myworkdayjobs.com/en-US/Salesforce_External_Career_Site"}
+      - {name: ServiceNow, url: "https://servicenow.wd1.myworkdayjobs.com/en-US/External"}
+      - {name: Workiva, url: "https://workiva.wd1.myworkdayjobs.com/en-US/careers"}
+      - {name: BlackLine, url: "https://blackline.wd1.myworkdayjobs.com/en-US/Careers"}
+      - {name: OneStream Software, url: "https://onestream.wd1.myworkdayjobs.com/en-US/careers"}
+      - {name: HSBC, url: "https://hsbc.wd3.myworkdayjobs.com/en-US/HSBCexternalCareers"}
+      - {name: Barclays, url: "https://barclays.wd3.myworkdayjobs.com/en-US/BarclaysExternal"}
+      - {name: Lloyds Banking Group, url: "https://lloydsbanking.wd3.myworkdayjobs.com/en-US/lloydsbankinggroup_careers"}
+      - {name: NatWest Group, url: "https://natwestgroup.wd3.myworkdayjobs.com/en-US/NatWestGroup_Careers"}
+      - {name: Standard Chartered, url: "https://scb.wd3.myworkdayjobs.com/en-US/SCB_Careers"}
+      - {name: Deutsche Bank, url: "https://db.wd3.myworkdayjobs.com/en-US/DBWebsite"}
+      - {name: Goldman Sachs, url: "https://goldmansachs.wd1.myworkdayjobs.com/en-US/campus_recruiting"}
+      - {name: Citigroup, url: "https://citi.wd5.myworkdayjobs.com/en-US/2/"}
+      - {name: KPMG, url: "https://kpmg.wd3.myworkdayjobs.com/KPMG_UK_Careers"}
+      - {name: PwC, url: "https://pwc.wd3.myworkdayjobs.com/en-US/Global"}
+      - {name: Deloitte, url: "https://deloitte.wd1.myworkdayjobs.com/en-US/DeloitteCareer"}
+      - {name: EY, url: "https://ey.wd5.myworkdayjobs.com/en-US/EY_External_Careers"}
+      - {name: Capgemini, url: "https://capgemini.wd3.myworkdayjobs.com/en-US/Capgemini_Careers"}
+      - {name: Accenture, url: "https://accenture.wd3.myworkdayjobs.com/en-US/AccentureCareers"}
+
   workable:
     companies:
+      # --- Original companies ---
       - {name: Monzo, slug: monzo}
       - {name: Babylon Health, slug: babylonhealth}
       - {name: Habito, slug: habito}
@@ -90,3 +193,16 @@ ats:
       - {name: Marshmallow, slug: marshmallow}
       - {name: Kroo, slug: kroo}
       - {name: Abound, slug: abound}
+      # --- AI companies ---
+      - {name: Featurespace, slug: featurespace}
+      - {name: Darktrace, slug: darktrace}
+      # --- SAP / Finance tech ---
+      - {name: Soldo, slug: soldo}
+      - {name: Payhawk, slug: payhawk}
+      - {name: Form3, slug: form3}
+      - {name: Currencycloud, slug: currencycloud}
+      - {name: OpenPayd, slug: openpayd}
+      - {name: Ebury, slug: ebury}
+      - {name: ClearBank, slug: clearbank}
+      - {name: Griffin Bank, slug: griffin}
+      - {name: Banked, slug: banked}
