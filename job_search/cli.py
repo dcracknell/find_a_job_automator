@@ -304,7 +304,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         except Exception as exc:
             click.echo(f"Warning: could not load sources.yaml: {exc}", err=True)
 
-        all_settings = {**settings, **sources_cfg}
+        all_settings = {**settings, **sources_cfg, "_profile": profile}
 
         apis_cfg = sources_cfg.get("apis", {})
         ats_cfg = sources_cfg.get("ats", {})
