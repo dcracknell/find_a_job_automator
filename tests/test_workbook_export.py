@@ -69,37 +69,31 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
         ws = wb["jobs"]
         headers = _headers(ws)
         assert headers == [
-            "Job ID",
-            "Status",
-            "Priority",
-            "Next Step",
+            "Action",
             "Score",
-            "Score",
-            "Score Band",
-            "Experience Level",
+            "Experience",
             "Title",
             "Company",
             "Location",
-            "Salary (raw)",
-            "Salary Min",
-            "Salary Max",
-            "Posted",
+            "Salary",
             "Closes",
             "Days Left",
-            "Source",
             "Apply",
             "Why Claude likes it",
-            "Matched Keywords",
-            "First Seen",
-            "Last Seen",
-            "Query",
+            "Status",
             "Notes",
+            "Job ID",
+            "Posted",
+            "Source",
+            "Matched Keywords",
+            "Query",
+            "Salary Min",
+            "Salary Max",
+            "First Seen",
             "Ranker Ver.",
         ]
 
         col = {header: idx + 1 for idx, header in enumerate(headers)}
-        assert ws.cell(2, col["Action"]).value.startswith("=IF(")
-        assert ws.cell(2, col["Action"]).value.startswith("=IF(")
         assert ws.cell(2, col["Action"]).value.startswith("=IF(")
         assert ws.cell(2, col["Experience"]).value == "Graduate/Entry"
         assert ws.cell(2, col["Days Left"]).value.startswith("=IF(")
@@ -112,19 +106,17 @@ def test_workbook_export_adds_readable_tracking_columns(tmp_path) -> None:
         assert link_cell.value == "Open posting"
         assert link_cell.hyperlink.target == "https://example.com/jobs/1"
 
-        assert ws.freeze_panes == "I2"
+        assert ws.freeze_panes == "E2"
         assert ws.sheet_view.zoomScale == 90
         for header in (
             "Job ID",
-            "Score",
+            "Posted",
+            "Source",
+            "Matched Keywords",
+            "Query",
             "Salary Min",
             "Salary Max",
-            "Source",
-            "Anthropic Response",
-            "Matched Keywords",
             "First Seen",
-            "Last Seen",
-            "Query",
             "Ranker Ver.",
         ):
             assert ws.column_dimensions[get_column_letter(col[header])].hidden is True

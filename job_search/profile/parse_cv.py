@@ -53,8 +53,10 @@ Schema:
   "core_skills": ["list of explicit skills from CV"],
   "adjacent_skills": ["list of adjacent/supporting skills from CV"],
   "negative_signals": {{
-    "title_excludes": ["Senior", "Staff", "Principal", "Lead", "Head of", "Director"],
-    "requires_years_above": 3,
+    "title_excludes": ["seniority levels ABOVE what the CV supports, e.g. for an \
+early-career candidate: Senior, Staff, Principal, Lead, Head of, Director. For a \
+senior candidate this list should be empty or contain only levels above theirs."],
+    "requires_years_above": "integer: the candidate's demonstrable years of experience + 1",
     "description_excludes": [],
     "company_blocklist": []
   }},
@@ -140,6 +142,38 @@ def _seed_profile_from_domain(profile: dict, domain: str) -> None:
         pass
 
 
+def ensure_location_coords(profile: dict) -> None:
+    """Geocode the profile's city if lat/lon are missing.
+
+    Without coordinates the distance filter silently never applies, so this
+    runs whenever a profile is written from a CV or the GitHub Issue Form.
+    """
+    location = profile.setdefault("location", {})
+    city = (location.get("city") or "").strip()
+    if not city or (location.get("lat") and location.get("lon")):
+        return
+    try:
+        from job_search.util.geocode import geocode
+        coords = geocode(city)
+    except Exception as exc:
+        logger.warning("profile: could not geocode %r: %s", city, exc)
+        return
+    if coords:
+        location["lat"], location["lon"] = coords
+
+
+def _sanitise_negative_signals(profile: dict) -> None:
+    """Drop schema-instruction artefacts the model may have echoed back."""
+    negative = profile.setdefault("negative_signals", {})
+    excludes = negative.get("title_excludes") or []
+    negative["title_excludes"] = [
+        t for t in excludes if isinstance(t, str) and len(t) <= 40
+    ]
+    years = negative.get("requires_years_above")
+    if not isinstance(years, (int, float)):
+        negative["requires_years_above"] = None
+
+
 def _write_profile(profile: dict) -> None:
     _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
     with _PROFILE_PATH.open("w", encoding="utf-8") as f:
@@ -169,7 +203,7 @@ def parse_cv_text(cv_text: str, domain: str = "general", write: bool = True) -> 
             "or add the GitHub Actions secret before parsing a CV."
         )
 
-    client = anthropic.Anthropic(api_key=api_key)
+    client = anthropic.Anthropic(api_key=api_key, max_retries=4)
 
     with api_call_wrapper("parse_cv") as rec:
         response = client.messages.create(
@@ -206,6 +240,8 @@ def parse_cv_text(cv_text: str, domain: str = "general", write: bool = True) -> 
     profile["domain"] = domain
 
     _seed_profile_from_domain(profile, domain)
+    ensure_location_coords(profile)
+    _sanitise_negative_signals(profile)
     if write:
         _write_profile(profile)
         logger.info("profile.json written to %s", _PROFILE_PATH)

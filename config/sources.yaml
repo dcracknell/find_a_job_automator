@@ -6,7 +6,7 @@ apis:
   reed:
     enabled: auto
   gov_uk_find_a_job:
-    enabled: true                # enabled — lists PhD studentships, research posts, public sector
+    enabled: false               # adapter not implemented yet — enabling has no effect
 
 jobspy:
   enabled: true
@@ -17,7 +17,7 @@ jobspy:
 
 aggregators:
   hn_hiring:
-    enabled: true               # enabled — good for AI/tech startups
+    enabled: false              # adapter not implemented yet — enabling has no effect
 
 # These ATS sources are completely free - no API keys needed.
 ats:

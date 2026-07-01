@@ -239,7 +239,10 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
     ).get("dashboard_html", "data/dashboard.html")
 
     # 1. Open + migrate DB
+    from datetime import datetime
+
     conn = get_connection(db_path)
+    run_started_at = datetime.utcnow()
     run_meta: dict = {
         "jobs_scraped": 0, "jobs_new": 0, "jobs_closed": 0,
         "sources_ok": [], "sources_failed": [],
@@ -267,13 +270,14 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             )
             return
 
-        # 4. Load domain context before generating Claude-assisted search queries
-        from job_search.util.domain import load_pack
-        domain_name = profile.get("domain", "general")
+        # 4. Load domain context (primary + secondary_domains merged) before
+        # generating Claude-assisted search queries
+        from job_search.util.domain import get_active_domain
         try:
-            domain_pack_obj = load_pack(domain_name)
+            domain_pack_obj = get_active_domain(profile)
             domain_context = domain_pack_obj.ranker_context or ""
-        except Exception:
+        except Exception as exc:
+            logger.warning("run: could not load domain pack(s): %s", exc)
             domain_context = ""
 
         from job_search.profile.queries import generate_queries
@@ -290,11 +294,11 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
 
         from job_search.adapters.adzuna import AdzunaAdapter
         from job_search.adapters.greenhouse import GreenhouseAdapter
+        from job_search.adapters.jobspy_adapter import JobSpyAdapter
         from job_search.adapters.lever import LeverAdapter
         from job_search.adapters.reed import ReedAdapter
-        from job_search.adapters.workday import WorkdayAdapter
-        from job_search.adapters.jobspy_adapter import JobSpyAdapter
         from job_search.adapters.workable_adapter import WorkableAdapter as WorkableATS
+        from job_search.adapters.workday import WorkdayAdapter
 
         sources_cfg = {}
         try:
@@ -339,9 +343,18 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             ),
         }
 
-        # 5. Run adapters
-        from datetime import datetime
+        # Warn loudly about config-enabled sources with no registered adapter,
+        # instead of silently doing nothing.
+        for section in ("apis", "aggregators"):
+            for name, cfg in (sources_cfg.get(section) or {}).items():
+                if name not in adapter_registry and cfg and cfg.get("enabled"):
+                    click.echo(
+                        f"Warning: source '{name}' is enabled in sources.yaml but has "
+                        "no working adapter — it will be skipped.",
+                        err=True,
+                    )
 
+        # 5. Run adapters
         from job_search.pipeline.dedup import mark_closed_stale, sync_job
         from job_search.pipeline.filter import apply_filters
         from job_search.pipeline.rank import rank_jobs
@@ -386,12 +399,31 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         filtered = apply_filters(all_records, profile, conn)
         click.echo(f"After filtering: {len(filtered)}/{len(all_records)} jobs kept.")
 
-        # 7. Rank
-        if filtered:
-            click.echo(f"Ranking {len(filtered)} jobs...")
-            ranked = rank_jobs(filtered, profile, settings, domain_context)
-        else:
-            ranked = []
+        # 7. Rank — but only jobs that actually need it. A record whose
+        # jd_content_hash AND ranker_version already match its stored row was
+        # scored for this exact JD with this exact prompt; re-ranking it burns
+        # API spend to produce a result that would be discarded.
+        from job_search.pipeline.dedup import existing_jobs_map
+        from job_search.pipeline.rank import current_ranker_version
+
+        active_version = current_ranker_version(domain_context)
+        stored = existing_jobs_map(conn)
+        to_rank, unchanged = [], []
+        for rec in filtered:
+            prev = stored.get(rec.job_id)
+            if prev and prev[0] == rec.jd_content_hash and prev[1] == active_version:
+                unchanged.append(rec)
+            else:
+                to_rank.append(rec)
+
+        if unchanged:
+            click.echo(
+                f"Skipping LLM ranking for {len(unchanged)} unchanged, already-scored jobs."
+            )
+        if to_rank:
+            click.echo(f"Ranking {len(to_rank)} jobs...")
+            rank_jobs(to_rank, profile, settings, domain_context)
+        ranked = to_rank + unchanged
 
         # 8. Sync to DB
         if not dry_run:
@@ -399,6 +431,14 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
                 result = sync_job(conn, rec)
                 if result == "inserted":
                     run_meta["jobs_new"] += 1
+
+            # Re-rank stored rows scored with an older prompt version
+            if rerank_stale:
+                rrcount = _rerank_stale_rows(
+                    conn, profile, settings, domain_context, active_version
+                )
+                if rrcount:
+                    click.echo(f"Re-ranked {rrcount} stale-scored jobs.")
 
             # Mark stale rows as closed
             stale_days = settings.get("stale_job_days", 14)
@@ -416,8 +456,8 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
-                    datetime.utcnow().isoformat(),
-                    0,
+                    run_started_at.isoformat(),
+                    round((datetime.utcnow() - run_started_at).total_seconds(), 1),
                     len(run_meta["sources_ok"]),
                     len(run_meta["sources_failed"]),
                     run_meta["jobs_scraped"],
@@ -441,6 +481,13 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             regenerate_workbook(conn, xlsx_path=xlsx_path, backups_dir=backups_path)
             click.echo(f"Excel regenerated: {xlsx_path}")
 
+            # Prune old backups per settings backups.keep_days
+            from job_search.output.workbook_export import prune_backups
+            keep_days = settings.get("backups", {}).get("keep_days", 7)
+            pruned = prune_backups(backups_path, keep_days)
+            if pruned:
+                click.echo(f"Pruned {pruned} backup file(s) older than {keep_days} days.")
+
             # 10. Regenerate dashboard
             try:
                 from job_search.output.dashboard import regenerate_dashboard
@@ -461,6 +508,61 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
 
     finally:
         conn.close()
+
+
+def _rerank_stale_rows(
+    conn,
+    profile: dict,
+    settings: dict,
+    domain_context: str,
+    active_version: str,
+    limit: int = 200,
+) -> int:
+    """Re-rank open DB rows whose ranker_version predates the active prompt.
+
+    Capped at `limit` rows per run to keep cost bounded; the rest catch up on
+    subsequent runs. Returns the number of rows re-ranked and persisted.
+    """
+    from job_search.adapters.base import JobRecord
+    from job_search.pipeline.dedup import _update_scores
+    from job_search.pipeline.rank import rank_jobs
+
+    rows = conn.execute(
+        """
+        SELECT * FROM jobs
+        WHERE status NOT IN ('closed', 'rejected', 'ignore', 'archive')
+          AND (ranker_version IS NULL OR ranker_version != ?)
+        ORDER BY last_seen DESC
+        LIMIT ?
+        """,
+        (active_version, limit),
+    ).fetchall()
+    if not rows:
+        return 0
+
+    records = []
+    for row in rows:
+        records.append(
+            JobRecord(
+                job_id=row["job_id"], source=row["source"],
+                title=row["title"], company=row["company"],
+                location=row["location"] or "", lat=row["lat"], lon=row["lon"],
+                url=row["url"], description=row["description"] or "",
+                posted_date=None, closes_on=None,
+                salary_raw=row["salary_raw"],
+                salary_min=row["salary_min"], salary_max=row["salary_max"],
+                jd_content_hash=row["jd_content_hash"],
+            )
+        )
+
+    rank_jobs(records, profile, settings, domain_context)
+    updated = 0
+    for rec in records:
+        if rec.freshly_ranked:
+            _update_scores(conn, rec)
+            updated += 1
+    conn.commit()
+    return updated
 
 
 # ---------------------------------------------------------------------------
@@ -660,6 +762,25 @@ def backup() -> None:
 def recover() -> None:
     """Rebuild the DB from cached raw adapter responses in data/cache/."""
     click.echo("[recover] DB recovery from cache - not implemented yet (Phase 5).")
+
+
+# ---------------------------------------------------------------------------
+# ui
+# ---------------------------------------------------------------------------
+
+
+@main.command("ui")
+@click.option("--port", default=8765, show_default=True, help="Port to serve the editor on.")
+@click.option("--no-browser", is_flag=True, default=False, help="Don't open a browser tab.")
+def ui(port: int, no_browser: bool) -> None:
+    """Open a local editor for profile.json and the Claude/search settings.
+
+    Serves a small web UI that reads and writes config/profile.json and the
+    editable keys of config/settings.yaml directly — no JSON editing needed.
+    """
+    _configure_logging()
+    from job_search.ui import serve
+    serve(port=port, open_browser=not no_browser)
 
 
 # ---------------------------------------------------------------------------

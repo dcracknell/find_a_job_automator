@@ -16,6 +16,16 @@ from job_search.adapters.base import JobRecord
 logger = logging.getLogger(__name__)
 
 
+def existing_jobs_map(conn: sqlite3.Connection) -> dict[str, tuple[str | None, str | None]]:
+    """Return {job_id: (jd_content_hash, ranker_version)} for every stored job.
+
+    Used to decide which scraped records actually need (re-)ranking: a record
+    whose hash and ranker_version both match its stored row can skip the LLM.
+    """
+    rows = conn.execute("SELECT job_id, jd_content_hash, ranker_version FROM jobs").fetchall()
+    return {row["job_id"]: (row["jd_content_hash"], row["ranker_version"]) for row in rows}
+
+
 def sync_job(conn: sqlite3.Connection, record: JobRecord) -> str:
     """Insert or update a JobRecord in SQLite.
 
@@ -114,16 +124,48 @@ def sync_job(conn: sqlite3.Connection, record: JobRecord) -> str:
                 record.job_id,
             ),
         )
+        # The JD changed, so any fresh ranking result must be persisted —
+        # otherwise the API spend on re-ranking is silently discarded and the
+        # stored score describes a JD that no longer exists.
+        _update_scores(conn, record)
         conn.commit()
         return "updated_jd"
 
-    # JD unchanged — just touch last_seen
+    # JD unchanged — touch last_seen; persist scores only if this record was
+    # (re-)ranked this run (e.g. a stale ranker_version refresh).
     conn.execute(
         "UPDATE jobs SET last_seen = ? WHERE job_id = ?",
         (today, record.job_id),
     )
+    if record.freshly_ranked:
+        _update_scores(conn, record)
     conn.commit()
     return "updated_meta"
+
+
+def _update_scores(conn: sqlite3.Connection, record: JobRecord) -> None:
+    """Write ranking fields for an existing row (only when freshly ranked)."""
+    if not record.freshly_ranked:
+        return
+    conn.execute(
+        """
+        UPDATE jobs SET
+            fit_score = ?,
+            fit_confidence = ?,
+            fit_reason = ?,
+            matched_keywords = ?,
+            ranker_version = ?
+        WHERE job_id = ?
+        """,
+        (
+            record.fit_score,
+            record.fit_confidence,
+            record.fit_reason,
+            json.dumps(record.matched_keywords),
+            record.ranker_version,
+            record.job_id,
+        ),
+    )
 
 
 def mark_closed_stale(conn: sqlite3.Connection, stale_days: int = 14) -> int:

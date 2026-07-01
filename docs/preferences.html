@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Search Preferences</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0d1117; --panel: #151d27; --panel2: #1b2531; --field: #0f1620;
+    --text: #edf4f8; --muted: #9aa9b7; --line: #293544;
+    --accent: #42d6b5; --accent-soft: rgba(66,214,181,.13);
+    --warn: #ff8f7a; --gold: #f6c76d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 80px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 17px; margin: 0 0 2px; color: var(--accent); }
+  p.sub { color: var(--muted); margin: 0 0 22px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 18px;
+  }
+  .card p.hint { color: var(--muted); font-size: 13px; margin: 2px 0 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input[type=text], input[type=number], select, textarea {
+    width: 100%; background: var(--field); color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+    font: inherit;
+  }
+  textarea { min-height: 96px; resize: vertical; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .check { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--text); }
+  button {
+    background: var(--accent); color: #04211a; border: 0; border-radius: 8px;
+    padding: 9px 16px; font: 600 14px/1 inherit; cursor: pointer;
+  }
+  button.secondary { background: var(--panel2); color: var(--text); border: 1px solid var(--line); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .badge.local { background: var(--accent-soft); color: var(--accent); }
+  .badge.static { background: rgba(246,199,109,.15); color: var(--gold); }
+  #status {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    background: var(--panel2); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 18px; font-size: 14px; display: none; max-width: 90%;
+  }
+  #status.err { border-color: var(--warn); color: var(--warn); }
+  #static-tools, #static-settings-out { display: none; }
+  pre.snippet {
+    background: var(--field); border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 12px; font-size: 12.5px; overflow-x: auto; white-space: pre-wrap;
+  }
+  .cost-note { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  a { color: var(--accent); }
+  .stack > * + * { margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Job Search Preferences <span id="mode-badge" class="badge static">checking…</span></h1>
+  <p class="sub">
+    Edit what the pipeline searches for and how Claude ranks it.
+    <span id="mode-explain"></span>
+  </p>
+
+  <!-- Static-mode loader -->
+  <div class="card" id="static-tools">
+    <h2>Load your current profile</h2>
+    <p class="hint">This page is running without the local editor server, so it can't read your files directly.
+       Open <code>config/profile.json</code> in your repo, copy its contents, and paste below — or pick the file.</p>
+    <div class="stack">
+      <div class="row">
+        <input type="text" id="repo" placeholder="yourname/find_a_job_automator" style="max-width:320px">
+        <button class="secondary" id="open-profile-file" type="button">Open profile.json on GitHub</button>
+        <input type="file" id="file-input" accept=".json" style="max-width:280px">
+      </div>
+      <textarea id="paste-box" placeholder='Paste the contents of config/profile.json here…'></textarea>
+      <div class="row"><button type="button" id="load-pasted">Load pasted JSON</button></div>
+    </div>
+  </div>
+
+  <!-- Claude / cost settings -->
+  <div class="card">
+    <h2>Claude &amp; cost settings</h2>
+    <p class="hint">Which Anthropic models the pipeline uses, and how much it may spend per day.</p>
+    <div class="grid">
+      <div>
+        <label for="s-mode">Run mode</label>
+        <select id="s-mode">
+          <option value="active">active — full run + email digest</option>
+          <option value="passive">passive — full run, no email</option>
+          <option value="paused">paused — skip every run</option>
+        </select>
+      </div>
+      <div>
+        <label for="s-cap">Daily spend soft cap (GBP)</label>
+        <input type="number" id="s-cap" min="0" step="0.5">
+        <div class="cost-note">Warning at the cap; LLM calls stop at 2×. 0 = unlimited.</div>
+      </div>
+      <div>
+        <label for="s-rank-model">Job-ranking model</label>
+        <input type="text" id="s-rank-model" list="model-ids">
+        <div class="cost-note">Haiku is ~4× cheaper than Sonnet and fine for rubric scoring.</div>
+      </div>
+      <div>
+        <label for="s-queries-model">Query-generation model</label>
+        <input type="text" id="s-queries-model" list="model-ids">
+      </div>
+      <div>
+        <label for="s-cv-model">CV-parsing model</label>
+        <input type="text" id="s-cv-model" list="model-ids">
+        <div class="cost-note">Runs once per CV — accuracy matters more than cost here.</div>
+      </div>
+      <div>
+        <label for="s-max-queries">Max search queries per run</label>
+        <input type="number" id="s-max-queries" min="5" max="200" step="5">
+        <div class="cost-note">More ≠ better: 30–40 targeted queries beat 100 near-duplicates.</div>
+      </div>
+    </div>
+    <datalist id="model-ids">
+      <option value="claude-haiku-4-5">
+      <option value="claude-sonnet-4-6">
+    </datalist>
+    <div class="row" style="margin-top:14px">
+      <label class="check"><input type="checkbox" id="s-use-claude"> Use Claude to generate search queries</label>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button type="button" id="save-settings">Save Claude settings</button>
+      <button type="button" class="secondary" id="show-settings-snippet">Show settings.yaml snippet</button>
+    </div>
+    <div id="static-settings-out" style="margin-top:12px">
+      <p class="hint">Apply these values in <code>config/settings.yaml</code> (GitHub → edit file):</p>
+      <pre class="snippet" id="settings-snippet"></pre>
+    </div>
+  </div>
+
+  <!-- Profile basics -->
+  <div class="card">
+    <h2>Who &amp; where</h2>
+    <div class="grid">
+      <div><label for="p-name">Name</label><input type="text" id="p-name"></div>
+      <div><label for="p-domain">Domain pack</label><select id="p-domain"></select></div>
+      <div><label for="p-city">Home city</label><input type="text" id="p-city"></div>
+      <div><label for="p-radius">Search radius (miles)</label><input type="number" id="p-radius" min="0" step="5"></div>
+      <div><label for="p-exp">Years of experience</label><input type="number" id="p-exp" min="0" step="1"></div>
+      <div style="align-self:end"><label class="check"><input type="checkbox" id="p-remote"> Include remote jobs</label></div>
+    </div>
+  </div>
+
+  <!-- Roles -->
+  <div class="card">
+    <h2>Target roles</h2>
+    <p class="hint">One per line. Core roles drive the search hardest; stretch roles are long shots worth catching.</p>
+    <div class="grid">
+      <div><label for="p-roles-core">Core</label><textarea id="p-roles-core"></textarea></div>
+      <div><label for="p-roles-adjacent">Adjacent</label><textarea id="p-roles-adjacent"></textarea></div>
+      <div><label for="p-roles-stretch">Stretch</label><textarea id="p-roles-stretch"></textarea></div>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="card">
+    <h2>Skills</h2>
+    <p class="hint">One per line. These drive both search queries and how Claude scores each job against you.</p>
+    <div class="grid">
+      <div><label for="p-skills-core">Core skills (confident)</label><textarea id="p-skills-core"></textarea></div>
+      <div><label for="p-skills-adjacent">Adjacent skills (touched)</label><textarea id="p-skills-adjacent"></textarea></div>
+    </div>
+  </div>
+
+  <!-- Excludes / filters -->
+  <div class="card">
+    <h2>Filters &amp; exclusions</h2>
+    <p class="hint">Jobs matching these are dropped before any API spend. One entry per line.</p>
+    <div class="grid">
+      <div><label for="p-title-ex">Title words to exclude</label><textarea id="p-title-ex"></textarea></div>
+      <div><label for="p-desc-ex">Description phrases to exclude</label><textarea id="p-desc-ex"></textarea></div>
+      <div><label for="p-company-ex">Companies to exclude</label><textarea id="p-company-ex"></textarea></div>
+      <div><label for="p-loc-ex">Locations to exclude</label><textarea id="p-loc-ex"></textarea>
+        <div class="cost-note">Company career pages list worldwide roles — excluding foreign countries here saves ranking spend.</div></div>
+    </div>
+    <div class="grid" style="margin-top:14px">
+      <div><label for="p-salary">Minimum salary (GBP/yr)</label><input type="number" id="p-salary" min="0" step="1000"></div>
+      <div><label for="p-max-days">Ignore jobs older than (days)</label><input type="number" id="p-max-days" min="1" step="1"></div>
+    </div>
+  </div>
+
+  <!-- Save / export -->
+  <div class="card">
+    <h2>Save</h2>
+    <div class="row">
+      <button type="button" id="save-profile">Save profile</button>
+      <button type="button" class="secondary" id="copy-json">Copy profile.json</button>
+      <button type="button" class="secondary" id="download-json">Download profile.json</button>
+      <button type="button" class="secondary" id="open-editor">Open profile.json on GitHub</button>
+    </div>
+    <p class="hint" id="save-hint" style="margin-top:10px"></p>
+    <details style="margin-top:8px">
+      <summary style="cursor:pointer;color:var(--muted);font-size:13px">Preview generated JSON</summary>
+      <pre class="snippet" id="json-preview"></pre>
+    </details>
+  </div>
+</div>
+
+<div id="status"></div>
+
+<script>
+"use strict";
+
+const FALLBACK_DOMAINS = ["general","engineering","healthcare","finance","legal","government",
+                          "education","science","creative","hospitality","trades"];
+const $ = (id) => document.getElementById(id);
+
+let localMode = false;
+let profile = {};        // full object; unedited keys are preserved on save
+let settingsLoaded = {};
+
+// ---------- helpers ----------
+const lines = (v) => v.split(/\n|,(?![^()]*\))/).map(s => s.trim()).filter(Boolean);
+const fill = (id, list) => { $(id).value = (list || []).join("\n"); };
+
+function toast(msg, isErr) {
+  const el = $("status");
+  el.textContent = msg;
+  el.className = isErr ? "err" : "";
+  el.style.display = "block";
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.display = "none"; }, 4000);
+}
+
+function setPath(obj, path, value) {
+  const parts = path.split(".");
+  let node = obj;
+  for (const p of parts.slice(0, -1)) {
+    if (typeof node[p] !== "object" || node[p] === null) node[p] = {};
+    node = node[p];
+  }
+  node[parts.at(-1)] = value;
+}
+const getPath = (obj, path, dflt) =>
+  path.split(".").reduce((n, p) => (n && typeof n === "object" && p in n) ? n[p] : undefined, obj) ?? dflt;
+
+// ---------- profile <-> form ----------
+function populateForm() {
+  $("p-name").value = profile.name || "";
+  $("p-city").value = getPath(profile, "location.city", "");
+  $("p-radius").value = profile.search_radius_miles ?? 60;
+  $("p-exp").value = profile.experience_years ?? "";
+  $("p-remote").checked = profile.remote_ok !== false;
+  const dom = profile.domain || "general";
+  if (![...$("p-domain").options].some(o => o.value === dom)) {
+    const opt = new Option(dom, dom); $("p-domain").add(opt);
+  }
+  $("p-domain").value = dom;
+  fill("p-roles-core", getPath(profile, "target_roles.core", []));
+  fill("p-roles-adjacent", getPath(profile, "target_roles.adjacent", []));
+  fill("p-roles-stretch", getPath(profile, "target_roles.stretch", []));
+  fill("p-skills-core", profile.core_skills);
+  fill("p-skills-adjacent", profile.adjacent_skills);
+  fill("p-title-ex", getPath(profile, "negative_signals.title_excludes", []));
+  fill("p-desc-ex", getPath(profile, "negative_signals.description_excludes", []));
+  fill("p-company-ex", getPath(profile, "filters.exclude_companies", []));
+  fill("p-loc-ex", getPath(profile, "filters.location_excludes", []));
+  $("p-salary").value = getPath(profile, "filters.salary_floor_gbp", 0);
+  $("p-max-days").value = getPath(profile, "filters.max_days_since_posted", 30);
+  refreshPreview();
+}
+
+function collectProfile() {
+  const out = JSON.parse(JSON.stringify(profile));   // preserve unedited keys
+  out.name = $("p-name").value.trim() || out.name || "";
+  out.domain = $("p-domain").value;
+  const oldCity = getPath(out, "location.city", "");
+  const newCity = $("p-city").value.trim();
+  setPath(out, "location.city", newCity);
+  if (newCity.toLowerCase() !== String(oldCity).toLowerCase()) {
+    setPath(out, "location.lat", null);              // stale coords must not survive a move
+    setPath(out, "location.lon", null);
+  }
+  out.search_radius_miles = Number($("p-radius").value) || 60;
+  out.experience_years = $("p-exp").value === "" ? null : Number($("p-exp").value);
+  out.remote_ok = $("p-remote").checked;
+  setPath(out, "target_roles.core", lines($("p-roles-core").value));
+  setPath(out, "target_roles.adjacent", lines($("p-roles-adjacent").value));
+  setPath(out, "target_roles.stretch", lines($("p-roles-stretch").value));
+  out.core_skills = lines($("p-skills-core").value);
+  out.adjacent_skills = lines($("p-skills-adjacent").value);
+  setPath(out, "negative_signals.title_excludes", lines($("p-title-ex").value));
+  setPath(out, "negative_signals.description_excludes", lines($("p-desc-ex").value));
+  setPath(out, "filters.exclude_companies", lines($("p-company-ex").value));
+  setPath(out, "filters.location_excludes", lines($("p-loc-ex").value));
+  setPath(out, "filters.salary_floor_gbp", Number($("p-salary").value) || 0);
+  setPath(out, "filters.max_days_since_posted", Number($("p-max-days").value) || 30);
+  return out;
+}
+
+function refreshPreview() {
+  try { $("json-preview").textContent = JSON.stringify(collectProfile(), null, 2); }
+  catch (e) { /* form not ready yet */ }
+}
+document.addEventListener("input", refreshPreview);
+
+// ---------- settings <-> form ----------
+function populateSettings(s) {
+  settingsLoaded = s || {};
+  $("s-mode").value = s["mode"] || "passive";
+  $("s-cap").value = s["quota_soft_cap_gbp"] ?? 5;
+  $("s-rank-model").value = s["models.rank.model"] || "claude-haiku-4-5";
+  $("s-queries-model").value = s["models.queries.model"] || "claude-haiku-4-5";
+  $("s-cv-model").value = s["models.parse_cv.model"] || "claude-sonnet-4-6";
+  $("s-max-queries").value = s["models.queries.max_queries"] ?? 40;
+  $("s-use-claude").checked = s["models.queries.use_claude"] !== false;
+}
+
+function collectSettings() {
+  return {
+    "mode": $("s-mode").value,
+    "quota_soft_cap_gbp": Number($("s-cap").value) || 0,
+    "models.rank.model": $("s-rank-model").value.trim(),
+    "models.queries.model": $("s-queries-model").value.trim(),
+    "models.parse_cv.model": $("s-cv-model").value.trim(),
+    "models.queries.max_queries": Number($("s-max-queries").value) || 40,
+    "models.queries.use_claude": $("s-use-claude").checked,
+  };
+}
+
+function settingsSnippet() {
+  const s = collectSettings();
+  return [
+    `mode: ${s["mode"]}`,
+    `quota_soft_cap_gbp: ${s["quota_soft_cap_gbp"]}`,
+    `models:`,
+    `  parse_cv:`,
+    `    model: ${s["models.parse_cv.model"]}`,
+    `  rank:`,
+    `    model: ${s["models.rank.model"]}`,
+    `  queries:`,
+    `    use_claude: ${s["models.queries.use_claude"]}`,
+    `    model: ${s["models.queries.model"]}`,
+    `    max_queries: ${s["models.queries.max_queries"]}`,
+  ].join("\n");
+}
+
+// ---------- mode detection + wiring ----------
+function repoBase() {
+  const repo = $("repo").value.trim() || "dcracknell/find_a_job_automator";
+  return `https://github.com/${repo}`;
+}
+
+async function init() {
+  const domainSelect = $("p-domain");
+  FALLBACK_DOMAINS.forEach(d => domainSelect.add(new Option(d, d)));
+
+  try {
+    const r = await fetch("/api/profile", {cache: "no-store"});
+    if (!r.ok) throw new Error("no api");
+    profile = await r.json();
+    localMode = true;
+  } catch (e) {
+    localMode = false;
+  }
+
+  const badge = $("mode-badge");
+  if (localMode) {
+    badge.textContent = "local — saves directly";
+    badge.className = "badge local";
+    $("mode-explain").textContent = "Changes are written straight to config/profile.json and config/settings.yaml.";
+    try {
+      const domains = await (await fetch("/api/domains")).json();
+      if (Array.isArray(domains) && domains.length) {
+        domainSelect.innerHTML = "";
+        domains.forEach(d => domainSelect.add(new Option(d, d)));
+      }
+      populateSettings(await (await fetch("/api/settings")).json());
+    } catch (e) { /* keep fallbacks */ }
+  } else {
+    badge.textContent = "static — copy & commit";
+    badge.className = "badge static";
+    $("mode-explain").textContent =
+      "Running without the local server: load your profile below, edit, then copy the result back into GitHub. " +
+      "(Run `job-search ui` locally for direct saving.)";
+    $("static-tools").style.display = "block";
+    $("save-profile").textContent = "Copy profile.json";
+    $("save-settings").style.display = "none";
+    $("static-settings-out").style.display = "block";
+    populateSettings({});
+    $("settings-snippet").textContent = settingsSnippet();
+  }
+  populateForm();
+}
+
+$("file-input").addEventListener("change", async (ev) => {
+  const file = ev.target.files[0];
+  if (!file) return;
+  try {
+    profile = JSON.parse(await file.text());
+    populateForm();
+    toast("Profile loaded from file.");
+  } catch (e) { toast("That file is not valid JSON: " + e.message, true); }
+});
+
+$("load-pasted").addEventListener("click", () => {
+  try {
+    profile = JSON.parse($("paste-box").value);
+    populateForm();
+    toast("Profile loaded.");
+  } catch (e) { toast("Pasted text is not valid JSON: " + e.message, true); }
+});
+
+$("open-profile-file").addEventListener("click", () =>
+  window.open(`${repoBase()}/blob/main/config/profile.json`, "_blank"));
+$("open-editor").addEventListener("click", () =>
+  window.open(`${repoBase()}/edit/main/config/profile.json`, "_blank"));
+
+$("save-profile").addEventListener("click", async () => {
+  const data = collectProfile();
+  if (!localMode) {
+    await navigator.clipboard.writeText(JSON.stringify(data, null, 2) + "\n");
+    toast("profile.json copied — paste it into the GitHub editor and commit.");
+    return;
+  }
+  try {
+    const r = await fetch("/api/profile", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data),
+    });
+    const body = await r.json();
+    if (!r.ok) throw new Error(body.error || r.statusText);
+    profile = data;
+    toast("Profile saved to " + body.path);
+  } catch (e) { toast("Save failed: " + e.message, true); }
+});
+
+$("copy-json").addEventListener("click", async () => {
+  await navigator.clipboard.writeText(JSON.stringify(collectProfile(), null, 2) + "\n");
+  toast("profile.json copied to clipboard.");
+});
+
+$("download-json").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(collectProfile(), null, 2) + "\n"],
+                        {type: "application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "profile.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+$("save-settings").addEventListener("click", async () => {
+  if (!localMode) return;
+  try {
+    const r = await fetch("/api/settings", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(collectSettings()),
+    });
+    const body = await r.json();
+    if (!r.ok) throw new Error(body.error || r.statusText);
+    toast("Claude settings saved to " + body.path);
+  } catch (e) { toast("Save failed: " + e.message, true); }
+});
+
+$("show-settings-snippet").addEventListener("click", () => {
+  $("settings-snippet").textContent = settingsSnippet();
+  $("static-settings-out").style.display = "block";
+});
+
+document.addEventListener("input", (ev) => {
+  if (ev.target.closest("#static-settings-out")) return;
+  if ($("static-settings-out").style.display === "block") {
+    $("settings-snippet").textContent = settingsSnippet();
+  }
+});
+
+init();
+</script>
+</body>
+</html>

@@ -42,6 +42,9 @@ class JobRecord:
     fit_confidence: float | None = None
     matched_keywords: list[str] = field(default_factory=list)
     ranker_version: str | None = None
+    # True when this run produced a score worth persisting for an existing row
+    # (LLM-ranked or explicitly pre-scan-filtered). Not stored in the DB.
+    freshly_ranked: bool = False
 
     # --- Provenance ---
     matched_query: str | None = None

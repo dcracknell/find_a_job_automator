@@ -2,9 +2,10 @@ name: Daily Job Search
 
 "on":
   schedule:
+    # Twice daily is plenty — boards don't refresh faster, and each run costs
+    # API spend + Actions minutes.
     - cron: "0 7 * * *"
-    - cron: "0 13 * * *"
-    - cron: "0 19 * * *"
+    - cron: "0 15 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -29,7 +30,7 @@ concurrency:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 60
     env:
       DRY_RUN_INPUT: ${{ github.event.inputs.dry_run || 'false' }}
       SOURCE_INPUT: ${{ github.event.inputs.source || '' }}
@@ -118,6 +119,9 @@ jobs:
 
           rm -rf "$data_worktree/data"
           cp -a data "$data_worktree/data"
+          # Never commit rolling backups to git — they are large binaries that
+          # bloat the branch history forever. Local pruning handles retention.
+          rm -rf "$data_worktree/data/backups" "$data_worktree/data/cache"
 
           cat > "$data_worktree/README.md" <<'EOF'
           # Job Search Runtime Data

@@ -18,8 +18,24 @@ from job_search.util.secrets import looks_configured_secret
 
 logger = logging.getLogger(__name__)
 
-_JUNIOR_MODIFIERS = ["junior", "graduate", "entry level", "junior/graduate"]
+_JUNIOR_MODIFIERS = ["junior", "graduate", "entry level"]
 _DEFAULT_MAX_QUERIES = 30
+# Only add junior/graduate modifiers for candidates at or below this many
+# years of experience — a senior candidate's fork must not search "junior X".
+_JUNIOR_EXPERIENCE_CEILING_YEARS = 3
+
+
+def _is_early_career(profile: dict) -> bool:
+    years = profile.get("experience_years")
+    if years is None:
+        # Fall back to the roles themselves: if the user already targets
+        # graduate/junior titles, the modifiers help; otherwise skip them.
+        core = " ".join(profile.get("target_roles", {}).get("core", [])).lower()
+        return any(word in core for word in ("graduate", "junior", "entry", "intern", "trainee"))
+    try:
+        return float(years) <= _JUNIOR_EXPERIENCE_CEILING_YEARS
+    except (TypeError, ValueError):
+        return False
 
 
 def generate_queries(
@@ -69,14 +85,19 @@ def _fallback_queries(profile: dict, max_queries: int = _DEFAULT_MAX_QUERIES) ->
     remote_ok = profile.get("remote_ok", True)
 
     queries: list[str] = []
+    early_career = _is_early_career(profile)
 
-    # Core roles get full treatment: bare + city + junior modifiers.
+    # Core roles get full treatment: bare + city (+ junior modifiers for
+    # early-career profiles only).
     for role in core_roles:
         queries.append(role)
         if city:
             queries.append(f"{role} {city}")
-        for mod in _JUNIOR_MODIFIERS:
-            queries.append(f"{mod} {role}")
+        if early_career:
+            role_lower = role.lower()
+            for mod in _JUNIOR_MODIFIERS:
+                if mod.split("/")[0] not in role_lower:
+                    queries.append(f"{mod} {role}")
         if remote_ok:
             queries.append(f"{role} remote")
 
@@ -94,10 +115,14 @@ def _fallback_queries(profile: dict, max_queries: int = _DEFAULT_MAX_QUERIES) ->
         if city:
             queries.append(f"{role} {city}")
 
-    # Add skill-based queries using core_skills.
+    # Add skill-based queries using core_skills. No hardcoded profession
+    # suffix ("engineer") — that only makes sense for one domain; combine
+    # the skill with the top core role instead, or use it bare with location.
     core_skills = profile.get("core_skills", [])
+    primary_role = core_roles[0] if core_roles else ""
     for skill in core_skills[:5]:
-        queries.append(f"{skill} engineer")
+        if primary_role:
+            queries.append(f"{primary_role} {skill}")
         if city:
             queries.append(f"{skill} {city}")
         if remote_ok:
@@ -128,7 +153,7 @@ def _generate_queries_with_claude(
     model = query_cfg.get("model", "claude-haiku-4-5")
     max_tokens = int(query_cfg.get("max_tokens_response", 512))
 
-    client = anthropic.Anthropic(api_key=api_key)
+    client = anthropic.Anthropic(api_key=api_key, max_retries=4)
     prompt = _build_query_prompt(profile, domain_context, fallback_queries, max_queries)
 
     try:

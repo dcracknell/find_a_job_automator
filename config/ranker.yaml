@@ -1,4 +1,4 @@
-version: "v2-cv-accuracy"
+version: "v3-indexed"
 
 # Minimum keyword pre-score to proceed to Claude ranking.
 # Set to 0.0 so Claude ranks every job that passes the hard filters when
@@ -23,17 +23,22 @@ scoring_rubric: |
        0: No match.
 
   Penalise heavily for:
-  - Any 'title_excludes' term appearing in the job title (for example "Senior", "Lead").
-  - Any 'description_excludes' term in the JD (for example "SC clearance required").
+  - Any 'description_excludes' term appearing in the job description.
   - Required years of experience > profile.negative_signals.requires_years_above.
-  - Company in profile.negative_signals.company_blocklist.
   - Missing hard requirements that are not present in core_skills, adjacent_skills,
     education, registrations, or experience_summary.
-  - A role that is above the candidate's experience level even if keywords match.
+  - A role that is above or below the candidate's experience level even if
+    keywords match.
+  (Titles containing 'title_excludes' terms and blocked companies are already
+  removed before you see them — do not spend reasoning on those.)
 
-  Give modest credit for:
-  - Salary above profile.filters.salary_floor_gbp.
-  - Location within profile.search_radius_miles or remote.
+  If a job description is empty or shorter than ~200 characters, there is not
+  enough evidence: cap the score at 5.0 and set confidence to 0.3 or lower.
+
+  Confidence ("c") means: how completely the job description states its
+  requirements and how directly they map to the profile. 0.9+ = explicit
+  requirements, clear match/mismatch. 0.5 = vague JD or partial evidence.
+  0.3 or less = little to judge from.
 
 # --- System prompt template ---
 # Placeholders: {profile_json}, {scoring_rubric}, {domain_context}
@@ -47,21 +52,24 @@ system_prompt_template: |
   Candidate profile (JSON):
   {profile_json}
 
-  Output ONLY a valid JSON array with one object per job, using these short keys:
+  Output ONLY a valid JSON array with exactly one object per input job, in the
+  same order as the input, using these short keys:
+    "i": the job's index as given in the input (integer, echo it back unchanged)
     "s": score 0-10 (float, one decimal place)
-    "c": confidence 0.0-1.0 (float)
+    "c": confidence 0.0-1.0 (float, defined in the rubric)
     "r": one-sentence reason (string, ≤30 words)
     "k": list of ≤5 matched skill keywords (array of strings)
 
-  Example output for 2 jobs:
-  [{"s":7.5,"c":0.8,"r":"Strong FPGA match but requires SC clearance.","k":["FPGA","Verilog"]},{"s":3.0,"c":0.7,"r":"Software role, minimal hardware overlap.","k":[]}]
+  Example output for 2 jobs (illustrative structure only — judge each real job
+  on the profile above, whatever the profession):
+  [{"i":0,"s":7.5,"c":0.8,"r":"Core skills and level match; one required tool missing from profile.","k":["skill A","skill B"]},{"i":1,"s":3.0,"c":0.7,"r":"Adjacent field only; main responsibilities not evidenced in profile.","k":[]}]
 
   No markdown, no explanation — raw JSON array only.
 
 # --- User prompt template ---
 # Placeholders: {n}, {jobs_json}
 user_prompt_template: |
-  Rate the following {n} job(s) against the candidate profile. Return a JSON array with {n} objects.
+  Rate the following {n} job(s) against the candidate profile. Return a JSON array with {n} objects, echoing each job's "i" index.
 
   Jobs:
   {jobs_json}

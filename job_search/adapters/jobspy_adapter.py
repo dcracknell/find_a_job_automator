@@ -38,7 +38,8 @@ class JobSpyAdapter(Adapter):
         results_per_query = int(src.get("results_wanted_per_query", 25))
         proxies = src.get("proxies") or []
         profile_location = settings.get("_profile_location", "")
-        hours_old = int(settings.get("_profile", {}).get("filters", {}).get("max_days_since_posted", 30)) * 24  # default 720 h (30 d)
+        profile_filters = settings.get("_profile", {}).get("filters", {})
+        hours_old = int(profile_filters.get("max_days_since_posted", 30)) * 24  # default 720 h
 
         seen_urls: set[str] = set()
         raw_jobs: list[RawJob] = []

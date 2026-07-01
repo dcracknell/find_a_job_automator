@@ -27,7 +27,7 @@ A daily pipeline that scrapes UK job boards and company career pages, ranks ever
 
 1. **Parses your CV** into a structured profile (`config/profile.json`) using Claude
 2. **Generates search queries** tailored to your skills and target roles
-3. **Scrapes** Indeed, LinkedIn, Google Jobs, Adzuna, Reed, and 40+ company career pages
+3. **Scrapes** Indeed, Google Jobs, Adzuna, Reed, and 40+ company career pages
 4. **Scores every job** against your CV — a 0–10 fit score with a one-line reason
 5. **Saves results** to a deduplicated Excel workbook you can filter, sort, and annotate
 6. **Emails a daily digest** of new high-scoring jobs (optional)
@@ -109,13 +109,23 @@ After the first run completes (check **Actions** to see progress), download your
 - `dashboard.html` — visual summary of scores and sources
 - `jobs.db` — SQLite database if you want to query it directly
 
-The pipeline runs automatically at **07:00 UTC every day**. Results accumulate — previously seen jobs are deduplicated, and your status/notes are never overwritten.
+The pipeline runs automatically at **07:00 and 15:00 UTC every day**. Results accumulate — previously seen jobs are deduplicated, jobs already scored aren't re-sent to the API, and your status/notes are never overwritten.
 
 ---
 
 ## Customising your profile
 
-Your profile lives in `config/profile.json`. You can edit it directly in GitHub's web editor at any time — no code knowledge needed, just edit the file and commit.
+Your profile lives in `config/profile.json`. Three ways to edit it, easiest first:
+
+1. **Preferences editor (recommended)** — run `job-search ui` locally and a browser
+   editor opens that reads and writes `config/profile.json` *and* the Claude
+   model/cost settings in `config/settings.yaml` directly. No JSON editing.
+   The same editor is published on this repo's GitHub Pages site
+   (`docs/preferences.html`) — there it can't write files, so it loads your
+   pasted/uploaded profile, lets you edit everything in a form, and gives you
+   the JSON to paste back into GitHub's web editor.
+2. **Issue Form** — re-submit the "Job search profile setup" issue (Step 3 above).
+3. **Direct edit** — edit `config/profile.json` in GitHub's web editor and commit.
 
 ### target_roles
 
@@ -205,12 +215,14 @@ Results land in `data/jobs.xlsx`.
 **Useful commands:**
 
 ```
-job-search run              # full pipeline run
-job-search run --dry-run    # fetch and score jobs, but don't save anything
-job-search export           # regenerate Excel from the database without fetching new jobs
-job-search search "FPGA"    # full-text search over all stored jobs
-job-search health           # check all configured sources are reachable
-job-search domains          # list available domain packs
+job-search run                 # full pipeline run
+job-search run --dry-run       # fetch and score jobs, but don't save anything
+job-search run --rerank-stale  # also re-score stored jobs ranked with an older prompt
+job-search ui                  # open the preferences editor (profile + Claude settings)
+job-search export              # regenerate Excel from the database without fetching new jobs
+job-search search "FPGA"       # full-text search over all stored jobs
+job-search health              # check all configured sources are reachable
+job-search domains             # list available domain packs
 ```
 
 ---
@@ -230,7 +242,7 @@ To create a new pack for an unlisted profession, add a YAML file to `config/doma
 ## Frequently asked questions
 
 **How much does it cost to run?**  
-A typical daily run costs around £0.10–0.30 in Anthropic API credits. The pipeline tracks spend in `data/quota.jsonl` and logs a warning if the daily soft cap is exceeded (default: £2.00, set in `settings.yaml`).
+A typical daily run costs around £0.10–0.30 in Anthropic API credits — jobs are only sent to the API when they are new, their description changed, or the scoring prompt changed. The pipeline tracks spend in `data/quota.jsonl`; past the daily soft cap (`quota_soft_cap_gbp` in `settings.yaml`, default £5.00) it logs a warning, and past **2× the cap it stops making API calls for the day** (those jobs keep a keyword-based fallback score and are re-scored the next day).
 
 **Will it overwrite my notes or application status in the spreadsheet?**  
 No. The `Status` and `Notes` columns are user-owned. The pipeline imports your changes before each run and never overwrites them.

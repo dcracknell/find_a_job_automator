@@ -168,6 +168,31 @@ def backup_existing_xlsx(xlsx_path: Path, backups_dir: Path) -> None:
     logger.info("Backed up existing workbook to %s", dest)
 
 
+def prune_backups(backups_dir: Path, keep_days: int) -> int:
+    """Delete backup files older than keep_days. Returns the number removed.
+
+    Backups are named jobs.YYYY-MM-DD[.N].(db|xlsx); age is taken from mtime
+    so oddly-named files are still aged out safely.
+    """
+    if keep_days <= 0 or not backups_dir.exists():
+        return 0
+    import time
+    cutoff = time.time() - keep_days * 86_400
+    removed = 0
+    for path in backups_dir.iterdir():
+        if not path.is_file() or path.suffix not in (".db", ".xlsx"):
+            continue
+        try:
+            if path.stat().st_mtime < cutoff:
+                path.unlink()
+                removed += 1
+        except OSError as exc:
+            logger.warning("prune_backups: could not remove %s: %s", path, exc)
+    if removed:
+        logger.info("prune_backups: removed %d file(s) older than %d days", removed, keep_days)
+    return removed
+
+
 def _db_columns() -> list[str]:
     """Return unique DB columns required for the jobs workbook."""
     seen: set[str] = set()
@@ -550,7 +575,9 @@ def _style_jobs_sheet(ws, headers: list[str]) -> None:
 
     # Bold, large font for Score column to make it easy to scan
     score_col_idx = cols["Score"]
-    for cell in ws.iter_cols(min_col=score_col_idx, max_col=score_col_idx, min_row=2, max_row=ws.max_row):
+    for cell in ws.iter_cols(
+        min_col=score_col_idx, max_col=score_col_idx, min_row=2, max_row=ws.max_row
+    ):
         for c in cell:
             c.font = Font(bold=True, size=12)
             c.alignment = Alignment(horizontal="center", vertical="center")

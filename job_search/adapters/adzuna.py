@@ -9,12 +9,9 @@ from __future__ import annotations
 
 import logging
 import os
-from datetime import date
 
 from job_search.adapters.base import Adapter, JobRecord, RawJob
-from job_search.pipeline.jd_clean import clean_jd
 from job_search.pipeline.normalise import normalise
-from job_search import PROJECT_ROOT
 from job_search.util import http
 
 logger = logging.getLogger(__name__)
@@ -130,7 +127,7 @@ class AdzunaAdapter(Adapter):
 
     def healthcheck(self) -> tuple[bool, str | None]:
         try:
-            results = self.fetch(["engineer"], {"apis": {"adzuna": {"results_per_query": 1}}})
+            self.fetch(["engineer"], {"apis": {"adzuna": {"results_per_query": 1}}})
             return True, None
         except Exception as exc:
             return False, str(exc)

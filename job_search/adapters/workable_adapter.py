@@ -1,9 +1,12 @@
 """Workable ATS adapter."""
 from __future__ import annotations
+
 import logging
-from job_search.adapters.base import Adapter, JobRecord, RawJob
+
+from job_search.adapters.base import Adapter
 from job_search.pipeline.normalise import normalise
 from job_search.util import http
+
 logger = logging.getLogger(__name__)
 _BASE_URL = "https://apply.workable.com/api/v1/widget/accounts/{slug}/jobs"
 class WorkableAdapter(Adapter):

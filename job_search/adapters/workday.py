@@ -33,6 +33,9 @@ def _derive_api_url(careers_url: str) -> str | None:
     tenant = m.group(1)
     # Extract the site path after the domain
     path = re.sub(r"https?://[^/]+", "", careers_url).strip("/")
+    # Career URLs often include a locale segment (en-US/, en-GB/...) that must
+    # NOT appear in the CXS API path — with it, every request 404s.
+    path = re.sub(r"^[a-z]{2}-[A-Z]{2}/", "", path)
     if not path:
         path = "jobs"
     base = careers_url.split(".myworkdayjobs.com")[0] + ".myworkdayjobs.com"
@@ -66,7 +69,12 @@ class WorkdayAdapter(Adapter):
                 try:
                     resp = http.post(
                         api_url,
-                        json={"appliedFacets": {}, "limit": limit, "offset": offset, "searchText": ""},
+                        json={
+                            "appliedFacets": {},
+                            "limit": limit,
+                            "offset": offset,
+                            "searchText": "",
+                        },
                         headers={"Content-Type": "application/json"},
                     )
                     data = resp.json()
@@ -94,7 +102,12 @@ class WorkdayAdapter(Adapter):
         """Convert a raw Workday posting into a normalised JobRecord."""
         title = raw.get("title", "")
         # Workday external URL is typically a relative path; reconstruct
-        ext_path = raw.get("externalPath") or raw.get("bulletFields", [{}])[0].get("fieldValue", "")
+        ext_path = raw.get("externalPath") or ""
+        if not ext_path:
+            bullets = raw.get("bulletFields") or []
+            first = bullets[0] if bullets else {}
+            if isinstance(first, dict):
+                ext_path = first.get("fieldValue", "")
         api_base = raw.get("_api_base", "")
         # Derive the careers URL base from the API URL
         # api_url = https://tenant.wd3.../wday/cxs/tenant/site/jobs
