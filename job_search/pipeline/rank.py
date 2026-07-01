@@ -129,6 +129,15 @@ def _build_system_prompt(ranker_cfg: dict, profile: dict, domain_context: str) -
     template = ranker_cfg.get("system_prompt_template", "")
     rubric = ranker_cfg.get("scoring_rubric", "")
     profile_json = json.dumps(profile, indent=None, separators=(",", ":"))
+    if not template:
+        # Fallback: build system prompt from scoring_rubric when template is absent
+        parts = ["You are an expert job-fit ranker. Output ONLY valid JSON."]
+        if rubric:
+            parts.append(rubric.strip())
+        if domain_context:
+            parts.append(domain_context.strip())
+        parts.append("Candidate profile: " + profile_json)
+        return "\n\n".join(p for p in parts if p)
     return _render_prompt_template(
         template,
         {
@@ -137,8 +146,6 @@ def _build_system_prompt(ranker_cfg: dict, profile: dict, domain_context: str) -
             "domain_context": domain_context,
         },
     )
-
-
 def _render_prompt_template(template: str, values: dict[str, object]) -> str:
     """Replace only supported prompt placeholders, leaving JSON braces intact."""
     rendered = template
@@ -177,13 +184,17 @@ def _call_llm_batch(
         response = client.messages.create(
             model=model,
             max_tokens=max_tokens,
-            system=[
-                {
-                    "type": "text",
-                    "text": system_prompt,
-                    "cache_control": {"type": "ephemeral"},
-                }
-            ],
+            system=(
+              [
+                  {
+                      "type": "text",
+                      "text": system_prompt,
+                      "cache_control": {"type": "ephemeral"},
+                  }
+              ]
+              if system_prompt
+              else []
+          ),
             messages=[{"role": "user", "content": user_message}],
         )
         rec["model"] = model
