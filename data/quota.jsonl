@@ -7257,3 +7257,4 @@
 {"timestamp": "2026-06-30T15:59:53.881007Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
 {"timestamp": "2026-06-30T15:59:54.062777Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
 {"timestamp": "2026-06-30T15:59:54.195431Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-07-01T08:59:53.114465Z", "operation": "queries", "model": "claude-sonnet-4-6", "input_tokens": 1728, "cached_input_tokens": 0, "output_tokens": 1186, "est_cost_gbp": 0.018379}
