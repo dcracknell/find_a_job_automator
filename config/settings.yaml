@@ -80,3 +80,13 @@ models:
     output_gbp_per_million: 3.20
     cached_input_gbp_per_million: 0.064
     max_tokens_response: 64
+
+# === JobSpy adapter settings ===
+# Remove linkedin to avoid 429 rate-limit hangs — LinkedIn jobs arrive via ATS adapters.
+# Indeed and Google Jobs are more reliable at scale.
+jobspy:
+  sites:
+    - indeed
+    - google
+  results_wanted_per_query: 25
+  country: uk
