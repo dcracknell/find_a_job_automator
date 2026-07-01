@@ -10,7 +10,7 @@ apis:
 
 jobspy:
   enabled: true
-  sites: [indeed, linkedin, google]
+  sites: [indeed, google]  # removed linkedin to avoid 429 rate-limit hangs
   country: uk
   results_wanted_per_query: 50  # raised from 20
   proxies: []
