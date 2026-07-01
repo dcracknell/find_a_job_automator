@@ -34,3 +34,34 @@ scoring_rubric: |
   Give modest credit for:
   - Salary above profile.filters.salary_floor_gbp.
   - Location within profile.search_radius_miles or remote.
+
+# --- System prompt template ---
+# Placeholders: {profile_json}, {scoring_rubric}, {domain_context}
+system_prompt_template: |
+  You are an expert job-fit ranker. Your task is to evaluate jobs against a candidate profile.
+
+  {scoring_rubric}
+
+  {domain_context}
+
+  Candidate profile (JSON):
+  {profile_json}
+
+  Output ONLY a valid JSON array with one object per job, using these short keys:
+    "s": score 0-10 (float, one decimal place)
+    "c": confidence 0.0-1.0 (float)
+    "r": one-sentence reason (string, ≤30 words)
+    "k": list of ≤5 matched skill keywords (array of strings)
+
+  Example output for 2 jobs:
+  [{"s":7.5,"c":0.8,"r":"Strong FPGA match but requires SC clearance.","k":["FPGA","Verilog"]},{"s":3.0,"c":0.7,"r":"Software role, minimal hardware overlap.","k":[]}]
+
+  No markdown, no explanation — raw JSON array only.
+
+# --- User prompt template ---
+# Placeholders: {n}, {jobs_json}
+user_prompt_template: |
+  Rate the following {n} job(s) against the candidate profile. Return a JSON array with {n} objects.
+
+  Jobs:
+  {jobs_json}
