@@ -1,300 +1,191 @@
-2026-07-01 14:59:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:11:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
 Generated 100 Claude-assisted search queries.
 Running adapter: greenhouse...
-2026-07-01 14:59:38 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cerebras: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cerebrassystems/jobs?content=true
-2026-07-01 14:59:39 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
-2026-07-01 14:59:41 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
-2026-07-01 14:59:42 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
-2026-07-01 14:59:44 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cohere: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cohere/jobs?content=true
-2026-07-01 14:59:48 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Palantir: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/palantir/jobs?content=true
-2026-07-01 14:59:49 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for BenevolentAI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/benevolentai/jobs?content=true
-2026-07-01 14:59:50 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Exscientia: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/exscientia/jobs?content=true
-2026-07-01 14:59:51 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Shield AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/shieldai/jobs?content=true
-2026-07-01 14:59:53 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thales: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thales/jobs?content=true
-2026-07-01 14:59:54 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Leonardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/leonardo/jobs?content=true
-2026-07-01 14:59:55 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for QinetiQ: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/qinetiq/jobs?content=true
-2026-07-01 14:59:56 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cobham: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cobham/jobs?content=true
-2026-07-01 14:59:57 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for GKN Aerospace: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/gknaerospace/jobs?content=true
-2026-07-01 14:59:59 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Mott MacDonald: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/mottmacdonaldgroup/jobs?content=true
-2026-07-01 15:00:00 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Arup: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/arup/jobs?content=true
-2026-07-01 15:00:01 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Atkins: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/atkins/jobs?content=true
-2026-07-01 15:00:02 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Ricardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/ricardo/jobs?content=true
+2026-07-01 15:11:23 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cerebras: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cerebrassystems/jobs?content=true
+2026-07-01 15:11:24 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
+2026-07-01 15:11:25 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
+2026-07-01 15:11:26 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
+2026-07-01 15:11:28 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cohere: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cohere/jobs?content=true
+2026-07-01 15:11:33 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Palantir: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/palantir/jobs?content=true
+2026-07-01 15:11:34 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for BenevolentAI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/benevolentai/jobs?content=true
+2026-07-01 15:11:35 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Exscientia: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/exscientia/jobs?content=true
+2026-07-01 15:11:36 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Shield AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/shieldai/jobs?content=true
+2026-07-01 15:11:38 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thales: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thales/jobs?content=true
+2026-07-01 15:11:39 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Leonardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/leonardo/jobs?content=true
+2026-07-01 15:11:40 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for QinetiQ: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/qinetiq/jobs?content=true
+2026-07-01 15:11:41 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cobham: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cobham/jobs?content=true
+2026-07-01 15:11:42 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for GKN Aerospace: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/gknaerospace/jobs?content=true
+2026-07-01 15:11:43 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Mott MacDonald: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/mottmacdonaldgroup/jobs?content=true
+2026-07-01 15:11:44 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Arup: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/arup/jobs?content=true
+2026-07-01 15:11:45 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Atkins: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/atkins/jobs?content=true
+2026-07-01 15:11:46 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Ricardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/ricardo/jobs?content=true
   greenhouse: 1066 jobs normalised.
 Running adapter: lever...
-2026-07-01 15:00:21 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
-2026-07-01 15:00:23 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
-2026-07-01 15:00:24 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
-2026-07-01 15:00:25 WARNING  job_search.adapters.lever: lever: fetch failed for Mistral AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/mistralai?mode=json
-2026-07-01 15:00:26 WARNING  job_search.adapters.lever: lever: fetch failed for Hadean: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hadean?mode=json
+2026-07-01 15:11:52 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
+2026-07-01 15:11:53 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
+2026-07-01 15:11:54 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
+2026-07-01 15:11:55 WARNING  job_search.adapters.lever: lever: fetch failed for Mistral AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/mistralai?mode=json
+2026-07-01 15:11:56 WARNING  job_search.adapters.lever: lever: fetch failed for Hadean: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hadean?mode=json
   lever: 0 jobs normalised.
 Running adapter: workday...
-2026-07-01 15:00:34 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
-2026-07-01 15:00:36 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 405 Client Error: Method Not Allowed for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/en-US/external/jobs
-2026-07-01 15:00:38 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
-2026-07-01 15:00:39 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
-2026-07-01 15:00:40 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 405 Client Error: Method Not Allowed for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/en-US/rolr/jobs
-2026-07-01 15:00:42 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 405 Client Error: Method Not Allowed for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/en-US/BAES_Jobs/jobs
-2026-07-01 15:00:43 WARNING  job_search.adapters.workday: workday: fetch failed for IBM: 405 Client Error: Method Not Allowed for url: https://ibm.wd12.myworkdayjobs.com/wday/cxs/ibm/en-US/IBMExternalJobBoard/jobs
-2026-07-01 15:00:44 WARNING  job_search.adapters.workday: workday: fetch failed for NVIDIA: 405 Client Error: Method Not Allowed for url: https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/en-US/UniversityJobs/jobs
-2026-07-01 15:00:46 WARNING  job_search.adapters.workday: workday: fetch failed for Intel: 405 Client Error: Method Not Allowed for url: https://intel.wd1.myworkdayjobs.com/wday/cxs/intel/en-US/External/jobs
-2026-07-01 15:00:47 WARNING  job_search.adapters.workday: workday: fetch failed for Qualcomm: 405 Client Error: Method Not Allowed for url: https://qualcomm.wd5.myworkdayjobs.com/wday/cxs/qualcomm/en-US/External/jobs
-2026-07-01 15:00:48 WARNING  job_search.adapters.workday: workday: fetch failed for Bosch: 405 Client Error: Method Not Allowed for url: https://bosch.wd3.myworkdayjobs.com/wday/cxs/bosch/en-US/boschcareers/jobs
-2026-07-01 15:00:50 WARNING  job_search.adapters.workday: workday: fetch failed for Siemens: 405 Client Error: Method Not Allowed for url: https://siemens.wd3.myworkdayjobs.com/wday/cxs/siemens/en-US/Siemensjobs/jobs
-2026-07-01 15:00:51 WARNING  job_search.adapters.workday: workday: fetch failed for Microsoft: 405 Client Error: Method Not Allowed for url: https://microsoft.wd5.myworkdayjobs.com/wday/cxs/microsoft/en-US/msftcareers/jobs
-2026-07-01 15:00:53 WARNING  job_search.adapters.workday: workday: fetch failed for Nokia: 405 Client Error: Method Not Allowed for url: https://nokia.wd3.myworkdayjobs.com/wday/cxs/nokia/en-US/External_Referral/jobs
-2026-07-01 15:00:55 WARNING  job_search.adapters.workday: workday: fetch failed for Ericsson: 405 Client Error: Method Not Allowed for url: https://ericsson.wd1.myworkdayjobs.com/wday/cxs/ericsson/en-US/Ericsson_Careers_Global/jobs
-2026-07-01 15:00:56 WARNING  job_search.adapters.workday: workday: fetch failed for NXP Semiconductors: 405 Client Error: Method Not Allowed for url: https://nxp.wd3.myworkdayjobs.com/wday/cxs/nxp/en-US/careers/jobs
-2026-07-01 15:00:57 WARNING  job_search.adapters.workday: workday: fetch failed for Texas Instruments: 405 Client Error: Method Not Allowed for url: https://ti.wd5.myworkdayjobs.com/wday/cxs/ti/en-US/TIjobs/jobs
-2026-07-01 15:00:59 WARNING  job_search.adapters.workday: workday: fetch failed for Analog Devices: 405 Client Error: Method Not Allowed for url: https://analogdevices.wd1.myworkdayjobs.com/wday/cxs/analogdevices/en-US/External/jobs
-2026-07-01 15:01:00 WARNING  job_search.adapters.workday: workday: fetch failed for Infineon: 405 Client Error: Method Not Allowed for url: https://infineon.wd3.myworkdayjobs.com/wday/cxs/infineon/en-US/Karriere/jobs
-2026-07-01 15:01:02 WARNING  job_search.adapters.workday: workday: fetch failed for STMicroelectronics: 405 Client Error: Method Not Allowed for url: https://stmicro.wd3.myworkdayjobs.com/wday/cxs/stmicro/en-US/ST/jobs
-2026-07-01 15:01:03 WARNING  job_search.adapters.workday: workday: fetch failed for Microchip Technology: 405 Client Error: Method Not Allowed for url: https://microchip.wd1.myworkdayjobs.com/wday/cxs/microchip/en-US/External/jobs
-2026-07-01 15:01:04 WARNING  job_search.adapters.workday: workday: fetch failed for University of Sheffield: 405 Client Error: Method Not Allowed for url: https://sheffield.wd1.myworkdayjobs.com/wday/cxs/sheffield/en-US/external/jobs
-2026-07-01 15:01:06 WARNING  job_search.adapters.workday: workday: fetch failed for University of Manchester: 405 Client Error: Method Not Allowed for url: https://manchester.wd3.myworkdayjobs.com/wday/cxs/manchester/en-US/external/jobs
-2026-07-01 15:01:07 WARNING  job_search.adapters.workday: workday: fetch failed for University of Leeds: 405 Client Error: Method Not Allowed for url: https://leeds.wd3.myworkdayjobs.com/wday/cxs/leeds/en-US/external/jobs
-2026-07-01 15:01:09 WARNING  job_search.adapters.workday: workday: fetch failed for University of Nottingham: 405 Client Error: Method Not Allowed for url: https://nottingham.wd3.myworkdayjobs.com/wday/cxs/nottingham/en-US/External/jobs
-2026-07-01 15:01:10 WARNING  job_search.adapters.workday: workday: fetch failed for University of Birmingham: 405 Client Error: Method Not Allowed for url: https://bham.wd3.myworkdayjobs.com/wday/cxs/bham/en-US/External_Career_Site/jobs
-2026-07-01 15:01:12 WARNING  job_search.adapters.workday: workday: fetch failed for University of Bristol: 405 Client Error: Method Not Allowed for url: https://bristol.wd3.myworkdayjobs.com/wday/cxs/bristol/en-US/jobs/jobs
-2026-07-01 15:01:14 WARNING  job_search.adapters.workday: workday: fetch failed for University of Edinburgh: 405 Client Error: Method Not Allowed for url: https://edinburgh.wd3.myworkdayjobs.com/wday/cxs/edinburgh/en-US/UoE_External_Careers/jobs
-2026-07-01 15:01:15 WARNING  job_search.adapters.workday: workday: fetch failed for Imperial College London: 405 Client Error: Method Not Allowed for url: https://imperial.wd3.myworkdayjobs.com/wday/cxs/imperial/en-US/Imperial_Careers/jobs
-2026-07-01 15:01:17 WARNING  job_search.adapters.workday: workday: fetch failed for UCL: 405 Client Error: Method Not Allowed for url: https://ucl.wd3.myworkdayjobs.com/wday/cxs/ucl/en-US/UCLjobs/jobs
-2026-07-01 15:01:18 WARNING  job_search.adapters.workday: workday: fetch failed for University of Cambridge: 405 Client Error: Method Not Allowed for url: https://cambridge.wd3.myworkdayjobs.com/wday/cxs/cambridge/en-US/External/jobs
-2026-07-01 15:01:20 WARNING  job_search.adapters.workday: workday: fetch failed for University of Oxford: 405 Client Error: Method Not Allowed for url: https://oxford.wd3.myworkdayjobs.com/wday/cxs/oxford/en-US/External_Vacancies/jobs
-2026-07-01 15:01:22 WARNING  job_search.adapters.workday: workday: fetch failed for King's College London: 405 Client Error: Method Not Allowed for url: https://kcl.wd3.myworkdayjobs.com/wday/cxs/kcl/en-US/KCLjobs/jobs
-2026-07-01 15:01:23 WARNING  job_search.adapters.workday: workday: fetch failed for University of Southampton: 405 Client Error: Method Not Allowed for url: https://southampton.wd3.myworkdayjobs.com/wday/cxs/southampton/en-US/Jobs/jobs
-2026-07-01 15:01:25 WARNING  job_search.adapters.workday: workday: fetch failed for Newcastle University: 405 Client Error: Method Not Allowed for url: https://ncl.wd3.myworkdayjobs.com/wday/cxs/ncl/en-US/External_Career_Site/jobs
-2026-07-01 15:01:27 WARNING  job_search.adapters.workday: workday: fetch failed for University of York: 405 Client Error: Method Not Allowed for url: https://york.wd3.myworkdayjobs.com/wday/cxs/york/en-US/External_Career_Site/jobs
-2026-07-01 15:01:28 WARNING  job_search.adapters.workday: workday: fetch failed for University of Liverpool: 405 Client Error: Method Not Allowed for url: https://liverpool.wd3.myworkdayjobs.com/wday/cxs/liverpool/en-US/Liverpool_External/jobs
-2026-07-01 15:01:30 WARNING  job_search.adapters.workday: workday: fetch failed for University of Warwick: 405 Client Error: Method Not Allowed for url: https://warwick.wd3.myworkdayjobs.com/wday/cxs/warwick/en-US/External/jobs
-2026-07-01 15:01:31 WARNING  job_search.adapters.workday: workday: fetch failed for Cranfield University: 405 Client Error: Method Not Allowed for url: https://cranfield.wd3.myworkdayjobs.com/wday/cxs/cranfield/en-US/Cranfield_External/jobs
-2026-07-01 15:01:33 WARNING  job_search.adapters.workday: workday: fetch failed for Innovate UK: 405 Client Error: Method Not Allowed for url: https://ktn.wd3.myworkdayjobs.com/wday/cxs/ktn/en-US/KTN_Jobs/jobs
+2026-07-01 15:12:05 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
+2026-07-01 15:12:06 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 405 Client Error: Method Not Allowed for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/en-US/external/jobs
+2026-07-01 15:12:08 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
+2026-07-01 15:12:09 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
+2026-07-01 15:12:11 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 405 Client Error: Method Not Allowed for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/en-US/rolr/jobs
+2026-07-01 15:12:13 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 405 Client Error: Method Not Allowed for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/en-US/BAES_Jobs/jobs
+2026-07-01 15:12:14 WARNING  job_search.adapters.workday: workday: fetch failed for IBM: 405 Client Error: Method Not Allowed for url: https://ibm.wd12.myworkdayjobs.com/wday/cxs/ibm/en-US/IBMExternalJobBoard/jobs
+2026-07-01 15:12:15 WARNING  job_search.adapters.workday: workday: fetch failed for NVIDIA: 405 Client Error: Method Not Allowed for url: https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/en-US/UniversityJobs/jobs
+2026-07-01 15:12:17 WARNING  job_search.adapters.workday: workday: fetch failed for Intel: 405 Client Error: Method Not Allowed for url: https://intel.wd1.myworkdayjobs.com/wday/cxs/intel/en-US/External/jobs
+2026-07-01 15:12:18 WARNING  job_search.adapters.workday: workday: fetch failed for Qualcomm: 405 Client Error: Method Not Allowed for url: https://qualcomm.wd5.myworkdayjobs.com/wday/cxs/qualcomm/en-US/External/jobs
+2026-07-01 15:12:19 WARNING  job_search.adapters.workday: workday: fetch failed for Bosch: 405 Client Error: Method Not Allowed for url: https://bosch.wd3.myworkdayjobs.com/wday/cxs/bosch/en-US/boschcareers/jobs
+2026-07-01 15:12:21 WARNING  job_search.adapters.workday: workday: fetch failed for Siemens: 405 Client Error: Method Not Allowed for url: https://siemens.wd3.myworkdayjobs.com/wday/cxs/siemens/en-US/Siemensjobs/jobs
+2026-07-01 15:12:22 WARNING  job_search.adapters.workday: workday: fetch failed for Microsoft: 405 Client Error: Method Not Allowed for url: https://microsoft.wd5.myworkdayjobs.com/wday/cxs/microsoft/en-US/msftcareers/jobs
+2026-07-01 15:12:23 WARNING  job_search.adapters.workday: workday: fetch failed for Nokia: 405 Client Error: Method Not Allowed for url: https://nokia.wd3.myworkdayjobs.com/wday/cxs/nokia/en-US/External_Referral/jobs
+2026-07-01 15:12:25 WARNING  job_search.adapters.workday: workday: fetch failed for Ericsson: 405 Client Error: Method Not Allowed for url: https://ericsson.wd1.myworkdayjobs.com/wday/cxs/ericsson/en-US/Ericsson_Careers_Global/jobs
+2026-07-01 15:12:26 WARNING  job_search.adapters.workday: workday: fetch failed for NXP Semiconductors: 405 Client Error: Method Not Allowed for url: https://nxp.wd3.myworkdayjobs.com/wday/cxs/nxp/en-US/careers/jobs
+2026-07-01 15:12:27 WARNING  job_search.adapters.workday: workday: fetch failed for Texas Instruments: 405 Client Error: Method Not Allowed for url: https://ti.wd5.myworkdayjobs.com/wday/cxs/ti/en-US/TIjobs/jobs
+2026-07-01 15:12:31 WARNING  job_search.adapters.workday: workday: fetch failed for Analog Devices: 405 Client Error: Method Not Allowed for url: https://analogdevices.wd1.myworkdayjobs.com/wday/cxs/analogdevices/en-US/External/jobs
+2026-07-01 15:12:33 WARNING  job_search.adapters.workday: workday: fetch failed for Infineon: 405 Client Error: Method Not Allowed for url: https://infineon.wd3.myworkdayjobs.com/wday/cxs/infineon/en-US/Karriere/jobs
+2026-07-01 15:12:34 WARNING  job_search.adapters.workday: workday: fetch failed for STMicroelectronics: 405 Client Error: Method Not Allowed for url: https://stmicro.wd3.myworkdayjobs.com/wday/cxs/stmicro/en-US/ST/jobs
+2026-07-01 15:12:35 WARNING  job_search.adapters.workday: workday: fetch failed for Microchip Technology: 405 Client Error: Method Not Allowed for url: https://microchip.wd1.myworkdayjobs.com/wday/cxs/microchip/en-US/External/jobs
+2026-07-01 15:12:36 WARNING  job_search.adapters.workday: workday: fetch failed for University of Sheffield: 405 Client Error: Method Not Allowed for url: https://sheffield.wd1.myworkdayjobs.com/wday/cxs/sheffield/en-US/external/jobs
+2026-07-01 15:12:38 WARNING  job_search.adapters.workday: workday: fetch failed for University of Manchester: 405 Client Error: Method Not Allowed for url: https://manchester.wd3.myworkdayjobs.com/wday/cxs/manchester/en-US/external/jobs
+2026-07-01 15:12:39 WARNING  job_search.adapters.workday: workday: fetch failed for University of Leeds: 405 Client Error: Method Not Allowed for url: https://leeds.wd3.myworkdayjobs.com/wday/cxs/leeds/en-US/external/jobs
+2026-07-01 15:12:41 WARNING  job_search.adapters.workday: workday: fetch failed for University of Nottingham: 405 Client Error: Method Not Allowed for url: https://nottingham.wd3.myworkdayjobs.com/wday/cxs/nottingham/en-US/External/jobs
+2026-07-01 15:12:42 WARNING  job_search.adapters.workday: workday: fetch failed for University of Birmingham: 405 Client Error: Method Not Allowed for url: https://bham.wd3.myworkdayjobs.com/wday/cxs/bham/en-US/External_Career_Site/jobs
+2026-07-01 15:12:44 WARNING  job_search.adapters.workday: workday: fetch failed for University of Bristol: 405 Client Error: Method Not Allowed for url: https://bristol.wd3.myworkdayjobs.com/wday/cxs/bristol/en-US/jobs/jobs
+2026-07-01 15:12:45 WARNING  job_search.adapters.workday: workday: fetch failed for University of Edinburgh: 405 Client Error: Method Not Allowed for url: https://edinburgh.wd3.myworkdayjobs.com/wday/cxs/edinburgh/en-US/UoE_External_Careers/jobs
+2026-07-01 15:12:46 WARNING  job_search.adapters.workday: workday: fetch failed for Imperial College London: 405 Client Error: Method Not Allowed for url: https://imperial.wd3.myworkdayjobs.com/wday/cxs/imperial/en-US/Imperial_Careers/jobs
+2026-07-01 15:12:48 WARNING  job_search.adapters.workday: workday: fetch failed for UCL: 405 Client Error: Method Not Allowed for url: https://ucl.wd3.myworkdayjobs.com/wday/cxs/ucl/en-US/UCLjobs/jobs
+2026-07-01 15:12:49 WARNING  job_search.adapters.workday: workday: fetch failed for University of Cambridge: 405 Client Error: Method Not Allowed for url: https://cambridge.wd3.myworkdayjobs.com/wday/cxs/cambridge/en-US/External/jobs
+2026-07-01 15:12:51 WARNING  job_search.adapters.workday: workday: fetch failed for University of Oxford: 405 Client Error: Method Not Allowed for url: https://oxford.wd3.myworkdayjobs.com/wday/cxs/oxford/en-US/External_Vacancies/jobs
+2026-07-01 15:12:52 WARNING  job_search.adapters.workday: workday: fetch failed for King's College London: 405 Client Error: Method Not Allowed for url: https://kcl.wd3.myworkdayjobs.com/wday/cxs/kcl/en-US/KCLjobs/jobs
+2026-07-01 15:12:54 WARNING  job_search.adapters.workday: workday: fetch failed for University of Southampton: 405 Client Error: Method Not Allowed for url: https://southampton.wd3.myworkdayjobs.com/wday/cxs/southampton/en-US/Jobs/jobs
+2026-07-01 15:12:55 WARNING  job_search.adapters.workday: workday: fetch failed for Newcastle University: 405 Client Error: Method Not Allowed for url: https://ncl.wd3.myworkdayjobs.com/wday/cxs/ncl/en-US/External_Career_Site/jobs
+2026-07-01 15:12:57 WARNING  job_search.adapters.workday: workday: fetch failed for University of York: 405 Client Error: Method Not Allowed for url: https://york.wd3.myworkdayjobs.com/wday/cxs/york/en-US/External_Career_Site/jobs
+2026-07-01 15:12:58 WARNING  job_search.adapters.workday: workday: fetch failed for University of Liverpool: 405 Client Error: Method Not Allowed for url: https://liverpool.wd3.myworkdayjobs.com/wday/cxs/liverpool/en-US/Liverpool_External/jobs
+2026-07-01 15:13:00 WARNING  job_search.adapters.workday: workday: fetch failed for University of Warwick: 405 Client Error: Method Not Allowed for url: https://warwick.wd3.myworkdayjobs.com/wday/cxs/warwick/en-US/External/jobs
+2026-07-01 15:13:01 WARNING  job_search.adapters.workday: workday: fetch failed for Cranfield University: 405 Client Error: Method Not Allowed for url: https://cranfield.wd3.myworkdayjobs.com/wday/cxs/cranfield/en-US/Cranfield_External/jobs
+2026-07-01 15:13:03 WARNING  job_search.adapters.workday: workday: fetch failed for Innovate UK: 405 Client Error: Method Not Allowed for url: https://ktn.wd3.myworkdayjobs.com/wday/cxs/ktn/en-US/KTN_Jobs/jobs
   workday: 80 jobs normalised.
 Running adapter: jobspy...
-2026-07-01 15:02:21 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 221 jobs across 100 queries
-  jobspy: 220 jobs normalised.
+2026-07-01 15:13:32 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 200 jobs across 100 queries
+  jobspy: 200 jobs normalised.
 Running adapter: workable...
-2026-07-01 15:03:05 WARNING  job_search.adapters.workable_adapter: workable: Featurespace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/featurespace/jobs?details=true
-2026-07-01 15:03:07 WARNING  job_search.adapters.workable_adapter: workable: Darktrace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/darktrace/jobs?details=true
-2026-07-01 15:03:08 WARNING  job_search.adapters.workable_adapter: workable: Eigen Technologies failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/eigentech/jobs?details=true
-2026-07-01 15:03:09 WARNING  job_search.adapters.workable_adapter: workable: Faculty failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/faculty-ai/jobs?details=true
-2026-07-01 15:03:10 WARNING  job_search.adapters.workable_adapter: workable: Paragraf failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/paragraf/jobs?details=true
-2026-07-01 15:03:11 WARNING  job_search.adapters.workable_adapter: workable: Tokamak Energy failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tokamak/jobs?details=true
-2026-07-01 15:03:12 WARNING  job_search.adapters.workable_adapter: workable: First Light Fusion failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/firstlightfusion/jobs?details=true
-2026-07-01 15:03:13 WARNING  job_search.adapters.workable_adapter: workable: Reaction Engines failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/reactionengines/jobs?details=true
+2026-07-01 15:13:50 WARNING  job_search.adapters.workable_adapter: workable: Featurespace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/featurespace/jobs?details=true
+2026-07-01 15:13:51 WARNING  job_search.adapters.workable_adapter: workable: Darktrace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/darktrace/jobs?details=true
+2026-07-01 15:13:52 WARNING  job_search.adapters.workable_adapter: workable: Eigen Technologies failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/eigentech/jobs?details=true
+2026-07-01 15:13:53 WARNING  job_search.adapters.workable_adapter: workable: Faculty failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/faculty-ai/jobs?details=true
+2026-07-01 15:13:54 WARNING  job_search.adapters.workable_adapter: workable: Paragraf failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/paragraf/jobs?details=true
+2026-07-01 15:13:55 WARNING  job_search.adapters.workable_adapter: workable: Tokamak Energy failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tokamak/jobs?details=true
+2026-07-01 15:13:56 WARNING  job_search.adapters.workable_adapter: workable: First Light Fusion failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/firstlightfusion/jobs?details=true
+2026-07-01 15:13:57 WARNING  job_search.adapters.workable_adapter: workable: Reaction Engines failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/reactionengines/jobs?details=true
   workable: 0 jobs normalised.
-After filtering: 519/1366 jobs kept.
-Ranking 519 jobs...
-2026-07-01 15:03:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:14 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLkwv4hZ52Rk8QDBQr'}
-2026-07-01 15:03:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:14 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLn3tkLQTwJgdoiMQy'}
-2026-07-01 15:03:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:14 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLna9KARmw8ki5CECH'}
-2026-07-01 15:03:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:14 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLoRyxYECLqjXbtPNr'}
-2026-07-01 15:03:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:14 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLp3CPbLbFqHrLr4z6'}
-2026-07-01 15:03:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:14 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLpbgnkmdgZVL6ceYa'}
-2026-07-01 15:03:15 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:15 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLqgfnhwGkamhHr1zR'}
-2026-07-01 15:03:15 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:15 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLrACQMJ2Avjkcs4AH'}
-2026-07-01 15:03:15 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:15 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLrgT8Yp4RAz3Gd7yu'}
-2026-07-01 15:03:15 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:15 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLsPrkcg6jYKueyQLp'}
-2026-07-01 15:03:15 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:15 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLt4nyyKM2bi6wW4Sr'}
-2026-07-01 15:03:15 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:15 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLtYpF8XNhwnqH4LuU'}
-2026-07-01 15:03:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:16 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLu5onnTEJFsexhKML'}
-2026-07-01 15:03:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:16 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLuxPj3nEV6Z6CSJsG'}
-2026-07-01 15:03:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:16 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLvaMN5MK5sdoTnxj4'}
-2026-07-01 15:03:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:16 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLw48FWNny9s5gZsNw'}
-2026-07-01 15:03:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:16 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLwoGreyFv54PAHUVK'}
-2026-07-01 15:03:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:16 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLxVh4SXCyxRUHntV9'}
-2026-07-01 15:03:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:16 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLxzi2FZkHJT1hStdp'}
-2026-07-01 15:03:17 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:17 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLyk6tCupWyR2Haj4D'}
-2026-07-01 15:03:17 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:17 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYLzfR8DG7qANes8bSL'}
-2026-07-01 15:03:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMEBWf6spizy9Nt48n'}
-2026-07-01 15:03:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMF18Cmsw8R6Axxd7r'}
-2026-07-01 15:03:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:20 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMFhJAvZZJvcNf3AmC'}
-2026-07-01 15:03:21 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:21 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMGyCNKaLYbRKvNbTb'}
-2026-07-01 15:03:21 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:21 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMHiLexrMD1jFScZpa'}
-2026-07-01 15:03:21 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:21 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMK7gMX58PM1htijWy'}
-2026-07-01 15:03:21 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:21 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMKs4waRFJVMyQf6JR'}
-2026-07-01 15:03:21 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:21 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMLLbcK5ctrrftQKuM'}
-2026-07-01 15:03:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:22 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMLoNnKuUf1g6UFHU1'}
-2026-07-01 15:03:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:22 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMMJ96rbU23QL6NLN4'}
-2026-07-01 15:03:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:22 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMNDxEnKnxLJGMieDc'}
-2026-07-01 15:03:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:22 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMNvNRxGQLALc3eeVz'}
-2026-07-01 15:03:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:22 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMPTsG63LvuEiB7TPW'}
-2026-07-01 15:03:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:22 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMQSepzqhnMHzBCzRn'}
-2026-07-01 15:03:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:23 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMS6cpwQ3RT6NgJvCT'}
-2026-07-01 15:03:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:23 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMSaPqrXty8dRYVULb'}
-2026-07-01 15:03:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:23 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMTAcc1YEwCJNVHcTC'}
-2026-07-01 15:03:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:23 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMTdeP7oRvChjSZKMP'}
-2026-07-01 15:03:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:23 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMU6fzJ9NLxE6YzGT1'}
-2026-07-01 15:03:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:23 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMUZTPiNqBfPf65KDq'}
-2026-07-01 15:03:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:24 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMWgSvcwZ3JnDbBY3i'}
-2026-07-01 15:03:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:24 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMXLPYxn61R943re29'}
-2026-07-01 15:03:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:24 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMXyqLsyoyHZSy42Gu'}
-2026-07-01 15:03:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:24 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMYrRSj73u1oFRbheW'}
-2026-07-01 15:03:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:24 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMZKCfK1auyeEZn7Uy'}
-2026-07-01 15:03:25 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:25 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMauhR74sCHDMrB5rS'}
-2026-07-01 15:03:25 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:25 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMcBqZxgJn1p8HTTUq'}
-2026-07-01 15:03:26 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:26 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMgiCDRhXrbEc6eTDb'}
-2026-07-01 15:03:26 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:26 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMhRcNMJX6aBb6Gb3A'}
-2026-07-01 15:03:27 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:27 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMhyMRJPRrr9JAVpWC'}
-2026-07-01 15:03:27 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:27 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMisvTp9CXH6Xi2RUC'}
-2026-07-01 15:03:27 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:27 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMjW8HqiC4ztLTCpps'}
-2026-07-01 15:03:27 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:27 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMk2sTodx4ckSQoWXn'}
-2026-07-01 15:03:27 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:27 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMm68M6xcZw9J1tncM'}
-2026-07-01 15:03:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:28 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMnavAqyUaWnCzVfuY'}
-2026-07-01 15:03:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:28 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMo99a1e3ktEfxPd4X'}
-2026-07-01 15:03:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:28 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMocvbvuJEja5oZeyk'}
-2026-07-01 15:03:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:28 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMpwo1PDuXcm5Niaz3'}
-2026-07-01 15:03:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:28 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMr61YEQD4p8TJJ1Bj'}
-2026-07-01 15:03:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:29 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMrjSw2zihcWC7C179'}
-2026-07-01 15:03:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:29 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMsHwSXK54XPZVEmLz'}
-2026-07-01 15:03:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:29 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMsnhjiRQQi3obY7ug'}
-2026-07-01 15:03:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:29 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMtFyk5JYo54JzrQKQ'}
-2026-07-01 15:03:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:29 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMtsSEWrUAHvFedw9S'}
-2026-07-01 15:03:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:29 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMuKUXtUgfwtR1fKuX'}
-2026-07-01 15:03:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:29 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMurDwdxyFnY5imNem'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMvxT849mBhnqBmHbN'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMwSy2WmkDVR4bok1y'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMx2StezaTnQCcNogd'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMxWU6iqhei4qLDL8o'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMy5wVaPArb1bTnJAa'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMyj8ssGNd3jT76inr'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMzDuTcFUTkThJFJVd'}
-2026-07-01 15:03:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:30 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYMzp8AoTmYhP4nr7vu'}
-2026-07-01 15:03:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:31 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN1eyVeLyLLp9izEho'}
-2026-07-01 15:03:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:31 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN27kysbPhnuaK2bLw'}
-2026-07-01 15:03:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:31 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN2oBd7Hs7Qwtpe3Mm'}
-2026-07-01 15:03:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:31 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN3SNtoFkaT3JyrJeQ'}
-2026-07-01 15:03:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:31 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN3tAp4Q8rA1ewPWxF'}
-2026-07-01 15:03:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:31 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN4NSNErwH71bQkk2H'}
-2026-07-01 15:03:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:31 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN57qG4fBDSYTuo7x7'}
-2026-07-01 15:03:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:32 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN5iJdbe8HTDMDZtBm'}
-2026-07-01 15:03:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:32 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN788r5Wbyd8JV97Ju'}
-2026-07-01 15:03:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:32 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN7fNmbBx7to5bDuJq'}
-2026-07-01 15:03:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:32 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN89u1LzXwrPyrtZrc'}
-2026-07-01 15:03:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:32 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN8eAZsEqEwtUk6q53'}
-2026-07-01 15:03:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:32 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYN9EdwbCf74tA4bZpK'}
-2026-07-01 15:03:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNAoPfLRUf7cFCHWji'}
-2026-07-01 15:03:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNBNscL557FrE8ZiPS'}
-2026-07-01 15:03:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNBpuZjK45JZkKwGLV'}
-2026-07-01 15:03:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:33 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNCKfkpwu2NaSjkUtE'}
-2026-07-01 15:03:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNCvtHWRrtU6f1CeoD'}
-2026-07-01 15:03:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNEbbNpzv9nonMM7vG'}
-2026-07-01 15:03:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNFVv9vZcQeWusWX5N'}
-2026-07-01 15:03:34 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:34 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNGN1ZTWSMVt4fDQah'}
-2026-07-01 15:03:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNJUWR7CXhp9sS3qWA'}
-2026-07-01 15:03:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNJz23TxGpx5D3cTsi'}
-2026-07-01 15:03:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNKo8XAoVFdPAppsHn'}
-2026-07-01 15:03:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNLGuLFsfdcnSpuNwA'}
-2026-07-01 15:03:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNLp9nj6uQCVYfXbKB'}
-2026-07-01 15:03:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:35 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNMGw9RDmb3UCvkjn1'}
-2026-07-01 15:03:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNNKC1hQxLsgXvXYKd'}
-2026-07-01 15:03:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
-2026-07-01 15:03:36 ERROR    job_search.pipeline.rank: rank: LLM batch failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'system.0: cache_control cannot be set for empty text blocks'}, 'request_id': 'req_011CcbYNP6ZiaNyX9uEMkLBi'}
-Run complete: 1366 scraped, 147 new, 0 closed.
-2026-07-01 15:03:36 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-07-01.1.xlsx
-2026-07-01 15:03:45 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
+After filtering: 493/1346 jobs kept.
+Ranking 493 jobs...
+2026-07-01 15:14:05 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:14:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:14:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:14:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:14:39 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:14:47 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:14:56 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:15:05 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:15:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:15:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:15:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:15:41 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:15:48 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:15:56 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:04 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:11 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:18 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:25 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:42 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:50 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:16:57 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:17:03 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:17:09 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:17:18 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:17:26 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:17:35 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:17:42 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:17:49 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:01 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:08 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:22 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:37 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:48 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:18:56 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:02 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:08 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:41 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:49 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:19:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:03 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:10 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:17 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:39 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:46 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:20:53 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:00 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:05 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:12 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:18 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:26 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:33 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:44 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:52 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:21:58 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:07 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:23 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:29 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:42 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:49 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:22:56 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:03 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:08 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:15 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:25 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:32 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:42 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:49 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:23:57 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:24:04 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:24:12 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:24:18 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:24:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:24:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:24:44 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:24:52 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:25:02 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:25:10 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:25:19 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:25:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:25:36 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:25:47 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:03 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:10 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:16 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:24 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:31 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:37 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:45 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 15:26:54 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+Run complete: 1346 scraped, 39 new, 0 closed.
+2026-07-01 15:26:54 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-07-01.2.xlsx
+2026-07-01 15:27:03 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
 Excel regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
-2026-07-01 15:03:45 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
+2026-07-01 15:27:03 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
 Dashboard: /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
