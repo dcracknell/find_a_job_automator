@@ -296,12 +296,16 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
 
         from job_search.adapters.adzuna import AdzunaAdapter
         from job_search.adapters.arbeitnow import ArbeitnowAdapter
+        from job_search.adapters.ashby import AshbyAdapter
+        from job_search.adapters.careers_page import CareersPageAdapter
         from job_search.adapters.greenhouse import GreenhouseAdapter
         from job_search.adapters.hn_hiring import HNHiringAdapter
         from job_search.adapters.jobspy_adapter import JobSpyAdapter
         from job_search.adapters.lever import LeverAdapter
+        from job_search.adapters.recruitee import RecruiteeAdapter
         from job_search.adapters.reed import ReedAdapter
         from job_search.adapters.remotive import RemotiveAdapter
+        from job_search.adapters.smartrecruiters import SmartRecruitersAdapter
         from job_search.adapters.workable_adapter import WorkableAdapter as WorkableATS
         from job_search.adapters.workday import WorkdayAdapter
 
@@ -312,6 +316,10 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
                 sources_cfg = yaml.safe_load(f) or {}
         except Exception as exc:
             click.echo(f"Warning: could not load sources.yaml: {exc}", err=True)
+
+        # Merge in career sites found by previous runs' discovery step
+        from job_search.discovery import merge_discovered_sources
+        sources_cfg = merge_discovered_sources(sources_cfg)
 
         all_settings = {**settings, **sources_cfg, "_profile": profile}
 
@@ -358,6 +366,22 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             "arbeitnow": (
                 ArbeitnowAdapter(),
                 _source_enabled(aggregators_cfg.get("arbeitnow", {})),
+            ),
+            "ashby": (
+                AshbyAdapter(),
+                bool(ats_cfg.get("ashby", {}).get("companies")),
+            ),
+            "recruitee": (
+                RecruiteeAdapter(),
+                bool(ats_cfg.get("recruitee", {}).get("companies")),
+            ),
+            "smartrecruiters": (
+                SmartRecruitersAdapter(),
+                bool(ats_cfg.get("smartrecruiters", {}).get("companies")),
+            ),
+            "careers_page": (
+                CareersPageAdapter(),
+                bool(sources_cfg.get("custom_pages")),
             ),
         }
 
@@ -466,6 +490,26 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
                 r.matched_query for r in ranked if r.matched_query
             )
             record_query_stats(conn, queries, dict(seen_counts), dict(Counter(inserted_queries)))
+
+            # Discover career sites of companies the boards say hire people
+            # like this profile — their direct postings join future runs.
+            disc_cfg = sources_cfg.get("discovery", {}) or {}
+            if disc_cfg.get("enabled", True):
+                from job_search.discovery import discover_from_db
+                try:
+                    discovered = discover_from_db(
+                        conn,
+                        sources_cfg,
+                        max_probes=int(disc_cfg.get("max_probes_per_run", 8)),
+                        min_fit_score=float(disc_cfg.get("min_fit_score", 5.0)),
+                    )
+                    for company, provider, slug in discovered:
+                        click.echo(
+                            f"Discovered career site: {company} ({provider}:{slug}) — "
+                            "future runs will scrape it directly."
+                        )
+                except Exception as exc:
+                    logger.warning("discovery step failed: %s", exc)
 
             # Re-rank stored rows scored with an older prompt version
             if rerank_stale:
@@ -797,6 +841,63 @@ def backup() -> None:
 def recover() -> None:
     """Rebuild the DB from cached raw adapter responses in data/cache/."""
     click.echo("[recover] DB recovery from cache - not implemented yet (Phase 5).")
+
+
+# ---------------------------------------------------------------------------
+# discover
+# ---------------------------------------------------------------------------
+
+
+@main.command("discover")
+@click.argument("companies", nargs=-1)
+def discover(companies: tuple[str, ...]) -> None:
+    """Probe companies' career sites for a public ATS feed and add hits.
+
+    With company names as arguments, probes those. With none, probes the most
+    promising unprobed companies already seen in the database.
+
+    Example: job-search discover "Imagination Technologies" Graphcore
+    """
+    _configure_logging()
+    from job_search.discovery import add_discovered_company, probe_company
+
+    if companies:
+        for company in companies:
+            result = probe_company(company)
+            if result:
+                provider, slug, count = result
+                added = add_discovered_company(provider, company, slug)
+                click.echo(
+                    f"{company}: found on {provider} as '{slug}' ({count} postings)"
+                    + (" — added" if added else " — already configured")
+                )
+            else:
+                click.echo(f"{company}: no public ATS feed found")
+        return
+
+    settings = load_settings()
+    from job_search.discovery import discover_from_db, merge_discovered_sources
+    from job_search.storage.db import get_connection, migrate
+
+    sources_cfg = {}
+    try:
+        with (PROJECT_ROOT / "config" / "sources.yaml").open() as f:
+            sources_cfg = yaml.safe_load(f) or {}
+    except Exception:
+        pass
+    sources_cfg = merge_discovered_sources(sources_cfg)
+
+    db_path = PROJECT_ROOT / settings.get("paths", {}).get("db", "data/jobs.db")
+    conn = get_connection(db_path)
+    try:
+        migrate(conn=conn)
+        found = discover_from_db(conn, sources_cfg, max_probes=15)
+        if not found:
+            click.echo("No new career sites found (or no unprobed candidates in the DB).")
+        for company, provider, slug in found:
+            click.echo(f"Discovered: {company} ({provider}:{slug})")
+    finally:
+        conn.close()
 
 
 # ---------------------------------------------------------------------------

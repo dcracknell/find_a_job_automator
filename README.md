@@ -184,6 +184,24 @@ Controls location filtering. Set `remote_ok: true` to include fully remote roles
   `config/sources.yaml`) widen coverage beyond the big boards — the monthly Hacker News
   hiring thread and remote-first boards list openings that never reach Indeed.
 
+## Finding jobs companies only post on their own website
+
+Many openings never appear on any job board — they only exist on the company's own
+careers page. The pipeline hunts those down three ways:
+
+1. **Automatic career-site discovery.** After each run, companies whose board-sourced
+   jobs scored well against your profile get their careers site probed for a public ATS
+   feed (Greenhouse, Lever, Ashby, Workable, Recruitee, SmartRecruiters — most company
+   career pages run on one of these). Hits are saved to `data/discovered_sources.yaml`
+   and scraped directly on every future run, so one Indeed listing from a company turns
+   into permanent coverage of *everything* that company posts. Each company is probed at
+   most once; tune it in `sources.yaml` under `discovery:`.
+2. **Manual probing** — `job-search discover "Company Name"` checks a company on demand
+   and adds it if a feed is found.
+3. **Any other careers page** — add the URL under `custom_pages:` in `sources.yaml` and
+   the pipeline reads the schema.org `JobPosting` markup most careers sites embed for
+   Google Jobs indexing. No site-specific scraping code needed.
+
 ---
 
 ## Customising which companies are searched
@@ -241,6 +259,7 @@ job-search run                 # full pipeline run
 job-search run --dry-run       # fetch and score jobs, but don't save anything
 job-search run --rerank-stale  # also re-score stored jobs ranked with an older prompt
 job-search ui                  # open the preferences editor (profile + Claude settings)
+job-search discover "Acme Ltd" # probe a company's careers site and add it as a source
 job-search export              # regenerate Excel from the database without fetching new jobs
 job-search search "FPGA"       # full-text search over all stored jobs
 job-search health              # check all configured sources are reachable
