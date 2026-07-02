@@ -26,9 +26,14 @@ A daily pipeline that scrapes UK job boards and company career pages, ranks ever
 ## How it works
 
 1. **Parses your CV** into a structured profile (`config/profile.json`) using Claude
-2. **Generates search queries** tailored to your skills and target roles
-3. **Scrapes** Indeed, Google Jobs, Adzuna, Reed, and 40+ company career pages
-4. **Scores every job** against your CV — a 0–10 fit score with a one-line reason
+2. **Generates search queries** tailored to your skills and target roles — and remembers
+   what it already searched, so each run rotates in *new* phrasings (keeping the queries
+   that actually found jobs) instead of repeating the same searches
+3. **Scrapes** Indeed, Google Jobs, Adzuna, Reed, Hacker News "Who is Hiring", Remotive,
+   Arbeitnow, and 40+ company career pages — newest listings first (Adzuna is fetched
+   date-sorted within your `max_days_since_posted` window)
+4. **Scores every new job** against your CV — a 0–10 fit score with a one-line reason.
+   Jobs already scored are never re-sent to the API
 5. **Saves results** to a deduplicated Excel workbook you can filter, sort, and annotate
 6. **Emails a daily digest** of new high-scoring jobs (optional)
 
@@ -161,6 +166,23 @@ Words in job titles or descriptions that should disqualify a role. `"senior"` in
 ### search_radius_miles and remote_ok
 
 Controls location filtering. Set `remote_ok: true` to include fully remote roles anywhere in the UK regardless of distance.
+
+---
+
+## How it finds *new* openings instead of repeating itself
+
+- Every search query is logged in the database (`query_stats`) with how many jobs it
+  matched and how many were brand-new. On the next run, Claude sees that history and is
+  told to keep the productive queries but make at least half of its output **new
+  phrasings** — synonyms, alternative titles, niche terms, nearby cities. Without an API
+  key, the deterministic generator rotates through its full query pool least-recently-used
+  first, so over a week it sweeps far more ground than 40 fixed queries could.
+- Jobs already in the database are recognised by URL/content hash: Reed skips their
+  per-job detail requests entirely, Adzuna only asks for listings newer than your
+  `max_days_since_posted`, and nothing already scored is sent to Claude again.
+- Free keyless aggregators (`hn_hiring`, `remotive`, `arbeitnow` in
+  `config/sources.yaml`) widen coverage beyond the big boards — the monthly Hacker News
+  hiring thread and remote-first boards list openings that never reach Indeed.
 
 ---
 

@@ -17,7 +17,15 @@ jobspy:
 
 aggregators:
   hn_hiring:
-    enabled: false              # adapter not implemented yet — enabling has no effect
+    enabled: true               # monthly "Ask HN: Who is hiring?" thread (free, keyless)
+    locations: [uk, united kingdom, london, cambridge, oxford, manchester, edinburgh, bristol, leeds, sheffield, remote]
+  remotive:
+    enabled: true               # remote-jobs API (free, keyless); needs profile remote_ok
+    locations: [worldwide, anywhere, uk, united kingdom, europe, emea]
+    results_per_query: 50
+  arbeitnow:
+    enabled: true               # European job-board API (free, keyless); UK/remote only kept
+    pages: 3
 
 # These ATS sources are completely free - no API keys needed.
 ats:

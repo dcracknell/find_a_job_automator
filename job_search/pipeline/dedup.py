@@ -94,7 +94,13 @@ def sync_job(conn: sqlite3.Connection, record: JobRecord) -> str:
 
     # Existing job — update last_seen always, preserve status/notes
     existing_hash = existing["jd_content_hash"]
-    jd_changed = existing_hash != record.jd_content_hash
+    # An empty description is "no data fetched this run" (e.g. Reed skipping
+    # a detail request for a known job), never a real JD change — it must not
+    # overwrite a stored description.
+    jd_changed = (
+        existing_hash != record.jd_content_hash
+        and bool((record.description or "").strip())
+    )
 
     if jd_changed:
         conn.execute(

@@ -280,9 +280,11 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             logger.warning("run: could not load domain pack(s): %s", exc)
             domain_context = ""
 
+        from job_search.pipeline.query_stats import load_query_stats, record_query_stats
         from job_search.profile.queries import generate_queries
         from job_search.util.secrets import looks_configured_secret
-        queries = generate_queries(profile, settings, domain_context)
+        query_stats = load_query_stats(conn)
+        queries = generate_queries(profile, settings, domain_context, query_stats)
         query_mode = (
             "Claude-assisted"
             if looks_configured_secret(os.environ.get("ANTHROPIC_API_KEY"))
@@ -293,10 +295,13 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         # 5. Build adapter registry
 
         from job_search.adapters.adzuna import AdzunaAdapter
+        from job_search.adapters.arbeitnow import ArbeitnowAdapter
         from job_search.adapters.greenhouse import GreenhouseAdapter
+        from job_search.adapters.hn_hiring import HNHiringAdapter
         from job_search.adapters.jobspy_adapter import JobSpyAdapter
         from job_search.adapters.lever import LeverAdapter
         from job_search.adapters.reed import ReedAdapter
+        from job_search.adapters.remotive import RemotiveAdapter
         from job_search.adapters.workable_adapter import WorkableAdapter as WorkableATS
         from job_search.adapters.workday import WorkdayAdapter
 
@@ -312,6 +317,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
 
         apis_cfg = sources_cfg.get("apis", {})
         ats_cfg = sources_cfg.get("ats", {})
+        aggregators_cfg = sources_cfg.get("aggregators", {}) or {}
         adapter_registry = {
             "adzuna": (
                 AdzunaAdapter(),
@@ -341,6 +347,24 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
                 WorkableATS(),
                 bool(ats_cfg.get("workable", {}).get("companies")),
             ),
+            "hn_hiring": (
+                HNHiringAdapter(),
+                _source_enabled(aggregators_cfg.get("hn_hiring", {})),
+            ),
+            "remotive": (
+                RemotiveAdapter(),
+                _source_enabled(aggregators_cfg.get("remotive", {})),
+            ),
+            "arbeitnow": (
+                ArbeitnowAdapter(),
+                _source_enabled(aggregators_cfg.get("arbeitnow", {})),
+            ),
+        }
+
+        # URLs already stored — lets adapters skip re-fetching details for
+        # jobs the DB has seen before (freshness-first fetching).
+        all_settings["_known_job_urls"] = {
+            row["url"] for row in conn.execute("SELECT url FROM jobs")
         }
 
         # Warn loudly about config-enabled sources with no registered adapter,
@@ -427,10 +451,21 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
 
         # 8. Sync to DB
         if not dry_run:
+            inserted_queries: list[str] = []
             for rec in ranked:
                 result = sync_job(conn, rec)
                 if result == "inserted":
                     run_meta["jobs_new"] += 1
+                    if rec.matched_query:
+                        inserted_queries.append(rec.matched_query)
+
+            # Record which queries ran and what they yielded, so the next run
+            # rotates to fresh searches instead of repeating these.
+            from collections import Counter
+            seen_counts = Counter(
+                r.matched_query for r in ranked if r.matched_query
+            )
+            record_query_stats(conn, queries, dict(seen_counts), dict(Counter(inserted_queries)))
 
             # Re-rank stored rows scored with an older prompt version
             if rerank_stale:

@@ -49,6 +49,11 @@ class AdzunaAdapter(Adapter):
         src_settings = settings.get("apis", {}).get("adzuna", {})
         results_per_query = src_settings.get("results_per_query", 50)
 
+        # Only fetch recent listings, newest first — no point re-downloading
+        # month-old postings the DB already has on every run.
+        profile_filters = settings.get("_profile", {}).get("filters", {})
+        max_days_old = int(profile_filters.get("max_days_since_posted", 30) or 30)
+
         seen_ids: set[str] = set()
         raw_jobs: list[RawJob] = []
 
@@ -66,6 +71,8 @@ class AdzunaAdapter(Adapter):
                             "what": query,
                             "where": "UK",
                             "results_per_page": page_size,
+                            "max_days_old": max_days_old,
+                            "sort_by": "date",
                             "content-type": "application/json",
                         },
                     )

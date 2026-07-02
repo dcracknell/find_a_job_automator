@@ -40,12 +40,14 @@ class ReedAdapter(Adapter):
         headers = self._auth_header()
 
         # Detail fetches are the expensive part (1 request/job). Skip them for
-        # titles the profile filter would drop anyway.
+        # titles the profile filter would drop anyway, and for jobs whose URL
+        # is already stored in the DB — their description is already known.
         from job_search.pipeline.filter import _build_title_exclude_pattern
         profile = settings.get("_profile", {})
         title_exclude_pattern = _build_title_exclude_pattern(
             profile.get("negative_signals", {}).get("title_excludes", [])
         )
+        known_urls: set[str] = settings.get("_known_job_urls") or set()
 
         seen_ids: set[int] = set()
         raw_jobs: list[RawJob] = []
@@ -86,8 +88,9 @@ class ReedAdapter(Adapter):
                         title_exclude_pattern is not None
                         and title_exclude_pattern.search(title)
                     )
-                    # Fetch full description only for jobs the filter can keep
-                    if not excluded:
+                    already_known = (item.get("jobUrl") or "") in known_urls
+                    # Fetch full description only for new jobs the filter can keep
+                    if not excluded and not already_known:
                         try:
                             detail = http.get(
                                 _DETAIL_URL.format(job_id=job_id),
