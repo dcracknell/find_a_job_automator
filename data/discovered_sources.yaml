@@ -1,0 +1,12 @@
+# Auto-discovered company career sites (job-search discovery).
+# Merged into sources.yaml at runtime. Safe to edit; delete an entry
+# to stop scraping that company.
+ats:
+  greenhouse:
+    companies:
+    - name: Space Systems Ltd
+      slug: space
+  smartrecruiters:
+    companies:
+    - name: Renesas Electronics
+      slug: renesaselectronics
