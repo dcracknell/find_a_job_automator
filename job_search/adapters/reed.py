@@ -36,7 +36,18 @@ class ReedAdapter(Adapter):
         """Fetch raw job postings for the given search queries."""
         src_settings = settings.get("apis", {}).get("reed", {})
         results_per_query = src_settings.get("results_per_query", 50)
+        full_time_only = bool(src_settings.get("full_time_only", True))
         headers = self._auth_header()
+
+        # Detail fetches are the expensive part (1 request/job). Skip them for
+        # titles the profile filter would drop anyway, and for jobs whose URL
+        # is already stored in the DB — their description is already known.
+        from job_search.pipeline.filter import _build_title_exclude_pattern
+        profile = settings.get("_profile", {})
+        title_exclude_pattern = _build_title_exclude_pattern(
+            profile.get("negative_signals", {}).get("title_excludes", [])
+        )
+        known_urls: set[str] = settings.get("_known_job_urls") or set()
 
         seen_ids: set[int] = set()
         raw_jobs: list[RawJob] = []
@@ -54,7 +65,7 @@ class ReedAdapter(Adapter):
                             "locationName": "UK",
                             "resultsToTake": take,
                             "resultsToSkip": skip,
-                            "fullTime": True,
+                            **({"fullTime": True} if full_time_only else {}),
                         },
                         headers=headers,
                     )
@@ -72,15 +83,22 @@ class ReedAdapter(Adapter):
                     if job_id in seen_ids:
                         continue
                     seen_ids.add(job_id)
-                    # Fetch full description
-                    try:
-                        detail = http.get(
-                            _DETAIL_URL.format(job_id=job_id),
-                            headers=headers,
-                        ).json()
-                        item["description"] = detail.get("jobDescription", "")
-                    except Exception as exc:
-                        logger.debug("reed: could not fetch detail for %s: %s", job_id, exc)
+                    title = item.get("jobTitle", "") or ""
+                    excluded = (
+                        title_exclude_pattern is not None
+                        and title_exclude_pattern.search(title)
+                    )
+                    already_known = (item.get("jobUrl") or "") in known_urls
+                    # Fetch full description only for new jobs the filter can keep
+                    if not excluded and not already_known:
+                        try:
+                            detail = http.get(
+                                _DETAIL_URL.format(job_id=job_id),
+                                headers=headers,
+                            ).json()
+                            item["description"] = detail.get("jobDescription", "")
+                        except Exception as exc:
+                            logger.debug("reed: could not fetch detail for %s: %s", job_id, exc)
                     item["matched_query"] = query
                     raw_jobs.append(item)
 

@@ -32,7 +32,9 @@ dry_run: false # override at runtime with --dry-run flag
 mode: passive # no email sent without SMTP credentials
 
 # === Quota / cost control ===
-quota_soft_cap_gbp: 5.00 # daily spend threshold; raised to support wider search
+# Enforced by util/quota.py: a warning is logged past this daily spend, and
+# LLM calls stop entirely past 2x this value. Set 0 to disable.
+quota_soft_cap_gbp: 5.0
 
 # === Heartbeat email ===
 heartbeat:
@@ -59,21 +61,25 @@ models:
     cached_input_gbp_per_million: 0.24
     max_tokens_response: 4096
   rank:
-    model: claude-sonnet-4-6
-    input_gbp_per_million: 2.40
-    output_gbp_per_million: 12.00
-    cached_input_gbp_per_million: 0.24
+    # Haiku handles rubric-based JD scoring well at ~1/4 the cost of Sonnet;
+    # switch back to claude-sonnet-4-6 only if scores look off.
+    model: claude-haiku-4-5
+    input_gbp_per_million: 0.64
+    output_gbp_per_million: 3.20
+    cached_input_gbp_per_million: 0.064
     max_jd_tokens: 1500
     batch_size: 5
     max_tokens_response: 1500
   queries:
     use_claude: true
-    model: claude-sonnet-4-6
-    input_gbp_per_million: 2.40
-    output_gbp_per_million: 12.00
-    cached_input_gbp_per_million: 0.24
+    model: claude-haiku-4-5
+    input_gbp_per_million: 0.64
+    output_gbp_per_million: 3.20
+    cached_input_gbp_per_million: 0.064
     max_tokens_response: 2000
-    max_queries: 100        # raised from 50 — more diverse searches = wider coverage
+    # 40 well-targeted queries cover the same ground as 100 near-duplicates
+    # while staying inside free API tiers (Adzuna ~250 calls/day).
+    max_queries: 40
   extract_closing_date:
     model: claude-haiku-4-5
     input_gbp_per_million: 0.64
@@ -81,12 +87,5 @@ models:
     cached_input_gbp_per_million: 0.064
     max_tokens_response: 64
 
-# === JobSpy adapter settings ===
-# Remove linkedin to avoid 429 rate-limit hangs — LinkedIn jobs arrive via ATS adapters.
-# Indeed and Google Jobs are more reliable at scale.
-jobspy:
-  sites:
-    - indeed
-    - google
-  results_wanted_per_query: 25
-  country: uk
+# JobSpy adapter settings live in config/sources.yaml (jobspy: block) —
+# they were previously duplicated here, and the sources.yaml copy wins.

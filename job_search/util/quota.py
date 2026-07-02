@@ -177,6 +177,50 @@ def today_total_gbp() -> float:
     return round(total, 6)
 
 
+class QuotaExceededError(RuntimeError):
+    """Raised when today's spend exceeds the hard stop (2x the soft cap)."""
+
+
+def soft_cap_gbp() -> float:
+    """Return quota_soft_cap_gbp from settings.yaml (0 = unlimited)."""
+    try:
+        settings = _load_settings() or {}
+    except Exception:
+        return 0.0
+    try:
+        return float(settings.get("quota_soft_cap_gbp", 0.0))
+    except (TypeError, ValueError):
+        return 0.0
+
+
+_soft_cap_warned = False
+
+
+def check_quota() -> None:
+    """Warn once past the soft cap; raise QuotaExceededError past 2x the cap.
+
+    Called on entry by api_call_wrapper so no LLM call can start once the
+    hard stop is reached. A cap of 0 disables both checks.
+    """
+    global _soft_cap_warned
+    cap = soft_cap_gbp()
+    if cap <= 0:
+        return
+    spent = today_total_gbp()
+    if spent >= cap * 2:
+        raise QuotaExceededError(
+            f"Daily API spend £{spent:.2f} is over 2x the soft cap "
+            f"(£{cap:.2f}); stopping LLM calls for today. "
+            "Raise quota_soft_cap_gbp in config/settings.yaml to continue."
+        )
+    if spent >= cap and not _soft_cap_warned:
+        _soft_cap_warned = True
+        logger.warning(
+            "quota: today's API spend £%.2f exceeds the soft cap £%.2f "
+            "(hard stop at £%.2f)", spent, cap, cap * 2,
+        )
+
+
 @contextmanager
 def api_call_wrapper(operation: str) -> Generator[dict[str, Any], None, None]:
     """Context manager that MUST wrap every Anthropic API call.
@@ -193,6 +237,7 @@ def api_call_wrapper(operation: str) -> Generator[dict[str, Any], None, None]:
             rec["cached_input_tokens"] = getattr(response.usage, "cache_read_input_tokens", 0)
             rec["output_tokens"] = response.usage.output_tokens
     """
+    check_quota()  # raises QuotaExceededError past the hard stop
     rec: dict[str, Any] = {
         "operation": operation,
         "model": "",

@@ -8,7 +8,6 @@ from __future__ import annotations
 import pytest
 
 
-@pytest.mark.skip(reason="parse_salary not yet implemented (Phase 2)")
 class TestAnnualSalary:
     def test_gbp_k_notation(self) -> None:
         from job_search.util.salary import parse_salary
@@ -27,7 +26,6 @@ class TestAnnualSalary:
         assert parse_salary("DOE") == (None, None)
 
 
-@pytest.mark.skip(reason="parse_salary not yet implemented (Phase 2)")
 class TestHourlySalary:
     def test_hourly_rate(self) -> None:
         from job_search.util.salary import parse_salary
@@ -40,7 +38,6 @@ class TestHourlySalary:
         assert min_ann == pytest.approx(18 * 1880, rel=0.01)
 
 
-@pytest.mark.skip(reason="parse_salary not yet implemented (Phase 2)")
 class TestNHSBands:
     def test_band_5(self) -> None:
         from job_search.util.salary import parse_salary

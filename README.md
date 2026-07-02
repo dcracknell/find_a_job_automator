@@ -11,7 +11,7 @@ A daily pipeline that scrapes UK job boards and company career pages, ranks ever
 
 ## 📥 Download your results
 
-> These files are updated automatically every day at 07:00 UTC.
+> These files are updated automatically twice a day (07:00 and 15:00 UTC).
 
 | File | Description | Link |
 |---|---|---|
@@ -26,9 +26,14 @@ A daily pipeline that scrapes UK job boards and company career pages, ranks ever
 ## How it works
 
 1. **Parses your CV** into a structured profile (`config/profile.json`) using Claude
-2. **Generates search queries** tailored to your skills and target roles
-3. **Scrapes** Indeed, LinkedIn, Google Jobs, Adzuna, Reed, and 40+ company career pages
-4. **Scores every job** against your CV — a 0–10 fit score with a one-line reason
+2. **Generates search queries** tailored to your skills and target roles — and remembers
+   what it already searched, so each run rotates in *new* phrasings (keeping the queries
+   that actually found jobs) instead of repeating the same searches
+3. **Scrapes** Indeed, Google Jobs, Adzuna, Reed, Hacker News "Who is Hiring", Remotive,
+   Arbeitnow, and 40+ company career pages — newest listings first (Adzuna is fetched
+   date-sorted within your `max_days_since_posted` window)
+4. **Scores every new job** against your CV — a 0–10 fit score with a one-line reason.
+   Jobs already scored are never re-sent to the API
 5. **Saves results** to a deduplicated Excel workbook you can filter, sort, and annotate
 6. **Emails a daily digest** of new high-scoring jobs (optional)
 
@@ -109,13 +114,23 @@ After the first run completes (check **Actions** to see progress), download your
 - `dashboard.html` — visual summary of scores and sources
 - `jobs.db` — SQLite database if you want to query it directly
 
-The pipeline runs automatically at **07:00 UTC every day**. Results accumulate — previously seen jobs are deduplicated, and your status/notes are never overwritten.
+The pipeline runs automatically at **07:00 and 15:00 UTC every day**. Results accumulate — previously seen jobs are deduplicated, jobs already scored aren't re-sent to the API, and your status/notes are never overwritten.
 
 ---
 
 ## Customising your profile
 
-Your profile lives in `config/profile.json`. You can edit it directly in GitHub's web editor at any time — no code knowledge needed, just edit the file and commit.
+Your profile lives in `config/profile.json`. Three ways to edit it, easiest first:
+
+1. **Preferences editor (recommended)** — run `job-search ui` locally and a browser
+   editor opens that reads and writes `config/profile.json` *and* the Claude
+   model/cost settings in `config/settings.yaml` directly. No JSON editing.
+   The same editor is published on this repo's GitHub Pages site
+   (`docs/preferences.html`) — there it can't write files, so it loads your
+   pasted/uploaded profile, lets you edit everything in a form, and gives you
+   the JSON to paste back into GitHub's web editor.
+2. **Issue Form** — re-submit the "Job search profile setup" issue (Step 3 above).
+3. **Direct edit** — edit `config/profile.json` in GitHub's web editor and commit.
 
 ### target_roles
 
@@ -151,6 +166,41 @@ Words in job titles or descriptions that should disqualify a role. `"senior"` in
 ### search_radius_miles and remote_ok
 
 Controls location filtering. Set `remote_ok: true` to include fully remote roles anywhere in the UK regardless of distance.
+
+---
+
+## How it finds *new* openings instead of repeating itself
+
+- Every search query is logged in the database (`query_stats`) with how many jobs it
+  matched and how many were brand-new. On the next run, Claude sees that history and is
+  told to keep the productive queries but make at least half of its output **new
+  phrasings** — synonyms, alternative titles, niche terms, nearby cities. Without an API
+  key, the deterministic generator rotates through its full query pool least-recently-used
+  first, so over a week it sweeps far more ground than 40 fixed queries could.
+- Jobs already in the database are recognised by URL/content hash: Reed skips their
+  per-job detail requests entirely, Adzuna only asks for listings newer than your
+  `max_days_since_posted`, and nothing already scored is sent to Claude again.
+- Free keyless aggregators (`hn_hiring`, `remotive`, `arbeitnow` in
+  `config/sources.yaml`) widen coverage beyond the big boards — the monthly Hacker News
+  hiring thread and remote-first boards list openings that never reach Indeed.
+
+## Finding jobs companies only post on their own website
+
+Many openings never appear on any job board — they only exist on the company's own
+careers page. The pipeline hunts those down three ways:
+
+1. **Automatic career-site discovery.** After each run, companies whose board-sourced
+   jobs scored well against your profile get their careers site probed for a public ATS
+   feed (Greenhouse, Lever, Ashby, Workable, Recruitee, SmartRecruiters — most company
+   career pages run on one of these). Hits are saved to `data/discovered_sources.yaml`
+   and scraped directly on every future run, so one Indeed listing from a company turns
+   into permanent coverage of *everything* that company posts. Each company is probed at
+   most once; tune it in `sources.yaml` under `discovery:`.
+2. **Manual probing** — `job-search discover "Company Name"` checks a company on demand
+   and adds it if a feed is found.
+3. **Any other careers page** — add the URL under `custom_pages:` in `sources.yaml` and
+   the pipeline reads the schema.org `JobPosting` markup most careers sites embed for
+   Google Jobs indexing. No site-specific scraping code needed.
 
 ---
 
@@ -205,12 +255,15 @@ Results land in `data/jobs.xlsx`.
 **Useful commands:**
 
 ```
-job-search run              # full pipeline run
-job-search run --dry-run    # fetch and score jobs, but don't save anything
-job-search export           # regenerate Excel from the database without fetching new jobs
-job-search search "FPGA"    # full-text search over all stored jobs
-job-search health           # check all configured sources are reachable
-job-search domains          # list available domain packs
+job-search run                 # full pipeline run
+job-search run --dry-run       # fetch and score jobs, but don't save anything
+job-search run --rerank-stale  # also re-score stored jobs ranked with an older prompt
+job-search ui                  # open the preferences editor (profile + Claude settings)
+job-search discover "Acme Ltd" # probe a company's careers site and add it as a source
+job-search export              # regenerate Excel from the database without fetching new jobs
+job-search search "FPGA"       # full-text search over all stored jobs
+job-search health              # check all configured sources are reachable
+job-search domains             # list available domain packs
 ```
 
 ---
@@ -230,7 +283,7 @@ To create a new pack for an unlisted profession, add a YAML file to `config/doma
 ## Frequently asked questions
 
 **How much does it cost to run?**  
-A typical daily run costs around £0.10–0.30 in Anthropic API credits. The pipeline tracks spend in `data/quota.jsonl` and logs a warning if the daily soft cap is exceeded (default: £2.00, set in `settings.yaml`).
+A typical daily run costs around £0.10–0.30 in Anthropic API credits — jobs are only sent to the API when they are new, their description changed, or the scoring prompt changed. The pipeline tracks spend in `data/quota.jsonl`; past the daily soft cap (`quota_soft_cap_gbp` in `settings.yaml`, default £5.00) it logs a warning, and past **2× the cap it stops making API calls for the day** (those jobs keep a keyword-based fallback score and are re-scored the next day).
 
 **Will it overwrite my notes or application status in the spreadsheet?**  
 No. The `Status` and `Notes` columns are user-owned. The pipeline imports your changes before each run and never overwrites them.

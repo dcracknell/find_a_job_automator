@@ -127,7 +127,12 @@ def _apply_manual_preferences(profile: dict[str, Any], sections: dict[str, str])
 
     city = _first_section(sections, ["Search city"])
     if city:
-        profile.setdefault("location", {})["city"] = city.strip()
+        location = profile.setdefault("location", {})
+        if city.strip().lower() != (location.get("city") or "").strip().lower():
+            # New city — stale coordinates must not survive.
+            location["lat"] = None
+            location["lon"] = None
+        location["city"] = city.strip()
 
     radius = _parse_int(_first_section(sections, ["Search radius miles"]))
     if radius is not None:
@@ -184,6 +189,10 @@ def build_profile_from_issue(body: str) -> dict[str, Any]:
         profile["domain"] = domain
 
     profile = _apply_manual_preferences(profile, sections)
+
+    # Geocode the chosen city so the distance filter can work.
+    from job_search.profile.parse_cv import ensure_location_coords
+    ensure_location_coords(profile)
 
     _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
     _PROFILE_PATH.write_text(json.dumps(profile, indent=2) + "\n", encoding="utf-8")

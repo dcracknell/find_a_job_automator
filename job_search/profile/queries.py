@@ -18,24 +18,47 @@ from job_search.util.secrets import looks_configured_secret
 
 logger = logging.getLogger(__name__)
 
-_JUNIOR_MODIFIERS = ["junior", "graduate", "entry level", "junior/graduate"]
+_JUNIOR_MODIFIERS = ["junior", "graduate", "entry level"]
 _DEFAULT_MAX_QUERIES = 30
+# Only add junior/graduate modifiers for candidates at or below this many
+# years of experience — a senior candidate's fork must not search "junior X".
+_JUNIOR_EXPERIENCE_CEILING_YEARS = 3
+
+
+def _is_early_career(profile: dict) -> bool:
+    years = profile.get("experience_years")
+    if years is None:
+        # Fall back to the roles themselves: if the user already targets
+        # graduate/junior titles, the modifiers help; otherwise skip them.
+        core = " ".join(profile.get("target_roles", {}).get("core", [])).lower()
+        return any(word in core for word in ("graduate", "junior", "entry", "intern", "trainee"))
+    try:
+        return float(years) <= _JUNIOR_EXPERIENCE_CEILING_YEARS
+    except (TypeError, ValueError):
+        return False
 
 
 def generate_queries(
     profile: dict,
     settings: dict | None = None,
     domain_context: str = "",
+    query_stats: list[dict] | None = None,
 ) -> list[str]:
     """Return search query strings derived from the profile.
 
     When settings are supplied and ANTHROPIC_API_KEY is configured, Claude gets
     first pass at producing precise job-board search queries. If that fails or
     returns too little, deterministic queries are used as a supplement/fallback.
+
+    query_stats (from pipeline.query_stats.load_query_stats) makes generation
+    stateful: proven producers are kept, recently-tried duds are rotated out,
+    and Claude is asked for novel phrasings instead of the same searches every
+    run.
     """
     query_cfg = (settings or {}).get("models", {}).get("queries", {})
     max_queries = int(query_cfg.get("max_queries", _DEFAULT_MAX_QUERIES))
-    fallback_queries = _fallback_queries(profile, max_queries=max_queries)
+    pool = _fallback_queries(profile, max_queries=0)  # full pool, unrotated
+    fallback_queries = _rotate_queries(pool, query_stats, max_queries)
 
     if not settings or not query_cfg.get("use_claude", True):
         return fallback_queries
@@ -46,6 +69,7 @@ def generate_queries(
         domain_context=domain_context,
         fallback_queries=fallback_queries,
         max_queries=max_queries,
+        query_stats=query_stats,
     )
     if not claude_queries:
         return fallback_queries
@@ -55,6 +79,43 @@ def generate_queries(
         profile=profile,
         max_queries=max_queries,
     )
+
+
+def _rotate_queries(
+    pool: list[str],
+    query_stats: list[dict] | None,
+    max_queries: int,
+) -> list[str]:
+    """Pick max_queries from the pool, rotating instead of repeating.
+
+    Selection order:
+    1. Proven producers (jobs_new > 0), best first — up to a third of the slots.
+    2. Queries never tried before, in pool (priority) order.
+    3. Everything else, least-recently-used first.
+
+    Over successive runs this sweeps the whole pool instead of hammering the
+    same head of the list, so the search keeps reaching new corners.
+    """
+    if max_queries <= 0:
+        return pool
+    if not query_stats:
+        return pool[:max_queries]
+
+    stats = {str(s.get("query", "")).lower(): s for s in query_stats}
+
+    def stat(q: str) -> dict:
+        return stats.get(q.lower(), {})
+
+    proven = [q for q in pool if stat(q).get("jobs_new", 0) > 0]
+    proven.sort(key=lambda q: -stat(q).get("jobs_new", 0))
+    keep = proven[: max(1, max_queries // 3)] if proven else []
+
+    never = [q for q in pool if q not in keep and not stat(q)]
+    tried = [q for q in pool if q not in keep and stat(q)]
+    tried.sort(key=lambda q: str(stat(q).get("last_used") or ""))
+
+    ordered = keep + never + tried
+    return ordered[:max_queries]
 
 
 def _fallback_queries(profile: dict, max_queries: int = _DEFAULT_MAX_QUERIES) -> list[str]:
@@ -69,14 +130,19 @@ def _fallback_queries(profile: dict, max_queries: int = _DEFAULT_MAX_QUERIES) ->
     remote_ok = profile.get("remote_ok", True)
 
     queries: list[str] = []
+    early_career = _is_early_career(profile)
 
-    # Core roles get full treatment: bare + city + junior modifiers.
+    # Core roles get full treatment: bare + city (+ junior modifiers for
+    # early-career profiles only).
     for role in core_roles:
         queries.append(role)
         if city:
             queries.append(f"{role} {city}")
-        for mod in _JUNIOR_MODIFIERS:
-            queries.append(f"{mod} {role}")
+        if early_career:
+            role_lower = role.lower()
+            for mod in _JUNIOR_MODIFIERS:
+                if mod.split("/")[0] not in role_lower:
+                    queries.append(f"{mod} {role}")
         if remote_ok:
             queries.append(f"{role} remote")
 
@@ -94,10 +160,14 @@ def _fallback_queries(profile: dict, max_queries: int = _DEFAULT_MAX_QUERIES) ->
         if city:
             queries.append(f"{role} {city}")
 
-    # Add skill-based queries using core_skills.
+    # Add skill-based queries using core_skills. No hardcoded profession
+    # suffix ("engineer") — that only makes sense for one domain; combine
+    # the skill with the top core role instead, or use it bare with location.
     core_skills = profile.get("core_skills", [])
+    primary_role = core_roles[0] if core_roles else ""
     for skill in core_skills[:5]:
-        queries.append(f"{skill} engineer")
+        if primary_role:
+            queries.append(f"{primary_role} {skill}")
         if city:
             queries.append(f"{skill} {city}")
         if remote_ok:
@@ -112,6 +182,7 @@ def _generate_queries_with_claude(
     domain_context: str,
     fallback_queries: list[str],
     max_queries: int,
+    query_stats: list[dict] | None = None,
 ) -> list[str]:
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not looks_configured_secret(api_key):
@@ -128,8 +199,10 @@ def _generate_queries_with_claude(
     model = query_cfg.get("model", "claude-haiku-4-5")
     max_tokens = int(query_cfg.get("max_tokens_response", 512))
 
-    client = anthropic.Anthropic(api_key=api_key)
-    prompt = _build_query_prompt(profile, domain_context, fallback_queries, max_queries)
+    client = anthropic.Anthropic(api_key=api_key, max_retries=4)
+    prompt = _build_query_prompt(
+        profile, domain_context, fallback_queries, max_queries, query_stats
+    )
 
     try:
         with api_call_wrapper("queries") as rec:
@@ -165,9 +238,29 @@ def _build_query_prompt(
     domain_context: str,
     fallback_queries: list[str],
     max_queries: int,
+    query_stats: list[dict] | None = None,
 ) -> str:
     profile_json = json.dumps(profile, separators=(",", ":"), sort_keys=True)
     fallback_json = json.dumps(fallback_queries[:12], separators=(",", ":"))
+
+    history_section = ""
+    if query_stats:
+        by_new = sorted(query_stats, key=lambda s: -int(s.get("jobs_new", 0) or 0))
+        productive = [s["query"] for s in by_new if int(s.get("jobs_new", 0) or 0) > 0][:15]
+        by_recent = sorted(query_stats, key=lambda s: str(s.get("last_used") or ""), reverse=True)
+        recent = [s["query"] for s in by_recent[:30]]
+        history_section = (
+            "\nSearch history (use this to EXPLORE, not repeat):\n"
+            f"- Queries that recently found NEW jobs (keep these or close variants): "
+            f"{json.dumps(productive, separators=(',', ':'))}\n"
+            f"- Queries already run recently (do NOT repeat unless listed as productive): "
+            f"{json.dumps(recent, separators=(',', ':'))}\n"
+            "- At least half of your output must be NEW phrasings that appear in neither "
+            "list: synonyms, alternative job titles, niche/industry-specific terms, "
+            "different skill combinations, nearby cities, or emerging role names. The "
+            "goal is to surface openings previous runs could not have seen.\n"
+        )
+
     return (
         f"Create up to {max_queries} unique job search queries for this candidate.\n"
         "Rules:\n"
@@ -177,7 +270,8 @@ def _build_query_prompt(
         "- Include adjacent roles only when the profile supports them.\n"
         "- Do not include seniority/title exclude terms or blocked companies.\n"
         "- Keep each query short enough for job boards, ideally under 80 characters.\n"
-        "- Use UK-friendly wording.\n\n"
+        "- Use UK-friendly wording.\n"
+        f"{history_section}\n"
         f"Candidate profile JSON:\n{profile_json}\n\n"
         f"Domain ranking context:\n{domain_context or '(none)'}\n\n"
         f"Fallback examples to improve, not blindly copy:\n{fallback_json}"
@@ -234,6 +328,6 @@ def _normalise_queries(
             continue
         seen.add(lowered)
         clean.append(query[:100])
-        if len(clean) >= max_queries:
+        if max_queries > 0 and len(clean) >= max_queries:
             break
     return clean

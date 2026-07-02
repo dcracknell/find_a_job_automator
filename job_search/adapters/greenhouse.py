@@ -52,13 +52,19 @@ class GreenhouseAdapter(Adapter):
     def normalise(self, raw: RawJob) -> JobRecord | None:
         """Convert a raw Greenhouse job into a normalised JobRecord."""
         location_obj = raw.get("location", {})
-        location_str = location_obj.get("name", "") if isinstance(location_obj, dict) else str(location_obj)
+        if isinstance(location_obj, dict):
+            location_str = location_obj.get("name", "")
+        else:
+            location_str = str(location_obj)
 
-        # Extract text from content blocks
+        # The Greenhouse boards API returns `content` HTML-entity-escaped
+        # (&lt;p&gt;...). Unescape so jd_clean can strip the real tags instead
+        # of passing literal "<p>" noise to the ranker.
         description = ""
         content = raw.get("content", "")
         if content:
-            description = content
+            import html
+            description = html.unescape(content)
 
         slug = raw.get("_slug", "")
         job_id_gh = raw.get("id", "")

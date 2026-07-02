@@ -74,7 +74,7 @@ def test_generate_queries_prefers_claude_when_configured(monkeypatch) -> None:
     monkeypatch.setitem(
         sys.modules,
         "anthropic",
-        SimpleNamespace(Anthropic=lambda api_key: FakeClient()),
+        SimpleNamespace(Anthropic=lambda api_key, **kwargs: FakeClient()),
     )
 
     settings = {

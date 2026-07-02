@@ -65,9 +65,9 @@ def geocode(location: str) -> tuple[float, float] | None:
         resp.raise_for_status()
         results = resp.json()
     except Exception as exc:
+        # Transient failure (network blip, 429): do NOT cache, so the next run
+        # can retry. Only genuine "no result" responses are cached as null below.
         logger.warning("geocode: failed for %r: %s", location, exc)
-        # Cache negative so we don't hammer the API
-        cache_file.write_text("null")
         return None
 
     if not results:

@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 import logging
-import re
-from datetime import date
-from urllib.parse import urlparse, urlunparse, urlencode, parse_qs
+from datetime import UTC, date
+from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 from job_search.adapters.base import JobRecord, RawJob
 from job_search.pipeline.jd_clean import clean_jd
@@ -33,10 +32,23 @@ def _canonical_url(url: str) -> str:
 def _parse_date(raw: str | None) -> date | None:
     if not raw:
         return None
-    for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%SZ", "%d/%m/%Y"):
+    from datetime import datetime
+
+    raw = str(raw).strip()
+
+    # Epoch milliseconds (e.g. Lever createdAt) or seconds
+    if raw.isdigit() and len(raw) >= 10:
         try:
-            from datetime import datetime
-            return datetime.strptime(raw[:10], "%Y-%m-%d").date()
+            ts = int(raw)
+            if ts > 10_000_000_000:  # milliseconds
+                ts //= 1000
+            return datetime.fromtimestamp(ts, tz=UTC).date()
+        except (ValueError, OverflowError, OSError):
+            return None
+
+    for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"):
+        try:
+            return datetime.strptime(raw[:10], fmt).date()
         except ValueError:
             pass
     return None
@@ -104,7 +116,9 @@ def normalise(
     closes_on = extract_closing_date(cleaned_desc, domain_patterns)
 
     # Posted date
-    posted_date = _parse_date(raw.get("created") or raw.get("posted_date") or raw.get("date_posted"))
+    posted_date = _parse_date(
+        raw.get("created") or raw.get("posted_date") or raw.get("date_posted")
+    )
 
     source = raw.get("source") or adapter_name
 

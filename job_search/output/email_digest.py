@@ -22,7 +22,6 @@ import sqlite3
 from datetime import date, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from pathlib import Path
 
 import jinja2
 

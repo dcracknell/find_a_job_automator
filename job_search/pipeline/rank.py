@@ -22,13 +22,15 @@ import hashlib
 import json
 import logging
 import os
+import re
+from functools import lru_cache
 from typing import Any
 
 import yaml
 
 from job_search import PROJECT_ROOT
 from job_search.adapters.base import JobRecord
-from job_search.util.quota import api_call_wrapper
+from job_search.util.quota import QuotaExceededError, api_call_wrapper
 from job_search.util.secrets import looks_configured_secret
 
 logger = logging.getLogger(__name__)
@@ -62,6 +64,7 @@ def _prompt_content_hash(ranker_cfg: dict, domain_context: str) -> str:
         {
             "version": ranker_cfg.get("version", ""),
             "system": ranker_cfg.get("system_prompt_template", ""),
+            "user": ranker_cfg.get("user_prompt_template", ""),
             "rubric": ranker_cfg.get("scoring_rubric", ""),
             "domain": domain_context,
         },
@@ -70,49 +73,84 @@ def _prompt_content_hash(ranker_cfg: dict, domain_context: str) -> str:
     return hashlib.sha1(stable.encode()).hexdigest()[:16]
 
 
+def current_ranker_version(domain_context: str = "") -> str:
+    """The version tag written to jobs.ranker_version for the active prompt."""
+    ranker_cfg = _load_ranker()
+    return f"{ranker_cfg.get('version', 'v1')}-{_prompt_content_hash(ranker_cfg, domain_context)}"
+
+
 # ---------------------------------------------------------------------------
 # Pass 1 — keyword pre-score
 # ---------------------------------------------------------------------------
 
 
-def keyword_prescore(record: JobRecord, profile: dict) -> float:
-    """Compute a keyword-based pre-score (0–10) for a job record. No API call."""
-    text = f"{record.title} {record.description}".lower()
+# A job matching this many weighted skill points scores 10/10 on the pre-scan.
+# (e.g. four core skills + three adjacent = 4*3 + 3*1 = 15). Normalising against
+# the FULL skill list would make a perfect job score ~2/10 on a rich profile.
+_PRESCORE_FULL_MARKS = 15.0
 
-    core_skills = [s.lower() for s in profile.get("core_skills", [])]
-    adjacent_skills = [s.lower() for s in profile.get("adjacent_skills", [])]
+
+@lru_cache(maxsize=32)
+def _compile_term_patterns(terms: tuple[str, ...]) -> tuple[tuple[str, re.Pattern], ...]:
+    """Compile word-boundary-ish patterns for skills/exclude terms.
+
+    Uses lookarounds instead of \\b so terms ending in symbols ("C++", "C#")
+    still anchor correctly, and "C" never matches the letter c inside a word.
+    """
+    compiled = []
+    for term in terms:
+        term = term.strip()
+        if not term:
+            continue
+        pattern = re.compile(
+            r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])",
+            re.IGNORECASE,
+        )
+        compiled.append((term, pattern))
+    return tuple(compiled)
+
+
+def keyword_prescore(record: JobRecord, profile: dict) -> float:
+    """Compute a keyword-based pre-score (0-10) for a job record. No API call.
+
+    Skills and exclude terms are matched at word boundaries (so "C" doesn't
+    match every word containing a c, and "git" doesn't match "digital").
+    """
+    text = f"{record.title} {record.description}"
+
+    core_skills = tuple(profile.get("core_skills", []))
+    adjacent_skills = tuple(profile.get("adjacent_skills", []))
     negative = profile.get("negative_signals", {})
-    title_excludes = [t.lower() for t in negative.get("title_excludes", [])]
-    desc_excludes = [t.lower() for t in negative.get("description_excludes", [])]
+    title_excludes = tuple(negative.get("title_excludes", []))
+    desc_excludes = tuple(negative.get("description_excludes", []))
 
     score = 0.0
     matched: list[str] = []
 
-    for skill in core_skills:
-        if skill in text:
+    for skill, pattern in _compile_term_patterns(core_skills):
+        if pattern.search(text):
             score += 3.0
             matched.append(skill)
 
-    for skill in adjacent_skills:
-        if skill in text:
+    for skill, pattern in _compile_term_patterns(adjacent_skills):
+        if pattern.search(text):
             score += 1.0
+            if len(matched) < 5:
+                matched.append(skill)
 
-    # Normalise to 0-10 range
-    max_possible = len(core_skills) * 3.0 + len(adjacent_skills) * 1.0
-    if max_possible > 0:
-        score = min(10.0, score / max_possible * 10.0)
+    if core_skills or adjacent_skills:
+        score = min(10.0, score / _PRESCORE_FULL_MARKS * 10.0)
     else:
         score = 5.0  # no skills defined — neutral score
 
     # Penalties
-    title_lower = record.title.lower()
-    for excl in title_excludes:
-        if excl in title_lower:
+    for _, pattern in _compile_term_patterns(title_excludes):
+        if pattern.search(record.title):
             score = max(0.0, score - 4.0)
             break
 
-    for excl in desc_excludes:
-        if excl in text:
+    for _, pattern in _compile_term_patterns(desc_excludes):
+        if pattern.search(text):
             score = max(0.0, score - 3.0)
             break
 
@@ -168,8 +206,8 @@ def _call_llm_batch(
         "Rate the following {n} job(s):\n{jobs_json}",
     )
     jobs_data = [
-        {"title": r.title, "company": r.company, "jd": r.description[:3000]}
-        for r in batch
+        {"i": idx, "title": r.title, "company": r.company, "jd": r.description[:3000]}
+        for idx, r in enumerate(batch)
     ]
     jobs_json = json.dumps(jobs_data, indent=None, separators=(",", ":"))
     user_message = _render_prompt_template(
@@ -222,8 +260,29 @@ def _call_llm_batch(
 
 
 def _apply_scores(records: list[JobRecord], scores: list[dict], ranker_version: str) -> None:
-    """Apply LLM score dicts (short-key format) back to JobRecord objects."""
-    for rec, score_dict in zip(records, scores):
+    """Apply LLM score dicts (short-key format) back to JobRecord objects.
+
+    Scores carrying an "i" index are matched to the record at that position;
+    anything else falls back to positional order.
+    """
+    ordered: list[dict | None] = [None] * len(records)
+    positional: list[dict] = []
+    for score_dict in scores:
+        if not isinstance(score_dict, dict):
+            continue
+        idx = score_dict.get("i")
+        valid_idx = isinstance(idx, (int, float)) and 0 <= int(idx) < len(records)
+        if valid_idx and ordered[int(idx)] is None:
+            ordered[int(idx)] = score_dict
+        else:
+            positional.append(score_dict)
+    # Fill any unmatched slots positionally
+    it = iter(positional)
+    for i, slot in enumerate(ordered):
+        if slot is None:
+            ordered[i] = next(it, None)
+
+    for rec, score_dict in zip(records, ordered):
         if not isinstance(score_dict, dict):
             continue
         try:
@@ -234,6 +293,7 @@ def _apply_scores(records: list[JobRecord], scores: list[dict], ranker_version: 
             if isinstance(kw, list):
                 rec.matched_keywords = [str(k) for k in kw[:5]]
             rec.ranker_version = ranker_version
+            rec.freshly_ranked = True
         except (ValueError, TypeError) as exc:
             logger.warning("rank: could not apply score for %s: %s", rec.job_id, exc)
 
@@ -258,7 +318,9 @@ def rank_jobs(
     model = rank_cfg.get("model", "claude-haiku-4-5")
     batch_size = rank_cfg.get("batch_size", 5)
     max_tokens = rank_cfg.get("max_tokens_response", 200)
-    pre_score_threshold = ranker_cfg.get("pre_score_threshold", 3.0)
+    # Default 0.0: never silently withhold jobs from LLM ranking unless the
+    # user explicitly opts in to a keyword pre-filter in ranker.yaml.
+    pre_score_threshold = ranker_cfg.get("pre_score_threshold", 0.0)
     ranker_version = (
         f"{ranker_cfg.get('version', 'v1')}-{_prompt_content_hash(ranker_cfg, domain_context)}"
     )
@@ -282,6 +344,7 @@ def rank_jobs(
                 rec.fit_reason = "filtered by keyword pre-scan"
                 rec.fit_confidence = 0.3
                 rec.ranker_version = ranker_version
+                rec.freshly_ranked = True
 
     if not needs_llm:
         return records
@@ -301,7 +364,10 @@ def rank_jobs(
 
     try:
         import anthropic
-        client = anthropic.Anthropic(api_key=api_key)
+        # max_retries covers 429/overloaded/5xx with the SDK's own backoff —
+        # without it, one bad API window permanently pins keyword pre-scores
+        # on every job first seen during that window.
+        client = anthropic.Anthropic(api_key=api_key, max_retries=4)
     except ImportError:
         logger.error("rank: anthropic package not installed; skipping LLM ranking")
         return records
@@ -326,6 +392,13 @@ def rank_jobs(
                     )
                     if solo_scores:
                         _apply_scores([single_rec], solo_scores, ranker_version)
+        except QuotaExceededError as exc:
+            logger.error("rank: %s — %d job(s) keep keyword pre-scores", exc, len(needs_llm) - i)
+            for rec in needs_llm[i:]:
+                if not rec.ranker_version:
+                    rec.fit_reason = "keyword pre-score only; daily API quota reached"
+                    rec.fit_confidence = 0.3
+            break
         except Exception as exc:
             logger.error("rank: LLM batch failed: %s", exc)
 

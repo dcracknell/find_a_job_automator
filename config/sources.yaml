@@ -1,3 +1,21 @@
+# === Automatic career-site discovery ===
+# After each run, companies that job boards say are hiring people like you
+# (best fit_score >= min_fit_score) get their careers site probed for a public
+# ATS feed (Greenhouse/Lever/Ashby/Workable/Recruitee/SmartRecruiters). Hits
+# are saved to data/discovered_sources.yaml and scraped directly from then on
+# — including openings those companies never post to any job board.
+discovery:
+  enabled: true
+  max_probes_per_run: 8
+  min_fit_score: 5.0
+
+# === One-off careers pages (schema.org JobPosting JSON-LD) ===
+# For companies not on any known ATS: add their careers page URL here and the
+# pipeline reads the JobPosting markup most sites embed for Google Jobs.
+# custom_pages:
+#   - {name: Some Co, url: "https://someco.example/careers"}
+custom_pages: []
+
 apis:
   adzuna:
     enabled: auto
@@ -6,7 +24,7 @@ apis:
   reed:
     enabled: auto
   gov_uk_find_a_job:
-    enabled: true                # enabled — lists PhD studentships, research posts, public sector
+    enabled: false               # adapter not implemented yet — enabling has no effect
 
 jobspy:
   enabled: true
@@ -17,7 +35,15 @@ jobspy:
 
 aggregators:
   hn_hiring:
-    enabled: true               # enabled — good for AI/tech startups
+    enabled: true               # monthly "Ask HN: Who is hiring?" thread (free, keyless)
+    locations: [uk, united kingdom, london, cambridge, oxford, manchester, edinburgh, bristol, leeds, sheffield, remote]
+  remotive:
+    enabled: true               # remote-jobs API (free, keyless); needs profile remote_ok
+    locations: [worldwide, anywhere, uk, united kingdom, europe, emea]
+    results_per_query: 50
+  arbeitnow:
+    enabled: true               # European job-board API (free, keyless); UK/remote only kept
+    pages: 3
 
 # These ATS sources are completely free - no API keys needed.
 ats:
@@ -113,6 +139,15 @@ ats:
       - {name: Cranfield University, url: "https://cranfield.wd3.myworkdayjobs.com/en-US/Cranfield_External"}
       # --- Research institutes / catapults ---
       - {name: Innovate UK, url: "https://ktn.wd3.myworkdayjobs.com/en-US/KTN_Jobs"}
+
+  # These three are populated automatically by discovery (data/discovered_sources.yaml)
+  # but can also be hand-configured here, same one-line format as greenhouse/lever.
+  ashby:
+    companies: []
+  recruitee:
+    companies: []
+  smartrecruiters:
+    companies: []
 
   workable:
     companies:
