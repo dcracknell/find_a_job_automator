@@ -97,6 +97,26 @@ def get(
     return resp
 
 
+def get_once(
+    url: str,
+    *,
+    params: dict | None = None,
+    headers: dict | None = None,
+    timeout: int = 15,
+    **kwargs: Any,
+) -> requests.Response:
+    """GET with polite delay but NO retries.
+
+    For probing endpoints where failure is the expected common case (e.g.
+    discovery slug guessing): a wrong slug can be a 404 or an NXDOMAIN, and
+    retrying either just multiplies the wasted time.
+    """
+    _polite_wait(url)
+    resp = _SESSION.get(url, params=params, headers=headers, timeout=timeout, **kwargs)
+    resp.raise_for_status()
+    return resp
+
+
 @retry(
     retry=retry_if_exception(_is_retryable),
     stop=stop_after_attempt(4),

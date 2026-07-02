@@ -72,9 +72,10 @@ def probe_company(company: str) -> tuple[str, str, int] | None:
         for provider, template, list_key in _ATS_PROBES:
             url = template.format(slug=slug)
             try:
-                data = http.get(url, timeout=15).json()
+                # get_once: a miss is the common case (404/NXDOMAIN) — never retry
+                data = http.get_once(url, timeout=15).json()
             except Exception:
-                continue  # 404/timeout/etc — not on this provider under this slug
+                continue  # not on this provider under this slug
             jobs = data if list_key == "" else data.get(list_key)
             if isinstance(jobs, list) and len(jobs) > 0:
                 logger.info(

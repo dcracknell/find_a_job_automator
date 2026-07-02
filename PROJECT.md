@@ -1,5 +1,15 @@
 # UK Job Search Pipeline — Project Specification
 
+> **Implementation status (July 2026):** this document is the original design.
+> The implementation now additionally includes: incremental ranking (unchanged
+> jobs are never re-sent to the API), enforced quota caps, query-rotation
+> memory (`query_stats`), automatic career-site discovery (`company_probes`,
+> `data/discovered_sources.yaml`), adapters for Ashby/Recruitee/SmartRecruiters/
+> Workable/JobSpy/HN-hiring/Remotive/Arbeitnow and generic JSON-LD careers
+> pages, a preferences editor (`job-search ui` + docs/preferences.html), and a
+> CI test workflow. See AI_README.md for the accurate current architecture.
+
+
 A daily pipeline that scrapes UK job boards and company career pages for engineering roles matching a CV, ranks them with an LLM, deduplicates against a persistent Excel workbook, emails a digest of new matches, and regenerates a static HTML dashboard.
 
 This document is the source of truth for architecture and design decisions. Build against this spec; if something here is ambiguous or wrong, fix it here first, then in the code.
@@ -478,7 +488,7 @@ Externalised so the prompt is editable without code changes. Includes prompt tem
 
 ### 4.6 `settings.yaml`
 
-Email config (SMTP host, from, to), output paths, log level, schedule expression (read by cron — this file just documents what was set), dry-run flag, **run mode** (`active` / `passive` / `paused`), **quota soft cap** (daily GBP threshold for warning, default `2.00`), **heartbeat** settings, and a `models` block that selects model + per-token rates per operation:
+Email config (SMTP host, from, to), output paths, log level, schedule expression (read by cron — this file just documents what was set), dry-run flag, **run mode** (`active` / `passive` / `paused`), **quota soft cap** (daily GBP threshold — warning at the cap, hard stop on LLM calls at 2x; default `5.00`), **heartbeat** settings, and a `models` block that selects model + per-token rates per operation:
 
 ```yaml
 models:
@@ -605,7 +615,7 @@ example_target_roles:
 
 **Multi-domain users** (e.g. "I'm an engineer but open to product roles") set `profile.json:domain` to the primary and add `secondary_domains: [product]`. Adapters from both packs are merged; ranker_context is concatenated.
 
-Email config (SMTP host, from, to), output paths, log level, schedule expression (read by cron — this file just documents what was set), dry-run flag, **run mode** (`active` / `passive` / `paused`), **quota soft cap** (daily GBP threshold for warning, default `2.00`), **heartbeat** settings, and a `models` block that selects model + per-token rates per operation:
+Email config (SMTP host, from, to), output paths, log level, schedule expression (read by cron — this file just documents what was set), dry-run flag, **run mode** (`active` / `passive` / `paused`), **quota soft cap** (daily GBP threshold — warning at the cap, hard stop on LLM calls at 2x; default `5.00`), **heartbeat** settings, and a `models` block that selects model + per-token rates per operation:
 
 ```yaml
 models:
@@ -703,7 +713,7 @@ Reads `profile.json`, generates 10–30 search query variants by combining role 
 - For each scraped job, query SQLite for existing `job_id`:
   - **Not in DB** → insert with current date as `first_seen` and `last_seen`; mark as new (will be ranked)
   - **In DB, JD unchanged** (`jd_content_hash` matches) → update `last_seen` only; preserve all other fields including ranking and user edits
-  - **In DB, JD changed** → update `last_seen`, `description`, `jd_content_hash`, `salary_*`; preserve `status`, `notes`, `fit_score` (re-rank only if `--rerank-stale` or score is >30 days old)
+  - **In DB, JD changed** → update `last_seen`, `description`, `jd_content_hash`, `salary_*`; preserve `status`, `notes`, `fit_score` (re-rank when `--rerank-stale` is passed or the stored ranker_version is stale — implemented)
 - After processing: any row where `last_seen < today - 14 days` and `status = new` → set `status = closed`
 - Content-hash sync ensures user edits never get clobbered by re-scrapes (the key thing JobFunnel and forks sometimes got wrong)
 

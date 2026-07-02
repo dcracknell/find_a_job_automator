@@ -11,7 +11,7 @@ A daily pipeline that scrapes UK job boards and company career pages, ranks ever
 
 ## 📥 Download your results
 
-> These files are updated automatically every day at 07:00 UTC.
+> These files are updated automatically twice a day (07:00 and 15:00 UTC).
 
 | File | Description | Link |
 |---|---|---|

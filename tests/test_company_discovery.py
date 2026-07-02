@@ -62,13 +62,13 @@ def test_probe_company_returns_first_provider_with_jobs(monkeypatch) -> None:
             return _Resp({"jobs": [{"title": "Engineer"}]})
         raise RuntimeError("404")
 
-    monkeypatch.setattr(discovery.http, "get", fake_get)
+    monkeypatch.setattr(discovery.http, "get_once", fake_get)
     assert discovery.probe_company("Acme") == ("ashby", "acme", 1)
     # empty boards / all-404 => None
-    monkeypatch.setattr(
-        discovery.http, "get",
-        lambda url, **kw: (_ for _ in ()).throw(RuntimeError("404")),
-    )
+    def always_404(url, **kwargs):
+        raise RuntimeError("404")
+
+    monkeypatch.setattr(discovery.http, "get_once", always_404)
     assert discovery.probe_company("Nowhere Co") is None
 
 
