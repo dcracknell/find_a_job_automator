@@ -2,6 +2,12 @@
 # Merged into sources.yaml at runtime. Safe to edit; delete an entry
 # to stop scraping that company.
 ats:
+  ashby:
+    companies:
+    - name: Vantage Point Global
+      slug: vantage
+    - name: Venn Telecom
+      slug: venn
   greenhouse:
     companies:
     - name: Space Systems Ltd
