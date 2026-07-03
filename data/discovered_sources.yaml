@@ -12,7 +12,11 @@ ats:
     companies:
     - name: Space Systems Ltd
       slug: space
+    - name: Enveritas (YC S18, non-profit)
+      slug: enveritas
   smartrecruiters:
     companies:
     - name: Renesas Electronics
       slug: renesaselectronics
+    - name: Microchip Technology Inc.
+      slug: microchip
