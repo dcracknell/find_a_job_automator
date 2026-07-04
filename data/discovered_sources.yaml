@@ -14,9 +14,17 @@ ats:
       slug: space
     - name: Enveritas (YC S18, non-profit)
       slug: enveritas
+    - name: Whitespace
+      slug: whitespace
+  recruitee:
+    companies:
+    - name: OnTarget Communications
+      slug: ontargetcommunications
   smartrecruiters:
     companies:
     - name: Renesas Electronics
       slug: renesaselectronics
     - name: Microchip Technology Inc.
       slug: microchip
+    - name: SanDisk
+      slug: sandisk
