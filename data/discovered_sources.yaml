@@ -20,6 +20,8 @@ ats:
     companies:
     - name: OnTarget Communications
       slug: ontargetcommunications
+    - name: TechBiz Global GmbH
+      slug: techbizglobal
   smartrecruiters:
     companies:
     - name: Renesas Electronics
