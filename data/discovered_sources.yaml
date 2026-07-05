@@ -8,6 +8,8 @@ ats:
       slug: vantage
     - name: Venn Telecom
       slug: venn
+    - name: LUMAI
+      slug: lumai
   greenhouse:
     companies:
     - name: Space Systems Ltd
@@ -16,6 +18,10 @@ ats:
       slug: enveritas
     - name: Whitespace
       slug: whitespace
+    - name: MCS Group | Your Specialist Recruitment Consultancy
+      slug: mcs
+    - name: Mark43
+      slug: mark43
   recruitee:
     companies:
     - name: OnTarget Communications
