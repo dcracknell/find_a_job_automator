@@ -246,7 +246,8 @@ def test_rank_jobs_uses_message_batches_api(monkeypatch, tmp_path) -> None:
             usage=SimpleNamespace(input_tokens=100, output_tokens=50, cache_read_input_tokens=0),
             content=[SimpleNamespace(type="text", text=text)],
         )
-        return SimpleNamespace(custom_id=custom_id, result=SimpleNamespace(type="succeeded", message=message))
+        result = SimpleNamespace(type="succeeded", message=message)
+        return SimpleNamespace(custom_id=custom_id, result=result)
 
     class FakeBatches:
         def __init__(self):
