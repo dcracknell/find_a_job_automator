@@ -6,6 +6,7 @@ so it works offline on a phone synced via Dropbox/OneDrive/Drive.
 
 from __future__ import annotations
 
+import json
 import logging
 import sqlite3
 from datetime import date, timedelta
@@ -24,7 +25,10 @@ _TEMPLATE_DIR = PROJECT_ROOT / "templates"
 def _load_template(name: str) -> jinja2.Template:
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(str(_TEMPLATE_DIR)),
-        autoescape=jinja2.select_autoescape(["html"]),
+        # "j2" must be listed: our templates end in .html.j2, and
+        # select_autoescape matches the FINAL extension only. Without it,
+        # scraped job titles would be injected into the page unescaped.
+        autoescape=jinja2.select_autoescape(["html", "htm", "xml", "j2"]),
     )
     return env.get_template(name)
 
@@ -40,32 +44,49 @@ def _fetch_dashboard_data(conn: sqlite3.Connection, settings: dict) -> dict:
     ).fetchone()
     last_run_dict = dict(last_run) if last_run else {}
 
-    # New today
-    new_today_rows = conn.execute(
+    # Every open job, best first — the template filters/sorts client-side.
+    open_rows = conn.execute(
         """
-        SELECT title, company, location, url, fit_score, closes_on,
-               closes_on <= ? AS closes_soon
+        SELECT title, company, location, url, fit_score, fit_confidence,
+               fit_reason, matched_keywords, salary_raw, source, status,
+               first_seen, closes_on,
+               (closes_on IS NOT NULL AND closes_on <= ?) AS closes_soon,
+               (first_seen = ?) AS is_new
         FROM jobs
-        WHERE first_seen = ? AND status = 'new'
-        ORDER BY fit_score DESC NULLS LAST
-        LIMIT 50
+        WHERE status NOT IN ('rejected', 'ignore', 'archive', 'closed')
+        ORDER BY fit_score DESC NULLS LAST, first_seen DESC
+        LIMIT 1000
         """,
         (closing_cutoff, today.isoformat()),
     ).fetchall()
 
-    # Closing soon (any open job)
-    closing_soon_rows = conn.execute(
+    open_jobs: list[dict] = []
+    sources: set[str] = set()
+    statuses: set[str] = set()
+    for row in open_rows:
+        job = dict(row)
+        try:
+            keywords = json.loads(job.get("matched_keywords") or "[]")
+        except (TypeError, ValueError):
+            keywords = []
+        job["keywords"] = ", ".join(str(k) for k in keywords[:5])
+        sources.add(job.get("source") or "")
+        statuses.add(job.get("status") or "")
+        open_jobs.append(job)
+
+    # Stat tiles
+    tile_row = conn.execute(
         """
-        SELECT title, company, location, url, fit_score, closes_on, status
+        SELECT
+            COUNT(*) AS open_total,
+            COALESCE(SUM(fit_score >= 7), 0) AS strong,
+            COALESCE(SUM(first_seen = ?), 0) AS new_today,
+            COALESCE(SUM(closes_on IS NOT NULL AND closes_on <= ?), 0) AS closing_soon
         FROM jobs
-        WHERE closes_on IS NOT NULL
-          AND closes_on <= ?
-          AND status NOT IN ('rejected', 'ignore', 'archive', 'closed')
-        ORDER BY closes_on ASC
-        LIMIT 20
+        WHERE status NOT IN ('rejected', 'ignore', 'archive', 'closed')
         """,
-        (closing_cutoff,),
-    ).fetchall()
+        (today.isoformat(), closing_cutoff),
+    ).fetchone()
 
     # Quota stats
     quota_today = today_total_gbp()
@@ -100,11 +121,18 @@ def _fetch_dashboard_data(conn: sqlite3.Connection, settings: dict) -> dict:
     return {
         "last_run": last_run_dict,
         "mode": settings.get("mode", "active"),
-        "new_today": [dict(r) for r in new_today_rows],
-        "closing_soon": [dict(r) for r in closing_soon_rows],
+        "open_jobs": open_jobs,
+        "sources": sorted(s for s in sources if s),
+        "statuses": sorted(s for s in statuses if s),
+        "tiles": {
+            "open_total": tile_row["open_total"] if tile_row else 0,
+            "strong": tile_row["strong"] if tile_row else 0,
+            "new_today": tile_row["new_today"] if tile_row else 0,
+            "closing_soon": tile_row["closing_soon"] if tile_row else 0,
+        },
         "quota": {
-            "today": f"{quota_today:.4f}",
-            "month": f"{quota_month:.4f}",
+            "today": f"{quota_today:.2f}",
+            "month": f"{quota_month:.2f}",
             "projected": f"{projected:.2f}",
             "cache_hit_rate": cache_hit_rate,
         },

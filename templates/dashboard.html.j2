@@ -1,4 +1,5 @@
-{# dashboard.html.j2 — rendered by output/dashboard.py (built in Phase 3) #}
+{# dashboard.html.j2 — rendered by output/dashboard.py. Self-contained: inline
+   CSS + vanilla JS, zero external requests, works offline / on GitHub Pages. #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,83 +7,278 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Job Search Dashboard</title>
   <style>
-    /* Mobile-first, single-column layout. No external requests. */
+    :root {
+      --surface: #fcfcfb; --panel: #ffffff; --line: #e3e2de;
+      --text: #0b0b0b; --muted: #52514e; --accent: #2a78d6;
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.12);
+      --warn: #fab219; --warn-soft: rgba(250,178,25,.16);
+      --low-soft: rgba(82,81,78,.12);
+      --soon: #d03b3b;
+    }
+    html[data-theme="dark"] {
+      --surface: #1a1a19; --panel: #232322; --line: #3a3a38;
+      --text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
+    }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) {
+        --surface: #1a1a19; --panel: #232322; --line: #3a3a38;
+        --text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
+      }
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; color: #1a1a1a; background: #f5f5f5; }
-    .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
-    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    h2 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; border-bottom: 2px solid #ddd; padding-bottom: 0.25rem; }
-    .banner { background: #2563eb; color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
-    .banner p { margin: 0.25rem 0; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
-    th { background: #374151; color: white; padding: 0.5rem; text-align: left; }
-    td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #e5e7eb; }
-    tr:hover { background: #f9fafb; }
-    .score-high { background: #dcfce7; }
-    .score-mid  { background: #fef9c3; }
-    .score-low  { background: #fee2e2; }
-    .status-archive { color: #9ca3af; }
-    .closes-soon { font-weight: bold; color: #dc2626; }
-    .quota-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
-    .quota-card { background: white; border-radius: 6px; padding: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
-    .quota-card .label { font-size: 0.75rem; color: #6b7280; }
-    .quota-card .value { font-size: 1.25rem; font-weight: bold; }
-    @media (max-width: 600px) { th, td { font-size: 0.75rem; padding: 0.3rem; } }
+    body { font-family: system-ui, -apple-system, sans-serif; font-size: 15px;
+           color: var(--text); background: var(--surface); }
+    a { color: var(--accent); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+    header { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline;
+             margin-bottom: 1rem; }
+    header h1 { font-size: 1.3rem; }
+    header .sub { color: var(--muted); font-size: .8rem; }
+    #theme-toggle { margin-left: auto; background: var(--panel); color: var(--text);
+                    border: 1px solid var(--line); border-radius: 6px;
+                    padding: .3rem .6rem; cursor: pointer; font-size: .8rem; }
+
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+             gap: .75rem; margin-bottom: 1rem; }
+    .tile { background: var(--panel); border: 1px solid var(--line);
+            border-radius: 8px; padding: .7rem .8rem; }
+    .tile .label { font-size: .72rem; color: var(--muted); }
+    .tile .value { font-size: 1.35rem; font-weight: 600; }
+
+    .controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
+    .controls input[type="search"], .controls select {
+      background: var(--panel); color: var(--text); border: 1px solid var(--line);
+      border-radius: 6px; padding: .4rem .6rem; font-size: .85rem; }
+    .controls input[type="search"] { flex: 1 1 220px; }
+    .controls label.chk { display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .85rem; color: var(--muted); background: var(--panel);
+      border: 1px solid var(--line); border-radius: 6px; padding: .4rem .6rem; }
+    #count-note { color: var(--muted); font-size: .8rem; align-self: center; }
+
+    table { width: 100%; border-collapse: collapse; font-size: .85rem;
+            background: var(--panel); border: 1px solid var(--line);
+            border-radius: 8px; overflow: hidden; }
+    th { color: var(--muted); font-weight: 600; text-align: left; font-size: .72rem;
+         text-transform: uppercase; letter-spacing: .03em;
+         padding: .55rem .6rem; border-bottom: 1px solid var(--line);
+         position: sticky; top: 0; background: var(--panel); }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable::after { content: " ↕"; opacity: .45; }
+    th.sorted-desc::after { content: " ↓"; opacity: 1; }
+    th.sorted-asc::after { content: " ↑"; opacity: 1; }
+    td { padding: .5rem .6rem; border-bottom: 1px solid var(--line);
+         vertical-align: top; }
+    td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    tbody.job:hover td { background: rgba(127,127,127,.06); cursor: pointer; }
+    .title-cell a { font-weight: 600; text-decoration: none; }
+    .title-cell a:hover { text-decoration: underline; }
+    .title-cell .co { color: var(--muted); font-size: .78rem; }
+    .badge { display: inline-block; min-width: 2.4rem; text-align: center;
+             border-radius: 999px; padding: .1rem .45rem; font-weight: 600;
+             font-variant-numeric: tabular-nums; }
+    .badge.good { background: var(--good-soft); color: var(--good); }
+    .badge.mid  { background: var(--warn-soft); color: var(--text); }
+    .badge.low  { background: var(--low-soft); color: var(--muted); }
+    .closes-soon { color: var(--soon); font-weight: 600; }
+    .new-flag { color: var(--good); font-size: .7rem; font-weight: 700;
+                text-transform: uppercase; margin-left: .3rem; }
+    tr.detail td { background: rgba(127,127,127,.05); color: var(--muted);
+                   font-size: .8rem; }
+    tr.detail .why { color: var(--text); }
+    footer { margin-top: 1.5rem; color: var(--muted); font-size: .75rem; }
+    @media (max-width: 700px) {
+      .hide-sm { display: none; }
+      th, td { padding: .4rem .4rem; font-size: .78rem; }
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="banner">
+  <header>
     <h1>Job Search Dashboard</h1>
-    <p>Last run: {{ last_run.started_at | default('never') }}</p>
-    <p>{{ last_run.jobs_new | default(0) }} new jobs · {{ last_run.jobs_scraped | default(0) }} scraped · Mode: {{ mode }}</p>
+    <span class="sub">
+      Last run: {{ last_run.started_at | default('never') }} ·
+      {{ last_run.jobs_new | default(0) }} new / {{ last_run.jobs_scraped | default(0) }} scraped ·
+      mode: {{ mode }}
+    </span>
+    <button id="theme-toggle" type="button">◐ Theme</button>
+  </header>
+
+  <div class="tiles">
+    <div class="tile"><div class="label">Open jobs</div><div class="value">{{ tiles.open_total }}</div></div>
+    <div class="tile"><div class="label">Strong matches (7+)</div><div class="value">{{ tiles.strong }}</div></div>
+    <div class="tile"><div class="label">New today</div><div class="value">{{ tiles.new_today }}</div></div>
+    <div class="tile"><div class="label">Closing in 7 days</div><div class="value">{{ tiles.closing_soon }}</div></div>
+    <div class="tile"><div class="label">Spend today</div><div class="value">£{{ quota.today }}</div></div>
+    <div class="tile"><div class="label">Spend this month</div><div class="value">£{{ quota.month }}</div></div>
   </div>
 
-  <h2>API Quota</h2>
-  <div class="quota-panel">
-    <div class="quota-card"><div class="label">Today</div><div class="value">£{{ quota.today | default('0.00') }}</div></div>
-    <div class="quota-card"><div class="label">This Month</div><div class="value">£{{ quota.month | default('0.00') }}</div></div>
-    <div class="quota-card"><div class="label">Projected</div><div class="value">£{{ quota.projected | default('0.00') }}</div></div>
-    <div class="quota-card"><div class="label">Cache Hit Rate</div><div class="value">{{ quota.cache_hit_rate | default('—') }}</div></div>
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search title, company, location…" autocomplete="off">
+    <select id="min-score">
+      <option value="">Any score</option>
+      <option value="8">8+</option>
+      <option value="7">7+</option>
+      <option value="6">6+</option>
+      <option value="5">5+</option>
+    </select>
+    <select id="status">
+      <option value="">All statuses</option>
+      {% for s in statuses %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+    </select>
+    <select id="source">
+      <option value="">All sources</option>
+      {% for s in sources %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+    </select>
+    <label class="chk"><input type="checkbox" id="new-only"> New today</label>
+    <span id="count-note"></span>
   </div>
 
-  <h2>New Today</h2>
-  <table>
-    <tr><th>Score</th><th>Title</th><th>Company</th><th>Location</th><th>Closes</th><th>URL</th></tr>
-    {% for job in new_today %}
-    <tr class="{% if job.fit_score >= 8 %}score-high{% elif job.fit_score >= 5 %}score-mid{% else %}score-low{% endif %}">
-      <td>{{ job.fit_score | round(1) if job.fit_score else '—' }}</td>
-      <td>{{ job.title }}</td>
-      <td>{{ job.company }}</td>
-      <td>{{ job.location }}</td>
-      <td class="{{ 'closes-soon' if job.closes_soon }}">{{ job.closes_on or '—' }}</td>
-      <td><a href="{{ job.url }}">Link</a></td>
-    </tr>
+  <table id="jobs">
+    <thead>
+      <tr>
+        <th class="sortable sorted-desc" data-key="score">Score</th>
+        <th>Role</th>
+        <th class="hide-sm">Location</th>
+        <th class="hide-sm">Salary</th>
+        <th class="hide-sm">Source</th>
+        <th class="sortable" data-key="posted">Seen</th>
+        <th class="sortable" data-key="closes">Closes</th>
+        <th class="hide-sm">Status</th>
+      </tr>
+    </thead>
+    {% for job in open_jobs %}
+    <tbody class="job"
+           data-score="{{ job.fit_score if job.fit_score is not none else -1 }}"
+           data-status="{{ job.status }}"
+           data-source="{{ job.source }}"
+           data-new="{{ 1 if job.is_new else 0 }}"
+           data-posted="{{ job.first_seen or '' }}"
+           data-closes="{{ job.closes_on or '9999-12-31' }}"
+           data-text="{{ (job.title ~ ' ' ~ job.company ~ ' ' ~ (job.location or '') ~ ' ' ~ (job.keywords or '')) | lower }}">
+      <tr>
+        <td class="num">
+          {% if job.fit_score is not none %}
+            <span class="badge {% if job.fit_score >= 7 %}good{% elif job.fit_score >= 5 %}mid{% else %}low{% endif %}">{{ job.fit_score | round(1) }}</span>
+          {% else %}<span class="badge low">—</span>{% endif %}
+        </td>
+        <td class="title-cell">
+          <a href="{{ job.url }}" target="_blank" rel="noopener">{{ job.title }}</a>
+          {%- if job.is_new %}<span class="new-flag">new</span>{% endif %}
+          <div class="co">{{ job.company }}</div>
+        </td>
+        <td class="hide-sm">{{ job.location or '—' }}</td>
+        <td class="hide-sm num">{{ job.salary_raw or '—' }}</td>
+        <td class="hide-sm">{{ job.source }}</td>
+        <td class="num">{{ job.first_seen or '—' }}</td>
+        <td class="num {{ 'closes-soon' if job.closes_soon }}">{{ job.closes_on or '—' }}</td>
+        <td class="hide-sm">{{ job.status }}</td>
+      </tr>
+      {% if job.fit_reason or job.keywords %}
+      <tr class="detail" hidden>
+        <td colspan="8">
+          {% if job.fit_reason %}<span class="why">{{ job.fit_reason }}</span>{% endif %}
+          {% if job.fit_confidence %} · confidence {{ (job.fit_confidence * 100) | round | int }}%{% endif %}
+          {% if job.keywords %} · matches: {{ job.keywords }}{% endif %}
+        </td>
+      </tr>
+      {% endif %}
+    </tbody>
     {% else %}
-    <tr><td colspan="6">No new jobs today.</td></tr>
+    <tbody><tr><td colspan="8">No open jobs yet — the next scheduled run will populate this.</td></tr></tbody>
     {% endfor %}
   </table>
 
-  <h2>Closing Soon</h2>
-  <table>
-    <tr><th>Score</th><th>Title</th><th>Company</th><th>Closes</th><th>Status</th><th>URL</th></tr>
-    {% for job in closing_soon %}
-    <tr>
-      <td>{{ job.fit_score | round(1) if job.fit_score else '—' }}</td>
-      <td>{{ job.title }}</td>
-      <td>{{ job.company }}</td>
-      <td class="closes-soon">{{ job.closes_on }}</td>
-      <td>{{ job.status }}</td>
-      <td><a href="{{ job.url }}">Link</a></td>
-    </tr>
-    {% else %}
-    <tr><td colspan="6">Nothing closing within 7 days.</td></tr>
-    {% endfor %}
-  </table>
-
-  <p style="margin-top:2rem; color:#6b7280; font-size:0.75rem;">
-    Generated {{ generated_at }}. Source of truth: jobs.db.
-  </p>
+  <footer>
+    Generated {{ generated_at }} · source of truth: jobs.db · projected month spend
+    £{{ quota.projected }} · cache hit rate {{ quota.cache_hit_rate }} ·
+    showing the top {{ open_jobs | length }} open jobs by score.
+  </footer>
 </div>
+
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var toggle = document.getElementById("theme-toggle");
+  try {
+    var saved = localStorage.getItem("dash-theme");
+    if (saved) root.setAttribute("data-theme", saved);
+  } catch (e) {}
+  toggle.addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") &&
+       window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("dash-theme", next); } catch (e) {}
+  });
+
+  var table = document.getElementById("jobs");
+  var groups = Array.prototype.slice.call(table.querySelectorAll("tbody.job"));
+  var q = document.getElementById("q");
+  var minScore = document.getElementById("min-score");
+  var status = document.getElementById("status");
+  var source = document.getElementById("source");
+  var newOnly = document.getElementById("new-only");
+  var countNote = document.getElementById("count-note");
+
+  function applyFilters() {
+    var text = q.value.trim().toLowerCase();
+    var min = minScore.value === "" ? null : parseFloat(minScore.value);
+    var st = status.value, src = source.value, onlyNew = newOnly.checked;
+    var shown = 0;
+    groups.forEach(function (g) {
+      var score = parseFloat(g.getAttribute("data-score"));
+      var ok = true;
+      if (min !== null && !(score >= min)) ok = false;
+      if (st && g.getAttribute("data-status") !== st) ok = false;
+      if (src && g.getAttribute("data-source") !== src) ok = false;
+      if (onlyNew && g.getAttribute("data-new") !== "1") ok = false;
+      if (text && g.getAttribute("data-text").indexOf(text) === -1) ok = false;
+      g.hidden = !ok;
+      if (ok) shown++;
+    });
+    countNote.textContent = shown + " / " + groups.length + " shown";
+  }
+  [q, minScore, status, source, newOnly].forEach(function (el) {
+    el.addEventListener("input", applyFilters);
+    el.addEventListener("change", applyFilters);
+  });
+
+  // Row click expands the "why this score" detail row (ignore link clicks).
+  groups.forEach(function (g) {
+    g.addEventListener("click", function (ev) {
+      if (ev.target.closest("a")) return;
+      var d = g.querySelector("tr.detail");
+      if (d) d.hidden = !d.hidden;
+    });
+  });
+
+  // Column sorting: score numeric desc-first, dates asc-first.
+  var headers = Array.prototype.slice.call(table.querySelectorAll("th.sortable"));
+  headers.forEach(function (th) {
+    th.addEventListener("click", function () {
+      var key = th.getAttribute("data-key");
+      var desc;
+      if (th.classList.contains("sorted-desc")) desc = false;
+      else if (th.classList.contains("sorted-asc")) desc = true;
+      else desc = key === "score";
+      headers.forEach(function (h) { h.classList.remove("sorted-desc", "sorted-asc"); });
+      th.classList.add(desc ? "sorted-desc" : "sorted-asc");
+      var attr = { score: "data-score", posted: "data-posted", closes: "data-closes" }[key];
+      var sorted = groups.slice().sort(function (a, b) {
+        var av = a.getAttribute(attr), bv = b.getAttribute(attr);
+        if (key === "score") { return desc ? (bv - av) : (av - bv); }
+        var cmp = av < bv ? -1 : av > bv ? 1 : 0;
+        return desc ? -cmp : cmp;
+      });
+      sorted.forEach(function (g) { table.appendChild(g); });
+    });
+  });
+
+  applyFilters();
+})();
+</script>
 </body>
 </html>
