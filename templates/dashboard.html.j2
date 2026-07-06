@@ -1,381 +1,513 @@
 {# dashboard.html.j2 — rendered by output/dashboard.py. Self-contained: inline
-   CSS + vanilla JS, zero external requests, works offline / on GitHub Pages.
-   The FULL open-job dataset is embedded as JSON; rows are rendered client-side
-   so search/filter/sort cover every job, with pagination for the DOM. #}
+CSS + vanilla JS, zero external requests, works offline / on GitHub Pages.
+The FULL open-job dataset is embedded as JSON; rows are rendered client-side
+so search/filter/sort cover every job, with pagination for the DOM. #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Search Dashboard</title>
-  <style>
-    :root {
-      --surface: #fcfcfb; --panel: #ffffff; --line: #e3e2de;
-      --text: #0b0b0b; --muted: #52514e; --accent: #2a78d6;
-      --good: #0ca30c; --good-soft: rgba(12,163,12,.12);
-      --warn-soft: rgba(250,178,25,.16);
-      --low-soft: rgba(82,81,78,.12);
-      --soon: #d03b3b;
-      /* Score-number inks: darker steps on the light surface for contrast;
-         brighter steps on dark. The numeral is always shown, so color is
-         reinforcement, never the only signal. */
-      --score-good: #0a7d0a; --score-mid: #8a5c00; --score-low: #52514e;
-    }
-    html[data-theme="dark"] {
-      --surface: #1a1a19; --panel: #232322; --line: #3a3a38;
-      --text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
-      --score-good: #3ecf6e; --score-mid: #fab219; --score-low: #c3c2b7;
-    }
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) {
-        --surface: #1a1a19; --panel: #232322; --line: #3a3a38;
-        --text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
-        --score-good: #3ecf6e; --score-mid: #fab219; --score-low: #c3c2b7;
-      }
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; font-size: 15px;
-           color: var(--text); background: var(--surface); }
-    a { color: var(--accent); }
-    .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
-    header { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline;
-             margin-bottom: 1rem; }
-    header h1 { font-size: 1.3rem; }
-    header .sub { color: var(--muted); font-size: .8rem; }
-    #theme-toggle { margin-left: auto; background: var(--panel); color: var(--text);
-                    border: 1px solid var(--line); border-radius: 6px;
-                    padding: .3rem .6rem; cursor: pointer; font-size: .8rem; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Search Dashboard</title>
+<style>
+:root {
+--surface: #fcfcfb; --panel: #ffffff; --line: #e3e2de;
+--text: #0b0b0b; --muted: #52514e; --accent: #2a78d6;
+--good: #0ca30c; --good-soft: rgba(12,163,12,.12);
+--warn-soft: rgba(250,178,25,.16);
+--low-soft: rgba(82,81,78,.12);
+--soon: #d03b3b;
+--score-good: #0a7d0a; --score-mid: #8a5c00; --score-low: #52514e;
+}
+html[data-theme="dark"] {
+--surface: #1a1a19; --panel: #232322; --line: #3a3a38;
+--text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
+--score-good: #3ecf6e; --score-mid: #fab219; --score-low: #c3c2b7;
+}
+@media (prefers-color-scheme: dark) {
+html:not([data-theme="light"]) {
+--surface: #1a1a19; --panel: #232322; --line: #3a3a38;
+--text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
+--score-good: #3ecf6e; --score-mid: #fab219; --score-low: #c3c2b7;
+}
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; font-size: 15px;
+color: var(--text); background: var(--surface); }
+a { color: var(--accent); }
+.container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+header { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline;
+margin-bottom: 1rem; }
+header h1 { font-size: 1.3rem; }
+header .sub { color: var(--muted); font-size: .8rem; }
+#theme-toggle { margin-left: auto; background: var(--panel); color: var(--text);
+border: 1px solid var(--line); border-radius: 6px;
+padding: .3rem .6rem; cursor: pointer; font-size: .8rem; }
 
-    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-             gap: .75rem; margin-bottom: 1rem; }
-    .tile { background: var(--panel); border: 1px solid var(--line);
-            border-radius: 8px; padding: .7rem .8rem; text-align: left;
-            font: inherit; color: inherit; }
-    .tile .label { font-size: .72rem; color: var(--muted); }
-    .tile .value { font-size: 1.35rem; font-weight: 600; }
-    button.tile { cursor: pointer; }
-    button.tile:hover { border-color: var(--accent); }
-    button.tile .label::after { content: " ↗"; opacity: .5; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+gap: .75rem; margin-bottom: 1rem; }
+.tile { background: var(--panel); border: 1px solid var(--line);
+border-radius: 8px; padding: .7rem .8rem; text-align: left;
+font: inherit; color: inherit; }
+.tile .label { font-size: .72rem; color: var(--muted); }
+.tile .value { font-size: 1.35rem; font-weight: 600; }
+button.tile { cursor: pointer; }
+button.tile:hover { border-color: var(--accent); }
+button.tile .label::after { content: " ↗"; opacity: .5; }
 
-    .controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
-    .controls input[type="search"], .controls select {
-      background: var(--panel); color: var(--text); border: 1px solid var(--line);
-      border-radius: 6px; padding: .4rem .6rem; font-size: .85rem; }
-    .controls input[type="search"] { flex: 1 1 220px; }
-    .controls label.chk { display: inline-flex; align-items: center; gap: .35rem;
-      font-size: .85rem; color: var(--muted); background: var(--panel);
-      border: 1px solid var(--line); border-radius: 6px; padding: .4rem .6rem;
-      cursor: pointer; }
-    #count-note { color: var(--muted); font-size: .8rem; align-self: center; }
+.hist-card { background: var(--panel); border: 1px solid var(--line);
+border-radius: 8px; padding: .7rem .8rem; margin-bottom: 1rem; }
+.hist-card .label { font-size: .72rem; color: var(--muted); margin-bottom: .4rem; }
+.hist { display: flex; align-items: flex-end; gap: 4px; height: 48px; }
+.hist .bar { flex: 1; border-radius: 2px 2px 0 0; min-height: 2px;
+transition: opacity .15s; }
+.hist-labels { display: flex; justify-content: space-between;
+font-size: .65rem; color: var(--muted); margin-top: .3rem; }
 
-    table { width: 100%; border-collapse: collapse; font-size: .85rem;
-            background: var(--panel); border: 1px solid var(--line);
-            border-radius: 8px; overflow: hidden; }
-    th { color: var(--muted); font-weight: 600; text-align: left; font-size: .72rem;
-         text-transform: uppercase; letter-spacing: .03em;
-         padding: .55rem .6rem; border-bottom: 1px solid var(--line);
-         position: sticky; top: 0; background: var(--panel); }
-    th.sortable { cursor: pointer; user-select: none; }
-    th.sortable:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-    th.sortable::after { content: " ↕"; opacity: .45; }
-    th[aria-sort="descending"]::after { content: " ↓"; opacity: 1; }
-    th[aria-sort="ascending"]::after { content: " ↑"; opacity: 1; }
-    td { padding: .5rem .6rem; border-bottom: 1px solid var(--line);
-         vertical-align: top; }
-    td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
-    tr.job:hover td { background: rgba(127,127,127,.06); cursor: pointer; }
-    .title-cell a { font-weight: 600; text-decoration: none; }
-    .title-cell a:hover { text-decoration: underline; }
-    .title-cell .co { color: var(--muted); font-size: .78rem; }
-    .badge { display: inline-block; min-width: 2.4rem; text-align: center;
-             border-radius: 999px; padding: .1rem .45rem; font-weight: 600;
-             font-variant-numeric: tabular-nums; }
-    .badge.good { background: var(--good-soft); color: var(--score-good); }
-    .badge.mid  { background: var(--warn-soft); color: var(--score-mid); }
-    .badge.low  { background: var(--low-soft); color: var(--score-low); }
-    .closes-soon { color: var(--soon); font-weight: 600; }
-    .new-flag { color: var(--good); font-size: .7rem; font-weight: 700;
-                text-transform: uppercase; margin-left: .3rem; }
-    tr.detail td { background: rgba(127,127,127,.05); color: var(--muted);
-                   font-size: .8rem; cursor: default; }
-    tr.detail .why { color: var(--text); }
-    .hide-btn { background: none; border: none; color: var(--muted);
-                cursor: pointer; font-size: .9rem; padding: 0 .2rem; }
-    .hide-btn:hover { color: var(--soon); }
-    #more-wrap { text-align: center; margin: 1rem 0; }
-    #show-more { background: var(--panel); color: var(--text); font: inherit;
-                 border: 1px solid var(--line); border-radius: 6px;
-                 padding: .5rem 1.2rem; cursor: pointer; }
-    #show-more:hover { border-color: var(--accent); }
-    footer { margin-top: 1.5rem; color: var(--muted); font-size: .75rem; }
-    @media (max-width: 700px) {
-      .hide-sm { display: none; }
-      th, td { padding: .4rem .4rem; font-size: .78rem; }
-    }
-  </style>
+.controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
+.controls input[type="search"], .controls select {
+background: var(--panel); color: var(--text); border: 1px solid var(--line);
+border-radius: 6px; padding: .4rem .6rem; font-size: .85rem; }
+.controls input[type="search"] { flex: 1 1 220px; }
+.controls label.chk { display: inline-flex; align-items: center; gap: .35rem;
+font-size: .85rem; color: var(--muted); background: var(--panel);
+border: 1px solid var(--line); border-radius: 6px; padding: .4rem .6rem;
+cursor: pointer; }
+.controls button.mini { background: var(--panel); color: var(--text);
+border: 1px solid var(--line); border-radius: 6px; padding: .4rem .6rem;
+font-size: .85rem; cursor: pointer; font: inherit; }
+.controls button.mini:hover { border-color: var(--accent); }
+#count-note { color: var(--muted); font-size: .8rem; align-self: center; }
+
+table { width: 100%; border-collapse: collapse; font-size: .85rem;
+background: var(--panel); border: 1px solid var(--line);
+border-radius: 8px; overflow: hidden; }
+th { color: var(--muted); font-weight: 600; text-align: left; font-size: .72rem;
+text-transform: uppercase; letter-spacing: .03em;
+padding: .55rem .6rem; border-bottom: 1px solid var(--line);
+position: sticky; top: 0; background: var(--panel); }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+th.sortable::after { content: " ↕"; opacity: .45; }
+th[aria-sort="descending"]::after { content: " ↓"; opacity: 1; }
+th[aria-sort="ascending"]::after { content: " ↑"; opacity: 1; }
+td { padding: .5rem .6rem; border-bottom: 1px solid var(--line);
+vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.job:hover td { background: rgba(127,127,127,.06); cursor: pointer; }
+.title-cell a { font-weight: 600; text-decoration: none; }
+.title-cell a:hover { text-decoration: underline; }
+.title-cell .co { color: var(--muted); font-size: .78rem; }
+.badge { display: inline-block; min-width: 2.4rem; text-align: center;
+border-radius: 999px; padding: .1rem .45rem; font-weight: 600;
+font-variant-numeric: tabular-nums; }
+.badge.good { background: var(--good-soft); color: var(--score-good); }
+.badge.mid { background: var(--warn-soft); color: var(--score-mid); }
+.badge.low { background: var(--low-soft); color: var(--score-low); }
+.closes-soon { color: var(--soon); font-weight: 600; }
+.new-flag { color: var(--good); font-size: .7rem; font-weight: 700;
+text-transform: uppercase; margin-left: .3rem; }
+tr.detail td { background: rgba(127,127,127,.05); color: var(--muted);
+font-size: .8rem; cursor: default; }
+tr.detail .why { color: var(--text); }
+tr.empty-row td { text-align: center; color: var(--muted); padding: 2rem .6rem;
+cursor: default; }
+tr.empty-row a { margin-left: .3rem; }
+.hide-btn { background: none; border: none; color: var(--muted);
+cursor: pointer; font-size: .9rem; padding: 0 .2rem; }
+.hide-btn:hover { color: var(--soon); }
+.row-actions { display: flex; gap: .2rem; justify-content: flex-end; }
+#more-wrap { text-align: center; margin: 1rem 0; }
+#show-more { background: var(--panel); color: var(--text); font: inherit;
+border: 1px solid var(--line); border-radius: 6px;
+padding: .5rem 1.2rem; cursor: pointer; }
+#show-more:hover { border-color: var(--accent); }
+footer { margin-top: 1.5rem; color: var(--muted); font-size: .75rem; }
+#scroll-top { position: fixed; right: 1.2rem; bottom: 1.2rem; width: 2.5rem;
+height: 2.5rem; border-radius: 50%; border: 1px solid var(--line);
+background: var(--panel); color: var(--text); font-size: 1.1rem;
+cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+#scroll-top:hover { border-color: var(--accent); }
+@media (max-width: 700px) {
+.hide-sm { display: none; }
+th, td { padding: .4rem .4rem; font-size: .78rem; }
+}
+</style>
 </head>
 <body>
 <div class="container">
-  <header>
-    <h1>Job Search Dashboard</h1>
-    <span class="sub">
-      Last run: {{ last_run.started_at | default('never') }} ·
-      {{ last_run.jobs_new | default(0) }} new / {{ last_run.jobs_scraped | default(0) }} scraped ·
-      mode: {{ mode }}
-    </span>
-    <button id="theme-toggle" type="button">◐ Theme</button>
-  </header>
+<header>
+<h1>Job Search Dashboard</h1>
+<span class="sub">
+Last run: {{ last_run.started_at | default('never') }} ·
+{{ last_run.jobs_new | default(0) }} new / {{ last_run.jobs_scraped | default(0) }} scraped ·
+mode: {{ mode }}
+</span>
+<button id="theme-toggle" type="button">◐ Theme</button>
+</header>
 
-  <div class="tiles">
-    <div class="tile"><div class="label">Open jobs</div><div class="value">{{ tiles.open_total }}</div></div>
-    <button class="tile" type="button" data-tile="strong" title="Filter to score 7+">
-      <div class="label">Strong matches (7+)</div><div class="value">{{ tiles.strong }}</div></button>
-    <button class="tile" type="button" data-tile="new" title="Filter to jobs first seen today">
-      <div class="label">New today</div><div class="value">{{ tiles.new_today }}</div></button>
-    <button class="tile" type="button" data-tile="closing" title="Sort by closing date">
-      <div class="label">Closing in 7 days</div><div class="value">{{ tiles.closing_soon }}</div></button>
-    <div class="tile"><div class="label">Spend today</div><div class="value">£{{ quota.today }}</div></div>
-    <div class="tile"><div class="label">Spend this month</div><div class="value">£{{ quota.month }}</div></div>
-  </div>
-
-  <div class="controls">
-    <input type="search" id="q" placeholder="Search all {{ open_jobs | length }} open jobs…" autocomplete="off">
-    <select id="min-score" aria-label="Minimum score">
-      <option value="">Any score</option>
-      <option value="8">8+</option>
-      <option value="7">7+</option>
-      <option value="6">6+</option>
-      <option value="5">5+</option>
-    </select>
-    <select id="status" aria-label="Status">
-      <option value="">All statuses</option>
-      {% for s in statuses %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
-    </select>
-    <select id="source" aria-label="Source">
-      <option value="">All sources</option>
-      {% for s in sources %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
-    </select>
-    <label class="chk"><input type="checkbox" id="new-only"> New today</label>
-    <label class="chk" title="Keep jobs that are remote, geocoded inside the UK, or have an unknown location">
-      <input type="checkbox" id="uk-only"> UK / remote</label>
-    <label class="chk"><input type="checkbox" id="show-hidden"> Hidden (<span id="hidden-count">0</span>)</label>
-    <span id="count-note"></span>
-  </div>
-
-  <table id="jobs">
-    <thead>
-      <tr>
-        <th class="sortable" data-key="score" tabindex="0" role="button" aria-sort="descending">Score</th>
-        <th>Role</th>
-        <th class="sortable hide-sm" data-key="location" tabindex="0" role="button">Location</th>
-        <th class="hide-sm">Salary</th>
-        <th class="hide-sm">Source</th>
-        <th class="sortable" data-key="seen" tabindex="0" role="button">Seen</th>
-        <th class="sortable" data-key="closes" tabindex="0" role="button">Closes</th>
-        <th class="hide-sm">Status</th>
-        <th aria-label="Hide job"></th>
-      </tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
-  <div id="more-wrap"><button id="show-more" type="button" hidden>Show more</button></div>
-  <noscript><p>This dashboard needs JavaScript to display the job table.</p></noscript>
-
-  <footer>
-    Generated {{ generated_at }} · source of truth: jobs.db · all
-    {{ open_jobs | length }} open jobs are loaded and searchable ·
-    projected month spend £{{ quota.projected }} · cache hit rate {{ quota.cache_hit_rate }} ·
-    hidden jobs are remembered by this browser only.
-  </footer>
+<div class="tiles">
+<div class="tile"><div class="label">Open jobs</div><div class="value">{{ tiles.open_total }}</div></div>
+<button class="tile" type="button" data-tile="strong" title="Filter to score 7+">
+<div class="label">Strong matches (7+)</div><div class="value">{{ tiles.strong }}</div></button>
+<button class="tile" type="button" data-tile="new" title="Filter to jobs first seen today">
+<div class="label">New today</div><div class="value">{{ tiles.new_today }}</div></button>
+<button class="tile" type="button" data-tile="closing" title="Sort by closing date">
+<div class="label">Closing in 7 days</div><div class="value">{{ tiles.closing_soon }}</div></button>
+<div class="tile"><div class="label">Spend today</div><div class="value">£{{ quota.today }}</div></div>
+<div class="tile"><div class="label">Spend this month</div><div class="value">£{{ quota.month }}</div></div>
 </div>
+
+<div class="hist-card">
+<div class="label">Score distribution — all open jobs</div>
+<div class="hist" id="hist"></div>
+<div class="hist-labels"><span>0</span><span>5</span><span>10</span></div>
+</div>
+
+<div class="controls">
+<input type="search" id="q" placeholder="Search all {{ open_jobs | length }} open jobs…" autocomplete="off">
+<select id="min-score" aria-label="Minimum score">
+<option value="">Any score</option>
+<option value="8">8+</option>
+<option value="7">7+</option>
+<option value="6">6+</option>
+<option value="5">5+</option>
+</select>
+<select id="status" aria-label="Status">
+<option value="">All statuses</option>
+{% for s in statuses %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+</select>
+<select id="source" aria-label="Source">
+<option value="">All sources</option>
+{% for s in sources %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+</select>
+<label class="chk"><input type="checkbox" id="new-only"> New today</label>
+<label class="chk" title="Keep jobs that are remote, geocoded inside the UK, or have an unknown location">
+<input type="checkbox" id="uk-only"> UK / remote</label>
+<label class="chk"><input type="checkbox" id="show-hidden"> Hidden (<span id="hidden-count">0</span>)</label>
+<button type="button" id="reset-filters" class="mini" title="Clear all filters">⟲ Reset</button>
+<button type="button" id="export-csv" class="mini" title="Download the currently filtered rows as CSV">⭳ Export CSV</button>
+<span id="count-note"></span>
+</div>
+
+<table id="jobs">
+<thead>
+<tr>
+<th class="sortable" data-key="score" tabindex="0" role="button" aria-sort="descending">Score</th>
+<th>Role</th>
+<th class="sortable hide-sm" data-key="location" tabindex="0" role="button">Location</th>
+<th class="hide-sm">Salary</th>
+<th class="hide-sm">Source</th>
+<th class="sortable" data-key="seen" tabindex="0" role="button">Seen</th>
+<th class="sortable" data-key="closes" tabindex="0" role="button">Closes</th>
+<th class="hide-sm">Status</th>
+<th aria-label="Row actions"></th>
+</tr>
+</thead>
+<tbody id="rows"></tbody>
+</table>
+<div id="more-wrap"><button id="show-more" type="button" hidden>Show more</button></div>
+<noscript><p>This dashboard needs JavaScript to display the job table.</p></noscript>
+
+<footer>
+Generated {{ generated_at }} · source of truth: jobs.db · all
+{{ open_jobs | length }} open jobs are loaded and searchable ·
+projected month spend £{{ quota.projected }} · cache hit rate {{ quota.cache_hit_rate }} ·
+hidden jobs are remembered by this browser only · press / to search.
+</footer>
+</div>
+
+<button id="scroll-top" type="button" title="Back to top" hidden>↑</button>
 
 <script type="application/json" id="job-data">{{ open_jobs | tojson }}</script>
 <script>
 (function () {
-  "use strict";
-  var root = document.documentElement;
-  document.getElementById("theme-toggle").addEventListener("click", function () {
-    var dark = root.getAttribute("data-theme") === "dark" ||
-      (!root.getAttribute("data-theme") &&
-       window.matchMedia("(prefers-color-scheme: dark)").matches);
-    var next = dark ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    try { localStorage.setItem("dash-theme", next); } catch (e) {}
-  });
-  try {
-    var savedTheme = localStorage.getItem("dash-theme");
-    if (savedTheme) root.setAttribute("data-theme", savedTheme);
-  } catch (e) {}
+"use strict";
+var root = document.documentElement;
+document.getElementById("theme-toggle").addEventListener("click", function () {
+var dark = root.getAttribute("data-theme") === "dark" ||
+(!root.getAttribute("data-theme") &&
+window.matchMedia("(prefers-color-scheme: dark)").matches);
+var next = dark ? "light" : "dark";
+root.setAttribute("data-theme", next);
+try { localStorage.setItem("dash-theme", next); } catch (e) {}
+});
+try {
+var savedTheme = localStorage.getItem("dash-theme");
+if (savedTheme) root.setAttribute("data-theme", savedTheme);
+} catch (e) {}
 
-  var DATA = JSON.parse(document.getElementById("job-data").textContent);
-  DATA.forEach(function (j) {
-    j._hay = (j.title + " " + j.company + " " + j.location + " " + j.kw + " " +
-              j.source).toLowerCase();
-  });
+var DATA = JSON.parse(document.getElementById("job-data").textContent);
+DATA.forEach(function (j) {
+j._hay = (j.title + " " + j.company + " " + j.location + " " + j.kw + " " +
+j.source).toLowerCase();
+});
 
-  var HIDE_KEY = "dash-hidden-v1";
-  var hidden = {};
-  try { (JSON.parse(localStorage.getItem(HIDE_KEY) || "[]")).forEach(function (u) { hidden[u] = 1; }); } catch (e) {}
-  function saveHidden() {
-    try { localStorage.setItem(HIDE_KEY, JSON.stringify(Object.keys(hidden))); } catch (e) {}
-  }
+var HIDE_KEY = "dash-hidden-v1";
+var hidden = {};
+try { (JSON.parse(localStorage.getItem(HIDE_KEY) || "[]")).forEach(function (u) { hidden[u] = 1; }); } catch (e) {}
+function saveHidden() {
+try { localStorage.setItem(HIDE_KEY, JSON.stringify(Object.keys(hidden))); } catch (e) {}
+}
 
-  var els = {
-    q: document.getElementById("q"),
-    minScore: document.getElementById("min-score"),
-    status: document.getElementById("status"),
-    source: document.getElementById("source"),
-    newOnly: document.getElementById("new-only"),
-    ukOnly: document.getElementById("uk-only"),
-    showHidden: document.getElementById("show-hidden"),
-    rows: document.getElementById("rows"),
-    note: document.getElementById("count-note"),
-    more: document.getElementById("show-more"),
-    hiddenCount: document.getElementById("hidden-count"),
-  };
-  var PAGE = 250;
-  var state = { sortKey: "score", sortDesc: true, limit: PAGE };
+var els = {
+q: document.getElementById("q"),
+minScore: document.getElementById("min-score"),
+status: document.getElementById("status"),
+source: document.getElementById("source"),
+newOnly: document.getElementById("new-only"),
+ukOnly: document.getElementById("uk-only"),
+showHidden: document.getElementById("show-hidden"),
+rows: document.getElementById("rows"),
+note: document.getElementById("count-note"),
+more: document.getElementById("show-more"),
+hiddenCount: document.getElementById("hidden-count"),
+};
+var PAGE = 250;
+var state = { sortKey: "score", sortDesc: true, limit: PAGE };
 
-  function sortVal(j, key) {
-    if (key === "score") return j.score === null ? -1 : j.score;
-    if (key === "seen") return j.seen || "";
-    if (key === "closes") return j.closes || "9999-12-31";
-    if (key === "location") return (j.location || "~").toLowerCase();
-    return "";
-  }
+function sortVal(j, key) {
+if (key === "score") return j.score === null ? -1 : j.score;
+if (key === "seen") return j.seen || "";
+if (key === "closes") return j.closes || "9999-12-31";
+if (key === "location") return (j.location || "~").toLowerCase();
+return "";
+}
 
-  function matches() {
-    var text = els.q.value.trim().toLowerCase();
-    var min = els.minScore.value === "" ? null : parseFloat(els.minScore.value);
-    var st = els.status.value, src = els.source.value;
-    var onlyNew = els.newOnly.checked, ukOnly = els.ukOnly.checked;
-    var showHidden = els.showHidden.checked;
-    var out = DATA.filter(function (j) {
-      if (!!hidden[j.url] !== showHidden) return false;
-      if (min !== null && !(j.score >= min)) return false;
-      if (st && j.status !== st) return false;
-      if (src && j.source !== src) return false;
-      if (onlyNew && !j.new) return false;
-      if (ukOnly && !(j.remote || j.uk === 1 || j.uk === null)) return false;
-      if (text && j._hay.indexOf(text) === -1) return false;
-      return true;
-    });
-    out.sort(function (a, b) {
-      var av = sortVal(a, state.sortKey), bv = sortVal(b, state.sortKey);
-      var cmp = av < bv ? -1 : av > bv ? 1 : 0;
-      return state.sortDesc ? -cmp : cmp;
-    });
-    return out;
-  }
+function matches() {
+var text = els.q.value.trim().toLowerCase();
+var min = els.minScore.value === "" ? null : parseFloat(els.minScore.value);
+var st = els.status.value, src = els.source.value;
+var onlyNew = els.newOnly.checked, ukOnly = els.ukOnly.checked;
+var showHidden = els.showHidden.checked;
+var out = DATA.filter(function (j) {
+if (!!hidden[j.url] !== showHidden) return false;
+if (min !== null && !(j.score >= min)) return false;
+if (st && j.status !== st) return false;
+if (src && j.source !== src) return false;
+if (onlyNew && !j.new) return false;
+if (ukOnly && !(j.remote || j.uk === 1 || j.uk === null)) return false;
+if (text && j._hay.indexOf(text) === -1) return false;
+return true;
+});
+out.sort(function (a, b) {
+var av = sortVal(a, state.sortKey), bv = sortVal(b, state.sortKey);
+var cmp = av < bv ? -1 : av > bv ? 1 : 0;
+return state.sortDesc ? -cmp : cmp;
+});
+return out;
+}
 
-  function el(tag, cls, text) {
-    var n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text !== undefined) n.textContent = text;
-    return n;
-  }
+function el(tag, cls, text) {
+var n = document.createElement(tag);
+if (cls) n.className = cls;
+if (text !== undefined) n.textContent = text;
+return n;
+}
 
-  function buildRow(j) {
-    var tr = el("tr", "job");
-    var tdScore = el("td", "num");
-    var band = j.score === null ? "low" : j.score >= 7 ? "good" : j.score >= 5 ? "mid" : "low";
-    tdScore.appendChild(el("span", "badge " + band, j.score === null ? "—" : j.score.toFixed(1)));
-    tr.appendChild(tdScore);
+function buildRow(j) {
+var tr = el("tr", "job");
+var tdScore = el("td", "num");
+var band = j.score === null ? "low" : j.score >= 7 ? "good" : j.score >= 5 ? "mid" : "low";
+tdScore.appendChild(el("span", "badge " + band, j.score === null ? "—" : j.score.toFixed(1)));
+tr.appendChild(tdScore);
 
-    var tdTitle = el("td", "title-cell");
-    var link = el("a", "", j.title);
-    if (/^https?:\/\//i.test(j.url)) { link.href = j.url; link.target = "_blank"; link.rel = "noopener"; }
-    tdTitle.appendChild(link);
-    if (j.new) tdTitle.appendChild(el("span", "new-flag", "new"));
-    tdTitle.appendChild(el("div", "co", j.company));
-    tr.appendChild(tdTitle);
+var tdTitle = el("td", "title-cell");
+var link = el("a", "", j.title);
+if (/^https?:\/\//i.test(j.url)) { link.href = j.url; link.target = "_blank"; link.rel = "noopener"; }
+tdTitle.appendChild(link);
+if (j.new) tdTitle.appendChild(el("span", "new-flag", "new"));
+tdTitle.appendChild(el("div", "co", j.company));
+tr.appendChild(tdTitle);
 
-    tr.appendChild(el("td", "hide-sm", j.location || "—"));
-    tr.appendChild(el("td", "hide-sm num", j.salary || "—"));
-    tr.appendChild(el("td", "hide-sm", j.source));
-    tr.appendChild(el("td", "num", j.seen || "—"));
-    tr.appendChild(el("td", "num" + (j.soon ? " closes-soon" : ""), j.closes || "—"));
-    tr.appendChild(el("td", "hide-sm", j.status));
+tr.appendChild(el("td", "hide-sm", j.location || "—"));
+tr.appendChild(el("td", "hide-sm num", j.salary || "—"));
+tr.appendChild(el("td", "hide-sm", j.source));
+tr.appendChild(el("td", "num", j.seen || "—"));
+tr.appendChild(el("td", "num" + (j.soon ? " closes-soon" : ""), j.closes || "—"));
+tr.appendChild(el("td", "hide-sm", j.status));
 
-    var tdHide = el("td", "num");
-    var isHidden = !!hidden[j.url];
-    var hideBtn = el("button", "hide-btn", isHidden ? "↩" : "✕");
-    hideBtn.type = "button";
-    hideBtn.title = isHidden ? "Restore this job" : "Hide this job (this browser only)";
-    hideBtn.addEventListener("click", function (ev) {
-      ev.stopPropagation();
-      if (hidden[j.url]) delete hidden[j.url]; else hidden[j.url] = 1;
-      saveHidden(); render();
-    });
-    tdHide.appendChild(hideBtn);
-    tr.appendChild(tdHide);
+var tdActions = el("td", "num");
+var wrap = el("div", "row-actions");
+var isHidden = !!hidden[j.url];
+var copyBtn = el("button", "hide-btn", "⧉");
+copyBtn.type = "button";
+copyBtn.title = "Copy job link";
+copyBtn.addEventListener("click", function (ev) {
+ev.stopPropagation();
+if (!/^https?:\/\//i.test(j.url)) return;
+var restore = function () { copyBtn.textContent = "⧉"; };
+if (navigator.clipboard && navigator.clipboard.writeText) {
+navigator.clipboard.writeText(j.url).then(function () {
+copyBtn.textContent = "✓"; setTimeout(restore, 1200);
+}, restore);
+}
+});
+var hideBtn = el("button", "hide-btn", isHidden ? "↩" : "✕");
+hideBtn.type = "button";
+hideBtn.title = isHidden ? "Restore this job" : "Hide this job (this browser only)";
+hideBtn.addEventListener("click", function (ev) {
+ev.stopPropagation();
+if (hidden[j.url]) delete hidden[j.url]; else hidden[j.url] = 1;
+saveHidden(); render();
+});
+wrap.appendChild(copyBtn);
+wrap.appendChild(hideBtn);
+tdActions.appendChild(wrap);
+tr.appendChild(tdActions);
 
-    tr.addEventListener("click", function (ev) {
-      if (ev.target.closest("a") || ev.target.closest("button")) return;
-      var next = tr.nextElementSibling;
-      if (next && next.classList.contains("detail")) { next.remove(); return; }
-      var d = el("tr", "detail");
-      var td = el("td");
-      td.colSpan = 9;
-      var bits = [];
-      if (j.reason) { var w = el("span", "why", j.reason); td.appendChild(w); }
-      if (j.conf !== null && j.conf !== undefined) bits.push("confidence " + Math.round(j.conf * 100) + "%");
-      if (j.kw) bits.push("matches: " + j.kw);
-      if (!j.reason && !bits.length) bits.push("No score explanation yet — this job has not been LLM-ranked.");
-      if (bits.length) td.appendChild(document.createTextNode((j.reason ? " · " : "") + bits.join(" · ")));
-      d.appendChild(td);
-      tr.parentNode.insertBefore(d, tr.nextSibling);
-    });
-    return tr;
-  }
+tr.addEventListener("click", function (ev) {
+if (ev.target.closest("a") || ev.target.closest("button")) return;
+var next = tr.nextElementSibling;
+if (next && next.classList.contains("detail")) { next.remove(); return; }
+var d = el("tr", "detail");
+var td = el("td");
+td.colSpan = 9;
+var bits = [];
+if (j.reason) { var w = el("span", "why", j.reason); td.appendChild(w); }
+if (j.conf !== null && j.conf !== undefined) bits.push("confidence " + Math.round(j.conf * 100) + "%");
+if (j.kw) bits.push("matches: " + j.kw);
+if (!j.reason && !bits.length) bits.push("No score explanation yet — this job has not been LLM-ranked.");
+if (bits.length) td.appendChild(document.createTextNode((j.reason ? " · " : "") + bits.join(" · ")));
+d.appendChild(td);
+tr.parentNode.insertBefore(d, tr.nextSibling);
+});
+return tr;
+}
 
-  function render() {
-    var m = matches();
-    els.rows.textContent = "";
-    var frag = document.createDocumentFragment();
-    m.slice(0, state.limit).forEach(function (j) { frag.appendChild(buildRow(j)); });
-    els.rows.appendChild(frag);
-    var shown = Math.min(state.limit, m.length);
-    els.note.textContent = m.length + " matching · showing " + shown;
-    els.hiddenCount.textContent = Object.keys(hidden).length;
-    els.more.hidden = m.length <= state.limit;
-    els.more.textContent = "Show more (" + (m.length - shown) + " remaining)";
-  }
+function render() {
+var m = matches();
+els.rows.textContent = "";
+var frag = document.createDocumentFragment();
+if (!m.length) {
+var er = el("tr", "empty-row");
+var etd = el("td");
+etd.colSpan = 9;
+etd.appendChild(document.createTextNode("No jobs match your filters."));
+var link = el("a", "", "Reset filters");
+link.href = "#";
+link.addEventListener("click", function (ev) { ev.preventDefault(); resetFilters(); });
+etd.appendChild(link);
+er.appendChild(etd);
+frag.appendChild(er);
+} else {
+m.slice(0, state.limit).forEach(function (j) { frag.appendChild(buildRow(j)); });
+}
+els.rows.appendChild(frag);
+var shown = Math.min(state.limit, m.length);
+els.note.textContent = m.length + " matching · showing " + shown;
+els.hiddenCount.textContent = Object.keys(hidden).length;
+els.more.hidden = m.length <= state.limit;
+els.more.textContent = "Show more (" + (m.length - shown) + " remaining)";
+}
 
-  function refilter() { state.limit = PAGE; render(); }
-  [els.q, els.minScore, els.status, els.source, els.newOnly, els.ukOnly, els.showHidden]
-    .forEach(function (c) { c.addEventListener("input", refilter); c.addEventListener("change", refilter); });
-  els.more.addEventListener("click", function () { state.limit += PAGE * 2; render(); });
+function refilter() { state.limit = PAGE; render(); }
+function resetFilters() {
+els.q.value = "";
+els.minScore.value = "";
+els.status.value = "";
+els.source.value = "";
+els.newOnly.checked = false;
+els.ukOnly.checked = false;
+refilter();
+}
+[els.q, els.minScore, els.status, els.source, els.newOnly, els.ukOnly, els.showHidden]
+.forEach(function (c) { c.addEventListener("input", refilter); c.addEventListener("change", refilter); });
+els.more.addEventListener("click", function () { state.limit += PAGE * 2; render(); });
+document.getElementById("reset-filters").addEventListener("click", resetFilters);
 
-  var headers = Array.prototype.slice.call(document.querySelectorAll("th.sortable"));
-  function setSort(key) {
-    if (state.sortKey === key) state.sortDesc = !state.sortDesc;
-    else { state.sortKey = key; state.sortDesc = key === "score"; }
-    headers.forEach(function (h) {
-      if (h.getAttribute("data-key") === state.sortKey)
-        h.setAttribute("aria-sort", state.sortDesc ? "descending" : "ascending");
-      else h.removeAttribute("aria-sort");
-    });
-    render();
-  }
-  headers.forEach(function (th) {
-    th.addEventListener("click", function () { setSort(th.getAttribute("data-key")); });
-    th.addEventListener("keydown", function (ev) {
-      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setSort(th.getAttribute("data-key")); }
-    });
-  });
+document.getElementById("export-csv").addEventListener("click", function () {
+var rows = matches();
+var header = ["Score", "Role", "Company", "Location", "Salary", "Source", "Seen", "Closes", "Status", "URL"];
+function esc(v) {
+v = v === null || v === undefined ? "" : String(v);
+if (/[",\n]/.test(v)) v = '"' + v.replace(/"/g, '""') + '"';
+return v;
+}
+var lines = [header.join(",")];
+rows.forEach(function (j) {
+lines.push([
+j.score === null ? "" : j.score, j.title, j.company, j.location || "",
+j.salary || "", j.source, j.seen || "", j.closes || "", j.status, j.url
+].map(esc).join(","));
+});
+var blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+var url = URL.createObjectURL(blob);
+var a = document.createElement("a");
+a.href = url; a.download = "jobs-export.csv";
+document.body.appendChild(a); a.click(); document.body.removeChild(a);
+setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+});
 
-  document.querySelectorAll("button.tile").forEach(function (t) {
-    t.addEventListener("click", function () {
-      var kind = t.getAttribute("data-tile");
-      if (kind === "strong") { els.minScore.value = "7"; }
-      if (kind === "new") { els.newOnly.checked = true; }
-      if (kind === "closing") { state.sortKey = "closes"; state.sortDesc = true; setSort("closes"); }
-      refilter();
-    });
-  });
+var headers = Array.prototype.slice.call(document.querySelectorAll("th.sortable"));
+function setSort(key) {
+if (state.sortKey === key) state.sortDesc = !state.sortDesc;
+else { state.sortKey = key; state.sortDesc = key === "score"; }
+headers.forEach(function (h) {
+if (h.getAttribute("data-key") === state.sortKey)
+h.setAttribute("aria-sort", state.sortDesc ? "descending" : "ascending");
+else h.removeAttribute("aria-sort");
+});
+render();
+}
+headers.forEach(function (th) {
+th.addEventListener("click", function () { setSort(th.getAttribute("data-key")); });
+th.addEventListener("keydown", function (ev) {
+if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setSort(th.getAttribute("data-key")); }
+});
+});
 
-  render();
+document.querySelectorAll("button.tile").forEach(function (t) {
+t.addEventListener("click", function () {
+var kind = t.getAttribute("data-tile");
+if (kind === "strong") { els.minScore.value = "7"; }
+if (kind === "new") { els.newOnly.checked = true; }
+if (kind === "closing") { state.sortKey = "closes"; state.sortDesc = true; setSort("closes"); }
+refilter();
+});
+});
+
+function renderHist() {
+var buckets = new Array(11).fill(0);
+DATA.forEach(function (j) {
+if (j.score === null || j.score === undefined) return;
+var b = Math.max(0, Math.min(10, Math.round(j.score)));
+buckets[b]++;
+});
+var max = Math.max.apply(null, buckets) || 1;
+var histEl = document.getElementById("hist");
+histEl.textContent = "";
+buckets.forEach(function (count, score) {
+var bar = el("div", "bar");
+var pct = count / max;
+bar.style.height = (count ? Math.max(pct * 100, 4) : 1) + "%";
+var band = score >= 7 ? "good" : score >= 5 ? "mid" : "low";
+bar.style.background = "var(--score-" + band + ")";
+bar.style.opacity = count ? "0.85" : "0.2";
+bar.title = "Score " + score + ": " + count + " job" + (count === 1 ? "" : "s");
+histEl.appendChild(bar);
+});
+}
+renderHist();
+
+document.addEventListener("keydown", function (ev) {
+if (ev.key === "/" && !ev.metaKey && !ev.ctrlKey && !ev.altKey) {
+var tag = document.activeElement && document.activeElement.tagName;
+if (tag !== "INPUT" && tag !== "SELECT" && tag !== "TEXTAREA") {
+ev.preventDefault();
+els.q.focus();
+}
+}
+});
+
+var scrollBtn = document.getElementById("scroll-top");
+window.addEventListener("scroll", function () {
+scrollBtn.hidden = window.scrollY < 400;
+});
+scrollBtn.addEventListener("click", function () {
+window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+render();
 })();
 </script>
 </body>
