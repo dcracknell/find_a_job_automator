@@ -54,11 +54,13 @@ def test_dashboard_lists_open_jobs_and_skips_closed(tmp_path) -> None:
     assert "Python Developer" in html
     assert "Data Engineer" in html
     assert "Should Not Appear" not in html
-    # Fit reason + keywords surface in the expandable detail row
+    # Fit reason + keywords ship in the embedded JSON dataset
     assert "Core skills match." in html
     assert "Python, SQL" in html
     # Stat tiles counted open jobs only
     assert "Open jobs" in html
+    # The full dataset is embedded for client-side search
+    assert 'id="job-data"' in html
 
 
 def test_dashboard_escapes_scraped_html(tmp_path) -> None:
@@ -71,5 +73,7 @@ def test_dashboard_escapes_scraped_html(tmp_path) -> None:
     regenerate_dashboard(conn, out, {"mode": "passive"})
     html = out.read_text(encoding="utf-8")
 
-    assert '<script>alert("x")</script> Engineer' not in html
-    assert "&lt;script&gt;" in html
+    # tojson escapes angle brackets to < so the JSON blob can never
+    # break out of its <script> container
+    assert '<script>alert(' not in html
+    assert "\\u003cscript\\u003e" in html

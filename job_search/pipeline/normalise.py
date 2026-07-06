@@ -16,7 +16,11 @@ logger = logging.getLogger(__name__)
 
 # Query parameters that are required for a listing to be loadable (whitelist).
 # Everything else is stripped to produce the canonical URL.
-_KEEP_PARAMS: frozenset[str] = frozenset(["id", "jobId", "job_id", "vacancyId", "reference"])
+# jk/vjk = Indeed job keys (stripping them broke every Indeed link);
+# jobkey = Indeed mobile; gh_jid = Greenhouse-embedded boards.
+_KEEP_PARAMS: frozenset[str] = frozenset(
+    ["id", "jobId", "job_id", "vacancyId", "reference", "jk", "vjk", "jobkey", "gh_jid"]
+)
 
 
 def _canonical_url(url: str) -> str:
@@ -65,6 +69,10 @@ def normalise(
     Returns None if the record is missing required fields (title, company, url).
     """
     title = (raw.get("title") or "").strip()
+    # Scraped titles occasionally arrive as full sentences; a trailing period
+    # is never part of a real job title.
+    if title.endswith(".") and not title.endswith(".."):
+        title = title[:-1].rstrip()
     company = (raw.get("company") or raw.get("employer") or "").strip()
     url = (raw.get("url") or raw.get("redirect_url") or "").strip()
 

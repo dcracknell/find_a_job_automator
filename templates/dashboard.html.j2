@@ -1,5 +1,7 @@
 {# dashboard.html.j2 — rendered by output/dashboard.py. Self-contained: inline
-   CSS + vanilla JS, zero external requests, works offline / on GitHub Pages. #}
+   CSS + vanilla JS, zero external requests, works offline / on GitHub Pages.
+   The FULL open-job dataset is embedded as JSON; rows are rendered client-side
+   so search/filter/sort cover every job, with pagination for the DOM. #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,9 +49,13 @@
     .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
              gap: .75rem; margin-bottom: 1rem; }
     .tile { background: var(--panel); border: 1px solid var(--line);
-            border-radius: 8px; padding: .7rem .8rem; }
+            border-radius: 8px; padding: .7rem .8rem; text-align: left;
+            font: inherit; color: inherit; }
     .tile .label { font-size: .72rem; color: var(--muted); }
     .tile .value { font-size: 1.35rem; font-weight: 600; }
+    button.tile { cursor: pointer; }
+    button.tile:hover { border-color: var(--accent); }
+    button.tile .label::after { content: " ↗"; opacity: .5; }
 
     .controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
     .controls input[type="search"], .controls select {
@@ -58,7 +64,8 @@
     .controls input[type="search"] { flex: 1 1 220px; }
     .controls label.chk { display: inline-flex; align-items: center; gap: .35rem;
       font-size: .85rem; color: var(--muted); background: var(--panel);
-      border: 1px solid var(--line); border-radius: 6px; padding: .4rem .6rem; }
+      border: 1px solid var(--line); border-radius: 6px; padding: .4rem .6rem;
+      cursor: pointer; }
     #count-note { color: var(--muted); font-size: .8rem; align-self: center; }
 
     table { width: 100%; border-collapse: collapse; font-size: .85rem;
@@ -69,13 +76,14 @@
          padding: .55rem .6rem; border-bottom: 1px solid var(--line);
          position: sticky; top: 0; background: var(--panel); }
     th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     th.sortable::after { content: " ↕"; opacity: .45; }
-    th.sorted-desc::after { content: " ↓"; opacity: 1; }
-    th.sorted-asc::after { content: " ↑"; opacity: 1; }
+    th[aria-sort="descending"]::after { content: " ↓"; opacity: 1; }
+    th[aria-sort="ascending"]::after { content: " ↑"; opacity: 1; }
     td { padding: .5rem .6rem; border-bottom: 1px solid var(--line);
          vertical-align: top; }
     td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
-    tbody.job:hover td { background: rgba(127,127,127,.06); cursor: pointer; }
+    tr.job:hover td { background: rgba(127,127,127,.06); cursor: pointer; }
     .title-cell a { font-weight: 600; text-decoration: none; }
     .title-cell a:hover { text-decoration: underline; }
     .title-cell .co { color: var(--muted); font-size: .78rem; }
@@ -89,8 +97,16 @@
     .new-flag { color: var(--good); font-size: .7rem; font-weight: 700;
                 text-transform: uppercase; margin-left: .3rem; }
     tr.detail td { background: rgba(127,127,127,.05); color: var(--muted);
-                   font-size: .8rem; }
+                   font-size: .8rem; cursor: default; }
     tr.detail .why { color: var(--text); }
+    .hide-btn { background: none; border: none; color: var(--muted);
+                cursor: pointer; font-size: .9rem; padding: 0 .2rem; }
+    .hide-btn:hover { color: var(--soon); }
+    #more-wrap { text-align: center; margin: 1rem 0; }
+    #show-more { background: var(--panel); color: var(--text); font: inherit;
+                 border: 1px solid var(--line); border-radius: 6px;
+                 padding: .5rem 1.2rem; cursor: pointer; }
+    #show-more:hover { border-color: var(--accent); }
     footer { margin-top: 1.5rem; color: var(--muted); font-size: .75rem; }
     @media (max-width: 700px) {
       .hide-sm { display: none; }
@@ -112,107 +128,73 @@
 
   <div class="tiles">
     <div class="tile"><div class="label">Open jobs</div><div class="value">{{ tiles.open_total }}</div></div>
-    <div class="tile"><div class="label">Strong matches (7+)</div><div class="value">{{ tiles.strong }}</div></div>
-    <div class="tile"><div class="label">New today</div><div class="value">{{ tiles.new_today }}</div></div>
-    <div class="tile"><div class="label">Closing in 7 days</div><div class="value">{{ tiles.closing_soon }}</div></div>
+    <button class="tile" type="button" data-tile="strong" title="Filter to score 7+">
+      <div class="label">Strong matches (7+)</div><div class="value">{{ tiles.strong }}</div></button>
+    <button class="tile" type="button" data-tile="new" title="Filter to jobs first seen today">
+      <div class="label">New today</div><div class="value">{{ tiles.new_today }}</div></button>
+    <button class="tile" type="button" data-tile="closing" title="Sort by closing date">
+      <div class="label">Closing in 7 days</div><div class="value">{{ tiles.closing_soon }}</div></button>
     <div class="tile"><div class="label">Spend today</div><div class="value">£{{ quota.today }}</div></div>
     <div class="tile"><div class="label">Spend this month</div><div class="value">£{{ quota.month }}</div></div>
   </div>
 
   <div class="controls">
-    <input type="search" id="q" placeholder="Search title, company, location…" autocomplete="off">
-    <select id="min-score">
+    <input type="search" id="q" placeholder="Search all {{ open_jobs | length }} open jobs…" autocomplete="off">
+    <select id="min-score" aria-label="Minimum score">
       <option value="">Any score</option>
       <option value="8">8+</option>
       <option value="7">7+</option>
       <option value="6">6+</option>
       <option value="5">5+</option>
     </select>
-    <select id="status">
+    <select id="status" aria-label="Status">
       <option value="">All statuses</option>
       {% for s in statuses %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
     </select>
-    <select id="source">
+    <select id="source" aria-label="Source">
       <option value="">All sources</option>
       {% for s in sources %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
     </select>
     <label class="chk"><input type="checkbox" id="new-only"> New today</label>
+    <label class="chk" title="Keep jobs that are remote, geocoded inside the UK, or have an unknown location">
+      <input type="checkbox" id="uk-only"> UK / remote</label>
+    <label class="chk"><input type="checkbox" id="show-hidden"> Hidden (<span id="hidden-count">0</span>)</label>
     <span id="count-note"></span>
   </div>
 
   <table id="jobs">
     <thead>
       <tr>
-        <th class="sortable sorted-desc" data-key="score">Score</th>
+        <th class="sortable" data-key="score" tabindex="0" role="button" aria-sort="descending">Score</th>
         <th>Role</th>
-        <th class="sortable hide-sm" data-key="location">Location</th>
+        <th class="sortable hide-sm" data-key="location" tabindex="0" role="button">Location</th>
         <th class="hide-sm">Salary</th>
         <th class="hide-sm">Source</th>
-        <th class="sortable" data-key="posted">Seen</th>
-        <th class="sortable" data-key="closes">Closes</th>
+        <th class="sortable" data-key="seen" tabindex="0" role="button">Seen</th>
+        <th class="sortable" data-key="closes" tabindex="0" role="button">Closes</th>
         <th class="hide-sm">Status</th>
+        <th aria-label="Hide job"></th>
       </tr>
     </thead>
-    {% for job in open_jobs %}
-    <tbody class="job"
-           data-score="{{ job.fit_score if job.fit_score is not none else -1 }}"
-           data-status="{{ job.status }}"
-           data-source="{{ job.source }}"
-           data-new="{{ 1 if job.is_new else 0 }}"
-           data-posted="{{ job.first_seen or '' }}"
-           data-closes="{{ job.closes_on or '9999-12-31' }}"
-           data-location="{{ (job.location or '~') | lower }}"
-           data-text="{{ (job.title ~ ' ' ~ job.company ~ ' ' ~ (job.location or '') ~ ' ' ~ (job.keywords or '')) | lower }}">
-      <tr>
-        <td class="num">
-          {% if job.fit_score is not none %}
-            <span class="badge {% if job.fit_score >= 7 %}good{% elif job.fit_score >= 5 %}mid{% else %}low{% endif %}">{{ job.fit_score | round(1) }}</span>
-          {% else %}<span class="badge low">—</span>{% endif %}
-        </td>
-        <td class="title-cell">
-          <a href="{{ job.url }}" target="_blank" rel="noopener">{{ job.title }}</a>
-          {%- if job.is_new %}<span class="new-flag">new</span>{% endif %}
-          <div class="co">{{ job.company }}</div>
-        </td>
-        <td class="hide-sm">{{ job.location or '—' }}</td>
-        <td class="hide-sm num">{{ job.salary_raw or '—' }}</td>
-        <td class="hide-sm">{{ job.source }}</td>
-        <td class="num">{{ job.first_seen or '—' }}</td>
-        <td class="num {{ 'closes-soon' if job.closes_soon }}">{{ job.closes_on or '—' }}</td>
-        <td class="hide-sm">{{ job.status }}</td>
-      </tr>
-      {% if job.fit_reason or job.keywords %}
-      <tr class="detail" hidden>
-        <td colspan="8">
-          {% if job.fit_reason %}<span class="why">{{ job.fit_reason }}</span>{% endif %}
-          {% if job.fit_confidence %} · confidence {{ (job.fit_confidence * 100) | round | int }}%{% endif %}
-          {% if job.keywords %} · matches: {{ job.keywords }}{% endif %}
-        </td>
-      </tr>
-      {% endif %}
-    </tbody>
-    {% else %}
-    <tbody><tr><td colspan="8">No open jobs yet — the next scheduled run will populate this.</td></tr></tbody>
-    {% endfor %}
+    <tbody id="rows"></tbody>
   </table>
+  <div id="more-wrap"><button id="show-more" type="button" hidden>Show more</button></div>
+  <noscript><p>This dashboard needs JavaScript to display the job table.</p></noscript>
 
   <footer>
-    Generated {{ generated_at }} · source of truth: jobs.db · projected month spend
-    £{{ quota.projected }} · cache hit rate {{ quota.cache_hit_rate }} ·
-    showing the top {{ open_jobs | length }} open jobs by score.
+    Generated {{ generated_at }} · source of truth: jobs.db · all
+    {{ open_jobs | length }} open jobs are loaded and searchable ·
+    projected month spend £{{ quota.projected }} · cache hit rate {{ quota.cache_hit_rate }} ·
+    hidden jobs are remembered by this browser only.
   </footer>
 </div>
 
+<script type="application/json" id="job-data">{{ open_jobs | tojson }}</script>
 <script>
 (function () {
   "use strict";
   var root = document.documentElement;
-  var toggle = document.getElementById("theme-toggle");
-  try {
-    var saved = localStorage.getItem("dash-theme");
-    if (saved) root.setAttribute("data-theme", saved);
-  } catch (e) {}
-  toggle.addEventListener("click", function () {
+  document.getElementById("theme-toggle").addEventListener("click", function () {
     var dark = root.getAttribute("data-theme") === "dark" ||
       (!root.getAttribute("data-theme") &&
        window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -220,72 +202,180 @@
     root.setAttribute("data-theme", next);
     try { localStorage.setItem("dash-theme", next); } catch (e) {}
   });
+  try {
+    var savedTheme = localStorage.getItem("dash-theme");
+    if (savedTheme) root.setAttribute("data-theme", savedTheme);
+  } catch (e) {}
 
-  var table = document.getElementById("jobs");
-  var groups = Array.prototype.slice.call(table.querySelectorAll("tbody.job"));
-  var q = document.getElementById("q");
-  var minScore = document.getElementById("min-score");
-  var status = document.getElementById("status");
-  var source = document.getElementById("source");
-  var newOnly = document.getElementById("new-only");
-  var countNote = document.getElementById("count-note");
+  var DATA = JSON.parse(document.getElementById("job-data").textContent);
+  DATA.forEach(function (j) {
+    j._hay = (j.title + " " + j.company + " " + j.location + " " + j.kw + " " +
+              j.source).toLowerCase();
+  });
 
-  function applyFilters() {
-    var text = q.value.trim().toLowerCase();
-    var min = minScore.value === "" ? null : parseFloat(minScore.value);
-    var st = status.value, src = source.value, onlyNew = newOnly.checked;
-    var shown = 0;
-    groups.forEach(function (g) {
-      var score = parseFloat(g.getAttribute("data-score"));
-      var ok = true;
-      if (min !== null && !(score >= min)) ok = false;
-      if (st && g.getAttribute("data-status") !== st) ok = false;
-      if (src && g.getAttribute("data-source") !== src) ok = false;
-      if (onlyNew && g.getAttribute("data-new") !== "1") ok = false;
-      if (text && g.getAttribute("data-text").indexOf(text) === -1) ok = false;
-      g.hidden = !ok;
-      if (ok) shown++;
-    });
-    countNote.textContent = shown + " / " + groups.length + " shown";
+  var HIDE_KEY = "dash-hidden-v1";
+  var hidden = {};
+  try { (JSON.parse(localStorage.getItem(HIDE_KEY) || "[]")).forEach(function (u) { hidden[u] = 1; }); } catch (e) {}
+  function saveHidden() {
+    try { localStorage.setItem(HIDE_KEY, JSON.stringify(Object.keys(hidden))); } catch (e) {}
   }
-  [q, minScore, status, source, newOnly].forEach(function (el) {
-    el.addEventListener("input", applyFilters);
-    el.addEventListener("change", applyFilters);
-  });
 
-  // Row click expands the "why this score" detail row (ignore link clicks).
-  groups.forEach(function (g) {
-    g.addEventListener("click", function (ev) {
-      if (ev.target.closest("a")) return;
-      var d = g.querySelector("tr.detail");
-      if (d) d.hidden = !d.hidden;
+  var els = {
+    q: document.getElementById("q"),
+    minScore: document.getElementById("min-score"),
+    status: document.getElementById("status"),
+    source: document.getElementById("source"),
+    newOnly: document.getElementById("new-only"),
+    ukOnly: document.getElementById("uk-only"),
+    showHidden: document.getElementById("show-hidden"),
+    rows: document.getElementById("rows"),
+    note: document.getElementById("count-note"),
+    more: document.getElementById("show-more"),
+    hiddenCount: document.getElementById("hidden-count"),
+  };
+  var PAGE = 250;
+  var state = { sortKey: "score", sortDesc: true, limit: PAGE };
+
+  function sortVal(j, key) {
+    if (key === "score") return j.score === null ? -1 : j.score;
+    if (key === "seen") return j.seen || "";
+    if (key === "closes") return j.closes || "9999-12-31";
+    if (key === "location") return (j.location || "~").toLowerCase();
+    return "";
+  }
+
+  function matches() {
+    var text = els.q.value.trim().toLowerCase();
+    var min = els.minScore.value === "" ? null : parseFloat(els.minScore.value);
+    var st = els.status.value, src = els.source.value;
+    var onlyNew = els.newOnly.checked, ukOnly = els.ukOnly.checked;
+    var showHidden = els.showHidden.checked;
+    var out = DATA.filter(function (j) {
+      if (!!hidden[j.url] !== showHidden) return false;
+      if (min !== null && !(j.score >= min)) return false;
+      if (st && j.status !== st) return false;
+      if (src && j.source !== src) return false;
+      if (onlyNew && !j.new) return false;
+      if (ukOnly && !(j.remote || j.uk === 1 || j.uk === null)) return false;
+      if (text && j._hay.indexOf(text) === -1) return false;
+      return true;
     });
-  });
+    out.sort(function (a, b) {
+      var av = sortVal(a, state.sortKey), bv = sortVal(b, state.sortKey);
+      var cmp = av < bv ? -1 : av > bv ? 1 : 0;
+      return state.sortDesc ? -cmp : cmp;
+    });
+    return out;
+  }
 
-  // Column sorting: score numeric desc-first, dates asc-first.
-  var headers = Array.prototype.slice.call(table.querySelectorAll("th.sortable"));
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function buildRow(j) {
+    var tr = el("tr", "job");
+    var tdScore = el("td", "num");
+    var band = j.score === null ? "low" : j.score >= 7 ? "good" : j.score >= 5 ? "mid" : "low";
+    tdScore.appendChild(el("span", "badge " + band, j.score === null ? "—" : j.score.toFixed(1)));
+    tr.appendChild(tdScore);
+
+    var tdTitle = el("td", "title-cell");
+    var link = el("a", "", j.title);
+    if (/^https?:\/\//i.test(j.url)) { link.href = j.url; link.target = "_blank"; link.rel = "noopener"; }
+    tdTitle.appendChild(link);
+    if (j.new) tdTitle.appendChild(el("span", "new-flag", "new"));
+    tdTitle.appendChild(el("div", "co", j.company));
+    tr.appendChild(tdTitle);
+
+    tr.appendChild(el("td", "hide-sm", j.location || "—"));
+    tr.appendChild(el("td", "hide-sm num", j.salary || "—"));
+    tr.appendChild(el("td", "hide-sm", j.source));
+    tr.appendChild(el("td", "num", j.seen || "—"));
+    tr.appendChild(el("td", "num" + (j.soon ? " closes-soon" : ""), j.closes || "—"));
+    tr.appendChild(el("td", "hide-sm", j.status));
+
+    var tdHide = el("td", "num");
+    var isHidden = !!hidden[j.url];
+    var hideBtn = el("button", "hide-btn", isHidden ? "↩" : "✕");
+    hideBtn.type = "button";
+    hideBtn.title = isHidden ? "Restore this job" : "Hide this job (this browser only)";
+    hideBtn.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      if (hidden[j.url]) delete hidden[j.url]; else hidden[j.url] = 1;
+      saveHidden(); render();
+    });
+    tdHide.appendChild(hideBtn);
+    tr.appendChild(tdHide);
+
+    tr.addEventListener("click", function (ev) {
+      if (ev.target.closest("a") || ev.target.closest("button")) return;
+      var next = tr.nextElementSibling;
+      if (next && next.classList.contains("detail")) { next.remove(); return; }
+      var d = el("tr", "detail");
+      var td = el("td");
+      td.colSpan = 9;
+      var bits = [];
+      if (j.reason) { var w = el("span", "why", j.reason); td.appendChild(w); }
+      if (j.conf !== null && j.conf !== undefined) bits.push("confidence " + Math.round(j.conf * 100) + "%");
+      if (j.kw) bits.push("matches: " + j.kw);
+      if (!j.reason && !bits.length) bits.push("No score explanation yet — this job has not been LLM-ranked.");
+      if (bits.length) td.appendChild(document.createTextNode((j.reason ? " · " : "") + bits.join(" · ")));
+      d.appendChild(td);
+      tr.parentNode.insertBefore(d, tr.nextSibling);
+    });
+    return tr;
+  }
+
+  function render() {
+    var m = matches();
+    els.rows.textContent = "";
+    var frag = document.createDocumentFragment();
+    m.slice(0, state.limit).forEach(function (j) { frag.appendChild(buildRow(j)); });
+    els.rows.appendChild(frag);
+    var shown = Math.min(state.limit, m.length);
+    els.note.textContent = m.length + " matching · showing " + shown;
+    els.hiddenCount.textContent = Object.keys(hidden).length;
+    els.more.hidden = m.length <= state.limit;
+    els.more.textContent = "Show more (" + (m.length - shown) + " remaining)";
+  }
+
+  function refilter() { state.limit = PAGE; render(); }
+  [els.q, els.minScore, els.status, els.source, els.newOnly, els.ukOnly, els.showHidden]
+    .forEach(function (c) { c.addEventListener("input", refilter); c.addEventListener("change", refilter); });
+  els.more.addEventListener("click", function () { state.limit += PAGE * 2; render(); });
+
+  var headers = Array.prototype.slice.call(document.querySelectorAll("th.sortable"));
+  function setSort(key) {
+    if (state.sortKey === key) state.sortDesc = !state.sortDesc;
+    else { state.sortKey = key; state.sortDesc = key === "score"; }
+    headers.forEach(function (h) {
+      if (h.getAttribute("data-key") === state.sortKey)
+        h.setAttribute("aria-sort", state.sortDesc ? "descending" : "ascending");
+      else h.removeAttribute("aria-sort");
+    });
+    render();
+  }
   headers.forEach(function (th) {
-    th.addEventListener("click", function () {
-      var key = th.getAttribute("data-key");
-      var desc;
-      if (th.classList.contains("sorted-desc")) desc = false;
-      else if (th.classList.contains("sorted-asc")) desc = true;
-      else desc = key === "score";
-      headers.forEach(function (h) { h.classList.remove("sorted-desc", "sorted-asc"); });
-      th.classList.add(desc ? "sorted-desc" : "sorted-asc");
-      var attr = { score: "data-score", posted: "data-posted",
-                   closes: "data-closes", location: "data-location" }[key];
-      var sorted = groups.slice().sort(function (a, b) {
-        var av = a.getAttribute(attr), bv = b.getAttribute(attr);
-        if (key === "score") { return desc ? (bv - av) : (av - bv); }
-        var cmp = av < bv ? -1 : av > bv ? 1 : 0;
-        return desc ? -cmp : cmp;
-      });
-      sorted.forEach(function (g) { table.appendChild(g); });
+    th.addEventListener("click", function () { setSort(th.getAttribute("data-key")); });
+    th.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setSort(th.getAttribute("data-key")); }
     });
   });
 
-  applyFilters();
+  document.querySelectorAll("button.tile").forEach(function (t) {
+    t.addEventListener("click", function () {
+      var kind = t.getAttribute("data-tile");
+      if (kind === "strong") { els.minScore.value = "7"; }
+      if (kind === "new") { els.newOnly.checked = true; }
+      if (kind === "closing") { state.sortKey = "closes"; state.sortDesc = true; setSort("closes"); }
+      refilter();
+    });
+  });
+
+  render();
 })();
 </script>
 </body>

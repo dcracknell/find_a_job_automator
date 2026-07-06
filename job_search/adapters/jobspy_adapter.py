@@ -76,7 +76,13 @@ class JobSpyAdapter(Adapter):
                     "url": url,
                     "location": str(row.get("location") or ""),
                     "description": str(row.get("description") or ""),
-                    "salary_raw": str(row.get("salary_source") or row.get("min_amount") or ""),
+                    # salary_source is provenance metadata ("direct_data"), not
+                    # a salary — build a display string from the amounts.
+                    "salary_raw": _format_salary(
+                        _safe_float(row.get("min_amount")),
+                        _safe_float(row.get("max_amount")),
+                        str(row.get("interval") or ""),
+                    ),
                     "salary_min": _safe_float(row.get("min_amount")),
                     "salary_max": _safe_float(row.get("max_amount")),
                     "created": str(row.get("date_posted") or ""),
@@ -97,6 +103,20 @@ class JobSpyAdapter(Adapter):
             return True, None
         except ImportError as exc:
             return False, str(exc)
+
+
+def _format_salary(s_min: float | None, s_max: float | None, interval: str) -> str:
+    """Build a human-readable salary string like '£30,000 - £40,000 per year'."""
+    if not s_min and not s_max:
+        return ""
+    parts = [f"£{int(v):,}" for v in (s_min, s_max) if v]
+    text = " - ".join(parts)
+    unit = {"hourly": "hour", "daily": "day", "weekly": "week", "monthly": "month"}.get(
+        interval.strip().lower()
+    )
+    if unit:
+        text += f" per {unit}"
+    return text
 
 
 def _safe_float(value: object) -> float | None:
