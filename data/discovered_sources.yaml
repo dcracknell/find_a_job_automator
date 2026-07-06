@@ -36,3 +36,5 @@ ats:
       slug: microchip
     - name: SanDisk
       slug: sandisk
+    - name: NCC Group
+      slug: ncc
