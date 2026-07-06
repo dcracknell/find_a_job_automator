@@ -11,18 +11,24 @@
       --surface: #fcfcfb; --panel: #ffffff; --line: #e3e2de;
       --text: #0b0b0b; --muted: #52514e; --accent: #2a78d6;
       --good: #0ca30c; --good-soft: rgba(12,163,12,.12);
-      --warn: #fab219; --warn-soft: rgba(250,178,25,.16);
+      --warn-soft: rgba(250,178,25,.16);
       --low-soft: rgba(82,81,78,.12);
       --soon: #d03b3b;
+      /* Score-number inks: darker steps on the light surface for contrast;
+         brighter steps on dark. The numeral is always shown, so color is
+         reinforcement, never the only signal. */
+      --score-good: #0a7d0a; --score-mid: #8a5c00; --score-low: #52514e;
     }
     html[data-theme="dark"] {
       --surface: #1a1a19; --panel: #232322; --line: #3a3a38;
       --text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
+      --score-good: #3ecf6e; --score-mid: #fab219; --score-low: #c3c2b7;
     }
     @media (prefers-color-scheme: dark) {
       html:not([data-theme="light"]) {
         --surface: #1a1a19; --panel: #232322; --line: #3a3a38;
         --text: #ffffff; --muted: #c3c2b7; --accent: #3987e5;
+        --score-good: #3ecf6e; --score-mid: #fab219; --score-low: #c3c2b7;
       }
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -76,9 +82,9 @@
     .badge { display: inline-block; min-width: 2.4rem; text-align: center;
              border-radius: 999px; padding: .1rem .45rem; font-weight: 600;
              font-variant-numeric: tabular-nums; }
-    .badge.good { background: var(--good-soft); color: var(--good); }
-    .badge.mid  { background: var(--warn-soft); color: var(--text); }
-    .badge.low  { background: var(--low-soft); color: var(--muted); }
+    .badge.good { background: var(--good-soft); color: var(--score-good); }
+    .badge.mid  { background: var(--warn-soft); color: var(--score-mid); }
+    .badge.low  { background: var(--low-soft); color: var(--score-low); }
     .closes-soon { color: var(--soon); font-weight: 600; }
     .new-flag { color: var(--good); font-size: .7rem; font-weight: 700;
                 text-transform: uppercase; margin-left: .3rem; }
@@ -139,7 +145,7 @@
       <tr>
         <th class="sortable sorted-desc" data-key="score">Score</th>
         <th>Role</th>
-        <th class="hide-sm">Location</th>
+        <th class="sortable hide-sm" data-key="location">Location</th>
         <th class="hide-sm">Salary</th>
         <th class="hide-sm">Source</th>
         <th class="sortable" data-key="posted">Seen</th>
@@ -155,6 +161,7 @@
            data-new="{{ 1 if job.is_new else 0 }}"
            data-posted="{{ job.first_seen or '' }}"
            data-closes="{{ job.closes_on or '9999-12-31' }}"
+           data-location="{{ (job.location or '~') | lower }}"
            data-text="{{ (job.title ~ ' ' ~ job.company ~ ' ' ~ (job.location or '') ~ ' ' ~ (job.keywords or '')) | lower }}">
       <tr>
         <td class="num">
@@ -266,7 +273,8 @@
       else desc = key === "score";
       headers.forEach(function (h) { h.classList.remove("sorted-desc", "sorted-asc"); });
       th.classList.add(desc ? "sorted-desc" : "sorted-asc");
-      var attr = { score: "data-score", posted: "data-posted", closes: "data-closes" }[key];
+      var attr = { score: "data-score", posted: "data-posted",
+                   closes: "data-closes", location: "data-location" }[key];
       var sorted = groups.slice().sort(function (a, b) {
         var av = a.getAttribute(attr), bv = b.getAttribute(attr);
         if (key === "score") { return desc ? (bv - av) : (av - bv); }

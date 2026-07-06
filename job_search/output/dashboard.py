@@ -154,5 +154,7 @@ def regenerate_dashboard(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     tmp_path = output_path.with_suffix(".tmp.html")
     tmp_path.write_text(html, encoding="utf-8")
-    tmp_path.rename(output_path)
+    # replace(), not rename(): rename() raises FileExistsError on Windows
+    # when the dashboard already exists; replace() overwrites atomically.
+    tmp_path.replace(output_path)
     logger.info("dashboard: written to %s", output_path)
