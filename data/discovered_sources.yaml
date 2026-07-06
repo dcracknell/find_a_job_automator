@@ -22,6 +22,10 @@ ats:
       slug: mcs
     - name: Mark43
       slug: mark43
+  lever:
+    companies:
+    - name: Reply
+      slug: reply
   recruitee:
     companies:
     - name: OnTarget Communications
