@@ -1,9 +1,17 @@
-name: Deploy Setup UI
+name: Deploy Site
 
+# Publishes GitHub Pages from two inputs:
+#   - docs/            → setup UI (index.html, preferences.html)
+#   - job-search-data  → data/dashboard.html, served as jobs.html
+# Runs on docs changes AND after every pipeline run, so the jobs page
+# stays fresh without committing generated HTML to main.
 on:
   push:
     branches: [main]
-    paths: ['docs/**']
+    paths: ['docs/**', '.github/workflows/pages.yml']
+  workflow_run:
+    workflows: ["Daily Job Search"]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -25,13 +33,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Assemble site (setup UI + jobs dashboard)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp -a docs/. _site/
+          if git ls-remote --exit-code --heads origin job-search-data >/dev/null 2>&1; then
+            git fetch --depth=1 origin job-search-data
+            if git show FETCH_HEAD:data/dashboard.html > _site/jobs.html 2>/dev/null; then
+              echo "Included jobs dashboard from job-search-data branch."
+            else
+              rm -f _site/jobs.html
+              echo "No dashboard.html on data branch yet."
+            fi
+          else
+            echo "No job-search-data branch yet; deploying setup UI only."
+          fi
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/
+          path: _site/
 
       - name: Deploy to GitHub Pages
         id: deployment

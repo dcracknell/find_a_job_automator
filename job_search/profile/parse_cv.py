@@ -209,6 +209,10 @@ def parse_cv_text(cv_text: str, domain: str = "general", write: bool = True) -> 
         response = client.messages.create(
             model=model,
             max_tokens=max_tokens,
+            # Claude Sonnet 5 runs adaptive thinking when `thinking` is omitted;
+            # this code reads response.content[0].text, which must be the JSON
+            # text block, not a thinking block.
+            thinking={"type": "disabled"},
             system=[
                 {
                     "type": "text",

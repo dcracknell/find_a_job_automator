@@ -85,7 +85,10 @@ jobs:
           set -euo pipefail
           mkdir -p data
 
-          cmd=(job-search run)
+          # --rerank-stale re-scores up to 200 open rows per run whose
+          # ranker_version predates the current prompt/model — without it,
+          # ranker upgrades only ever reach newly-seen jobs.
+          cmd=(job-search run --rerank-stale)
           if [[ "$DRY_RUN_INPUT" == "true" ]]; then
             cmd+=(--dry-run)
           fi

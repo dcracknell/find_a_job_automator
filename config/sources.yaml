@@ -24,7 +24,8 @@ apis:
   reed:
     enabled: auto
   gov_uk_find_a_job:
-    enabled: false               # adapter not implemented yet — enabling has no effect
+    enabled: false               # DWP Find a Job was shut down ("Site is now closed",
+                                 # verified 2026-07-06) — do not implement this adapter
 
 jobspy:
   enabled: true

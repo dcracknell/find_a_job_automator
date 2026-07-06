@@ -53,6 +53,10 @@ class AdzunaAdapter(Adapter):
         # month-old postings the DB already has on every run.
         profile_filters = settings.get("_profile", {}).get("filters", {})
         max_days_old = int(profile_filters.get("max_days_since_posted", 30) or 30)
+        # Server-side salary floor: skips sub-floor listings before they cost
+        # download, geocoding, and LLM-ranking spend. salary_include_unknown
+        # keeps postings with no stated salary (the local filter keeps nulls too).
+        salary_floor = int(profile_filters.get("salary_floor_gbp", 0) or 0)
 
         seen_ids: set[str] = set()
         raw_jobs: list[RawJob] = []
@@ -73,6 +77,11 @@ class AdzunaAdapter(Adapter):
                             "results_per_page": page_size,
                             "max_days_old": max_days_old,
                             "sort_by": "date",
+                            **(
+                                {"salary_min": salary_floor, "salary_include_unknown": "1"}
+                                if salary_floor
+                                else {}
+                            ),
                             "content-type": "application/json",
                         },
                     )
