@@ -1,9 +1,12 @@
-version: "v3-indexed"
+version: "v4-job-context"
 
 # Minimum keyword pre-score to proceed to Claude ranking.
-# Set to 0.0 so Claude ranks every job that passes the hard filters when
-# ANTHROPIC_API_KEY is configured. The keyword score is only a fallback.
-pre_score_threshold: 0.0
+# 0.5 skips only jobs with ZERO word-boundary matches across every core and
+# adjacent skill (a single adjacent-skill hit scores ~0.67, a core hit 2.0).
+# A posting that mentions none of the candidate's 15+ skills is never a real
+# match, so this cuts LLM spend on aggregator noise without losing candidates.
+# Set to 0.0 to rank absolutely everything.
+pre_score_threshold: 0.5
 
 # --- Scoring rubric (baked into the system prompt) ---
 scoring_rubric: |
@@ -51,6 +54,14 @@ system_prompt_template: |
 
   Candidate profile (JSON):
   {profile_json}
+
+  Each input job object has: "i" (index), "title", "company", "location",
+  "salary" ("unspecified" when the posting omits it), "posted_days_ago"
+  (may be null), and "jd" (the cleaned job description). Weigh "location"
+  against the candidate's location, search_radius_miles, and remote_ok —
+  an on-site role in another country is a major mismatch for a UK-based
+  candidate. Weigh "salary" against filters.salary_floor_gbp, but do not
+  penalise "unspecified".
 
   Output ONLY a valid JSON array with exactly one object per input job, in the
   same order as the input, using these short keys:

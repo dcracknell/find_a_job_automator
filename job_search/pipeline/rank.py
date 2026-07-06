@@ -23,6 +23,8 @@ import json
 import logging
 import os
 import re
+import time
+from datetime import date
 from functools import lru_cache
 from typing import Any
 
@@ -192,25 +194,27 @@ def _render_prompt_template(template: str, values: dict[str, object]) -> str:
     return rendered
 
 
-def _call_llm_batch(
-    client: Any,
-    model: str,
-    max_tokens: int,
-    system_prompt: str,
-    batch: list[JobRecord],
-    ranker_cfg: dict,
-) -> list[dict]:
-    """Call the LLM to rank a batch of up to 5 jobs. Returns list of score dicts."""
+def _build_user_message(batch: list[JobRecord], ranker_cfg: dict) -> str:
+    """Render the user prompt for one batch of jobs."""
     user_template = ranker_cfg.get(
         "user_prompt_template",
         "Rate the following {n} job(s):\n{jobs_json}",
     )
+    today = date.today()
     jobs_data = [
-        {"i": idx, "title": r.title, "company": r.company, "jd": r.description[:3000]}
+        {
+            "i": idx,
+            "title": r.title,
+            "company": r.company,
+            "location": r.location or "unknown",
+            "salary": r.salary_raw or "unspecified",
+            "posted_days_ago": (today - r.posted_date).days if r.posted_date else None,
+            "jd": r.description[:3000],
+        }
         for idx, r in enumerate(batch)
     ]
     jobs_json = json.dumps(jobs_data, indent=None, separators=(",", ":"))
-    user_message = _render_prompt_template(
+    return _render_prompt_template(
         user_template,
         {
             "n": len(batch),
@@ -218,30 +222,29 @@ def _call_llm_batch(
         },
     )
 
-    with api_call_wrapper("rank") as rec:
-        response = client.messages.create(
-            model=model,
-            max_tokens=max_tokens,
-            system=(
-              [
-                  {
-                      "type": "text",
-                      "text": system_prompt,
-                      "cache_control": {"type": "ephemeral"},
-                  }
-              ]
-              if system_prompt
-              else []
-          ),
-            messages=[{"role": "user", "content": user_message}],
-        )
-        rec["model"] = model
-        rec["input_tokens"] = response.usage.input_tokens
-        rec["cached_input_tokens"] = getattr(response.usage, "cache_read_input_tokens", 0)
-        rec["output_tokens"] = response.usage.output_tokens
 
-    raw_text = response.content[0].text.strip()
-    # Strip any markdown fences
+def _system_blocks(system_prompt: str) -> list[dict]:
+    if not system_prompt:
+        return []
+    return [
+        {
+            "type": "text",
+            "text": system_prompt,
+            "cache_control": {"type": "ephemeral"},
+        }
+    ]
+
+
+# `thinking` is passed explicitly on every ranking request: Claude Sonnet 5
+# runs adaptive thinking when the parameter is omitted, which would spend the
+# small max_tokens budget on reasoning instead of the JSON scores. Explicit
+# disabled is accepted on Haiku/Sonnet models too.
+_THINKING_DISABLED = {"type": "disabled"}
+
+
+def _parse_scores_text(raw_text: str) -> list[dict]:
+    """Parse the model's JSON array of score dicts, tolerating markdown fences."""
+    raw_text = raw_text.strip()
     if raw_text.startswith("```"):
         parts = raw_text.split("```")
         raw_text = parts[1] if len(parts) > 1 else raw_text
@@ -257,6 +260,128 @@ def _call_llm_batch(
     except json.JSONDecodeError as exc:
         logger.warning("rank: invalid JSON from LLM: %s\nRaw: %r", exc, raw_text[:300])
         return []
+
+
+def _call_llm_batch(
+    client: Any,
+    model: str,
+    max_tokens: int,
+    system_prompt: str,
+    batch: list[JobRecord],
+    ranker_cfg: dict,
+) -> list[dict]:
+    """Rank one batch of jobs with a synchronous API call. Returns score dicts."""
+    user_message = _build_user_message(batch, ranker_cfg)
+
+    with api_call_wrapper("rank") as rec:
+        response = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            thinking=_THINKING_DISABLED,
+            system=_system_blocks(system_prompt),
+            messages=[{"role": "user", "content": user_message}],
+        )
+        rec["model"] = model
+        rec["input_tokens"] = response.usage.input_tokens
+        rec["cached_input_tokens"] = getattr(response.usage, "cache_read_input_tokens", 0)
+        rec["output_tokens"] = response.usage.output_tokens
+
+    raw_text = next((b.text for b in response.content if b.type == "text"), "")
+    return _parse_scores_text(raw_text)
+
+
+def _rank_via_batch_api(
+    client: Any,
+    model: str,
+    max_tokens: int,
+    system_prompt: str,
+    batches: list[list[JobRecord]],
+    ranker_cfg: dict,
+    ranker_version: str,
+    timeout_s: float = 900.0,
+    poll_interval_s: float = 20.0,
+) -> list[list[JobRecord]]:
+    """Rank batches through the Message Batches API (50% token discount).
+
+    Returns the batches that were NOT successfully scored, so the caller can
+    fall back to synchronous calls for them. Costs are logged under the
+    'rank_batch' operation, whose halved rates live in settings.yaml.
+    """
+    requests = [
+        {
+            "custom_id": f"rank-{j}",
+            "params": {
+                "model": model,
+                "max_tokens": max_tokens,
+                "thinking": _THINKING_DISABLED,
+                "system": _system_blocks(system_prompt),
+                "messages": [
+                    {"role": "user", "content": _build_user_message(batch, ranker_cfg)}
+                ],
+            },
+        }
+        for j, batch in enumerate(batches)
+    ]
+
+    scored: set[int] = set()
+    with api_call_wrapper("rank_batch") as rec:
+        rec["model"] = model
+        job = client.messages.batches.create(requests=requests)
+        logger.info(
+            "rank: submitted %d request(s) as message batch %s", len(requests), job.id
+        )
+
+        deadline = time.monotonic() + timeout_s
+        status = job.processing_status
+        while status != "ended":
+            if time.monotonic() > deadline:
+                logger.warning(
+                    "rank: message batch %s not finished after %.0fs; cancelling "
+                    "and falling back to synchronous ranking", job.id, timeout_s,
+                )
+                try:
+                    client.messages.batches.cancel(job.id)
+                except Exception as exc:  # cancel is best-effort
+                    logger.debug("rank: batch cancel failed: %s", exc)
+                # Cancellation still ends the batch; give already-finished
+                # requests a short grace window so their scores are not wasted.
+                grace_deadline = time.monotonic() + 120
+                while status != "ended" and time.monotonic() < grace_deadline:
+                    time.sleep(min(poll_interval_s, 10))
+                    status = client.messages.batches.retrieve(job.id).processing_status
+                break
+            time.sleep(poll_interval_s)
+            status = client.messages.batches.retrieve(job.id).processing_status
+
+        if status != "ended":
+            return batches
+
+        total_in = total_out = total_cached = 0
+        for result in client.messages.batches.results(job.id):
+            if result.result.type != "succeeded":
+                continue
+            try:
+                j = int(result.custom_id.rsplit("-", 1)[1])
+                batch = batches[j]
+            except (ValueError, IndexError):
+                logger.warning("rank: unexpected batch custom_id %r", result.custom_id)
+                continue
+            msg = result.result.message
+            total_in += msg.usage.input_tokens
+            total_out += msg.usage.output_tokens
+            total_cached += getattr(msg.usage, "cache_read_input_tokens", 0) or 0
+            raw_text = next((b.text for b in msg.content if b.type == "text"), "")
+            scores = _parse_scores_text(raw_text)
+            if len(scores) == len(batch):
+                _apply_scores(batch, scores, ranker_version)
+                scored.add(j)
+            # Length mismatches fall through to the synchronous retry path.
+
+        rec["input_tokens"] = total_in
+        rec["output_tokens"] = total_out
+        rec["cached_input_tokens"] = total_cached
+
+    return [b for j, b in enumerate(batches) if j not in scored]
 
 
 def _apply_scores(records: list[JobRecord], scores: list[dict], ranker_version: str) -> None:
@@ -374,8 +499,51 @@ def rank_jobs(
 
     system_prompt = _build_system_prompt(ranker_cfg, profile, domain_context)
 
-    for i in range(0, len(needs_llm), batch_size):
-        batch = needs_llm[i : i + batch_size]
+    # The same posting often appears on several boards (Adzuna + Reed + an ATS)
+    # with different URLs. Rank one representative per (title, company) and copy
+    # its scores to the twins — identical title+company gets a near-identical
+    # verdict anyway, so paying the LLM once per group loses nothing.
+    groups: dict[tuple[str, str], list[JobRecord]] = {}
+    for rec in needs_llm:
+        key = (rec.title.strip().lower(), rec.company.strip().lower())
+        groups.setdefault(key, []).append(rec)
+    representatives = [members[0] for members in groups.values()]
+    n_dupes = len(needs_llm) - len(representatives)
+    if n_dupes:
+        logger.info(
+            "rank: %d cross-source duplicate(s) will share scores with an "
+            "identical title+company posting", n_dupes,
+        )
+
+    pending = [
+        representatives[i : i + batch_size]
+        for i in range(0, len(representatives), batch_size)
+    ]
+
+    quota_hit = False
+    # Message Batches API first: 50% token discount, and a daily pipeline does
+    # not care about the extra minutes of latency. A single batch-call run is
+    # faster (and cache-warm) synchronously, so only use it for 2+ calls.
+    if bool(rank_cfg.get("use_batch_api", True)) and len(pending) >= 2:
+        try:
+            pending = _rank_via_batch_api(
+                client, model, max_tokens, system_prompt, pending,
+                ranker_cfg, ranker_version,
+                timeout_s=float(rank_cfg.get("batch_poll_timeout_minutes", 15)) * 60,
+            )
+        except QuotaExceededError as exc:
+            logger.error("rank: %s", exc)
+            quota_hit = True
+        except Exception as exc:
+            logger.warning(
+                "rank: batch API failed (%s); falling back to synchronous ranking", exc
+            )
+
+    # Synchronous path: everything the batch API did not score (or all batches
+    # when it is disabled / unavailable).
+    for bi, batch in enumerate(pending):
+        if quota_hit:
+            break
         try:
             scores = _call_llm_batch(client, model, max_tokens, system_prompt, batch, ranker_cfg)
             if len(scores) == len(batch):
@@ -393,13 +561,30 @@ def rank_jobs(
                     if solo_scores:
                         _apply_scores([single_rec], solo_scores, ranker_version)
         except QuotaExceededError as exc:
-            logger.error("rank: %s — %d job(s) keep keyword pre-scores", exc, len(needs_llm) - i)
-            for rec in needs_llm[i:]:
+            remaining = sum(len(b) for b in pending[bi:])
+            logger.error("rank: %s — %d job(s) keep keyword pre-scores", exc, remaining)
+            quota_hit = True
+        except Exception as exc:
+            logger.error("rank: LLM batch failed: %s", exc)
+
+    if quota_hit:
+        for batch in pending:
+            for rec in batch:
                 if not rec.ranker_version:
                     rec.fit_reason = "keyword pre-score only; daily API quota reached"
                     rec.fit_confidence = 0.3
-            break
-        except Exception as exc:
-            logger.error("rank: LLM batch failed: %s", exc)
+
+    # Copy the representative's scores onto its cross-source duplicates.
+    for members in groups.values():
+        head = members[0]
+        if not head.freshly_ranked:
+            continue
+        for dup in members[1:]:
+            dup.fit_score = head.fit_score
+            dup.fit_confidence = head.fit_confidence
+            dup.fit_reason = head.fit_reason
+            dup.matched_keywords = list(head.matched_keywords or [])
+            dup.ranker_version = ranker_version
+            dup.freshly_ranked = True
 
     return records

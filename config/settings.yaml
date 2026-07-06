@@ -54,22 +54,37 @@ backups:
 # Model IDs and rates are defined here so code never hard-codes them.
 # Update rates when Anthropic pricing changes - the quota tracker reads them.
 models:
+  # claude-sonnet-5 rates below are the introductory $2/$10 per MTok pricing
+  # (~£1.60/£8.00 at 0.80 GBP/USD), valid through 2026-08-31. After that,
+  # standard pricing is $3/$15 — update to 2.40 / 12.00 / 0.24.
   parse_cv:
-    model: claude-sonnet-4-6
-    input_gbp_per_million: 2.40
-    output_gbp_per_million: 12.00
-    cached_input_gbp_per_million: 0.24
+    model: claude-sonnet-5
+    input_gbp_per_million: 1.60
+    output_gbp_per_million: 8.00
+    cached_input_gbp_per_million: 0.16
     max_tokens_response: 4096
   rank:
-    # Haiku handles rubric-based JD scoring well at ~1/4 the cost of Sonnet;
-    # switch back to claude-sonnet-4-6 only if scores look off.
-    model: claude-haiku-4-5
-    input_gbp_per_million: 0.64
-    output_gbp_per_million: 3.20
-    cached_input_gbp_per_million: 0.064
+    # Ranking is the quality-critical step — Sonnet 5 judges seniority,
+    # location fit, and requirement gaps much more accurately than Haiku.
+    # ~2.5x Haiku's token cost; drop back to claude-haiku-4-5 (0.64/3.20/0.064)
+    # if daily spend gets too close to quota_soft_cap_gbp.
+    model: claude-sonnet-5
+    input_gbp_per_million: 1.60
+    output_gbp_per_million: 8.00
+    cached_input_gbp_per_million: 0.16
     max_jd_tokens: 1500
     batch_size: 5
     max_tokens_response: 1500
+    # Rank via the Message Batches API (50% token discount) whenever a run
+    # needs 2+ ranking calls; anything unscored falls back to sync calls.
+    use_batch_api: true
+    batch_poll_timeout_minutes: 15
+  # Rates for the 'rank_batch' quota rows — the Batches API bills all tokens
+  # at 50% of the sync rank rates above. Keep in sync when rank rates change.
+  rank_batch:
+    input_gbp_per_million: 0.80
+    output_gbp_per_million: 4.00
+    cached_input_gbp_per_million: 0.08
   queries:
     use_claude: true
     model: claude-haiku-4-5
