@@ -127,7 +127,7 @@ def parse_salary(
     if band_match:
         band_str = band_match.group(1).lower()
         # Map "8a" → 8, "8b" → 9, "8c" → 10, "8d" → 11, "9" → 11
-        band_num_map = {"8a": 8, "8b": 9, "8c": 10, "8d": 11}
+        band_num_map = {"8a": 8, "8b": 9, "8c": 10, "8d": 11, "9": 11}
         if band_str in band_num_map:
             band_num = band_num_map[band_str]
         else:

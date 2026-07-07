@@ -188,9 +188,10 @@ Controls location filtering. Set `remote_ok: true` to include fully remote roles
 - Jobs already in the database are recognised by URL/content hash: Reed skips their
   per-job detail requests entirely, Adzuna only asks for listings newer than your
   `max_days_since_posted`, and nothing already scored is sent to Claude again.
-- Free keyless aggregators (`hn_hiring`, `remotive`, `arbeitnow` in
+- Free keyless aggregators (`hn_hiring`, `remotive`, `arbeitnow`, `jobs_ac_uk` in
   `config/sources.yaml`) widen coverage beyond the big boards — the monthly Hacker News
-  hiring thread and remote-first boards list openings that never reach Indeed.
+  hiring thread, remote-first boards, and the UK academic board (PhD studentships,
+  EngD/CDT places, research posts) list openings that never reach Indeed.
 
 ## Finding jobs companies only post on their own website
 
