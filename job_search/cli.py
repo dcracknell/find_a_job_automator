@@ -300,6 +300,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         from job_search.adapters.careers_page import CareersPageAdapter
         from job_search.adapters.greenhouse import GreenhouseAdapter
         from job_search.adapters.hn_hiring import HNHiringAdapter
+        from job_search.adapters.jobs_ac_uk import JobsAcUkAdapter
         from job_search.adapters.jobspy_adapter import JobSpyAdapter
         from job_search.adapters.lever import LeverAdapter
         from job_search.adapters.recruitee import RecruiteeAdapter
@@ -366,6 +367,10 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
             "arbeitnow": (
                 ArbeitnowAdapter(),
                 _source_enabled(aggregators_cfg.get("arbeitnow", {})),
+            ),
+            "jobs_ac_uk": (
+                JobsAcUkAdapter(),
+                _source_enabled(aggregators_cfg.get("jobs_ac_uk", {})),
             ),
             "ashby": (
                 AshbyAdapter(),
@@ -454,7 +459,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         from job_search.pipeline.dedup import existing_jobs_map
         from job_search.pipeline.rank import current_ranker_version
 
-        active_version = current_ranker_version(domain_context)
+        active_version = current_ranker_version(domain_context, profile)
         stored = existing_jobs_map(conn)
         to_rank, unchanged = [], []
         for rec in filtered:

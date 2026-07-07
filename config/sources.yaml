@@ -45,6 +45,14 @@ aggregators:
   arbeitnow:
     enabled: true               # European job-board API (free, keyless); UK/remote only kept
     pages: 3
+  jobs_ac_uk:
+    enabled: true               # UK academic board (free, keyless) — PhD studentships,
+                                # EngD/CDT, research associate posts. FindAPhD is behind a
+                                # Cloudflare JS challenge (verified 2026-07-07); do not
+                                # implement adapters/domain/findaphd.py — this covers the
+                                # academic channel instead.
+    results_per_query: 25
+    max_detail_fetches: 80      # per-run cap on per-job JD fetches (1 req/s politeness)
 
 # These ATS sources are completely free - no API keys needed.
 ats:
