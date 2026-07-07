@@ -10,6 +10,8 @@ ats:
       slug: venn
     - name: LUMAI
       slug: lumai
+    - name: Light Dynamix Ltd
+      slug: light
   greenhouse:
     companies:
     - name: Space Systems Ltd
@@ -22,6 +24,8 @@ ats:
       slug: mcs
     - name: Mark43
       slug: mark43
+    - name: Fractile
+      slug: fractile
   lever:
     companies:
     - name: Reply
@@ -32,6 +36,8 @@ ats:
       slug: ontargetcommunications
     - name: TechBiz Global GmbH
       slug: techbizglobal
+    - name: Bauer Media Group
+      slug: bauer
   smartrecruiters:
     companies:
     - name: Renesas Electronics
