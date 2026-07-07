@@ -159,6 +159,14 @@ Hard limits — jobs outside these are discarded before any scoring:
 }
 ```
 
+Jobs whose extracted closing date has already passed are also dropped. Because the
+generic ATS adapters (Greenhouse/Lever/Workday) list postings worldwide, locations
+with a clear non-UK signal (a foreign country, US state, or major foreign city in the
+location text) are dropped too — ambiguous names shared with UK towns (Boston,
+Cambridge, Perth…) are always kept. Set `"drop_foreign_locations": false` in
+`filters` to turn that guard off. `location_excludes` remains available for
+manual location blocking on top.
+
 ### negative_signals
 
 Words in job titles or descriptions that should disqualify a role. `"senior"` in `title_excludes` means no senior roles will score well; `"5+ years"` in `description_excludes` filters out roles requiring too much experience.

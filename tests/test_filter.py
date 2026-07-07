@@ -392,3 +392,104 @@ class TestLocationFiltering:
         ]
         result = self._run(records, profile)
         assert [r.location for r in result] == ["Sheffield, UK"]
+
+
+# ---------------------------------------------------------------------------
+# Foreign-location guard (on by default, profile can opt out)
+# ---------------------------------------------------------------------------
+
+
+class TestForeignLocationGuard:
+    def _run(self, records, profile=None):
+        if profile is None:
+            profile = _make_profile(title_excludes=[])
+        return apply_filters(records, profile, _mock_conn(), today=date(2026, 6, 30))
+
+    @pytest.mark.parametrize("location", [
+        "Munich, Germany",
+        "Bengaluru, India",
+        "Toronto, Canada",
+        "Toronto",
+        "San Jose, CA",
+        "Austin, TX 78701",
+        "New York, NY",
+        "Remote - US",
+        "Remote, Germany",
+        "Tel Aviv",
+        "Dublin, Ireland",
+        "Sydney, Australia",
+        "Warsaw",
+        "Kyiv, Ukraine",
+        "Boston, MA",
+        "Zurich",
+        "Paris",
+        "Singapore",
+    ])
+    def test_foreign_locations_dropped(self, location):
+        rec = _make_record("Graduate FPGA Engineer", location=location)
+        assert self._run([rec]) == [], f"{location!r} should have been dropped"
+
+    @pytest.mark.parametrize("location", [
+        "Sheffield",
+        "Sheffield, UK",
+        "London, United Kingdom",
+        "Belfast, Northern Ireland",       # "Ireland" must not catch NI
+        "Cardiff, Wales",
+        "Edinburgh, Scotland",
+        "Remote",
+        "Fully remote (UK)",
+        "Manchester, England",
+        "Newcastle upon Tyne, NE1 4ST",    # postcode area must not look like a state code
+        "Boston, Lincolnshire",            # ambiguous city names are not listed
+        "Cambridge",
+        "Perth, Scotland",
+        "Bishop Auckland",
+        "Waterloo, London",
+        "",                                # unknown location gets benefit of the doubt
+    ])
+    def test_uk_and_ambiguous_locations_kept(self, location):
+        rec = _make_record("Graduate FPGA Engineer", location=location)
+        result = self._run([rec])
+        assert len(result) == 1, f"{location!r} should have been kept"
+
+    def test_opt_out_via_profile(self):
+        profile = _make_profile(title_excludes=[])
+        profile["filters"]["drop_foreign_locations"] = False
+        rec = _make_record("Graduate FPGA Engineer", location="Munich, Germany")
+        assert len(self._run([rec], profile)) == 1
+
+    def test_uk_signal_beats_foreign_city(self):
+        """A UK token anywhere short-circuits the guard entirely."""
+        rec = _make_record(
+            "Graduate FPGA Engineer", location="Dublin office, relocating to London, UK"
+        )
+        assert len(self._run([rec])) == 1
+
+
+# ---------------------------------------------------------------------------
+# Closing-date filter
+# ---------------------------------------------------------------------------
+
+
+class TestClosingDateFilter:
+    _TODAY = date(2026, 6, 30)
+
+    def _run(self, records):
+        profile = _make_profile(title_excludes=[])
+        return apply_filters(records, profile, _mock_conn(), today=self._TODAY)
+
+    def test_passed_closing_date_dropped(self):
+        rec = _make_record("Graduate Engineer", closes_on=date(2026, 6, 29))
+        assert self._run([rec]) == []
+
+    def test_closing_today_kept(self):
+        rec = _make_record("Graduate Engineer", closes_on=self._TODAY)
+        assert len(self._run([rec])) == 1
+
+    def test_future_closing_date_kept(self):
+        rec = _make_record("Graduate Engineer", closes_on=date(2026, 7, 15))
+        assert len(self._run([rec])) == 1
+
+    def test_no_closing_date_kept(self):
+        rec = _make_record("Graduate Engineer", closes_on=None)
+        assert len(self._run([rec])) == 1
