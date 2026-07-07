@@ -60,8 +60,51 @@ def _load_settings() -> dict:
     return _settings_cache
 
 
-def _prompt_content_hash(ranker_cfg: dict, domain_context: str) -> str:
-    """Stable hash of the ranker prompt (ignoring whitespace/comments)."""
+def _slim_profile_for_prompt(profile: dict) -> dict:
+    """Strip profile fields the ranker prompt doesn't use.
+
+    Hard-filter inputs (title_excludes, company blocklists, location_excludes,
+    posting-age windows...) are enforced upstream in pipeline/filter.py — the
+    rubric even tells the model those jobs are already removed — so sending
+    them burns prompt tokens on every cache miss for nothing. Name and
+    lat/lon likewise carry no ranking signal (city + radius do).
+    """
+    slim = {
+        key: profile[key]
+        for key in (
+            "domain", "secondary_domains", "search_radius_miles", "remote_ok",
+            "education", "experience_years", "experience_summary",
+            "core_skills", "adjacent_skills", "target_roles",
+        )
+        if key in profile
+    }
+    city = (profile.get("location") or {}).get("city")
+    if city:
+        slim["location"] = {"city": city}
+    negative = profile.get("negative_signals") or {}
+    slim_negative = {
+        key: negative[key]
+        for key in ("description_excludes", "requires_years_above")
+        if negative.get(key)
+    }
+    if slim_negative:
+        slim["negative_signals"] = slim_negative
+    filters = profile.get("filters") or {}
+    slim_filters = {
+        key: filters[key] for key in ("salary_floor_gbp", "salary_unit") if key in filters
+    }
+    if slim_filters:
+        slim["filters"] = slim_filters
+    return slim
+
+
+def _prompt_content_hash(ranker_cfg: dict, domain_context: str, profile: dict) -> str:
+    """Stable hash of the ranker prompt (ignoring whitespace/comments).
+
+    Includes the slim profile: the profile is embedded in the system prompt,
+    so editing it changes what every score means — stored scores must go
+    stale and be picked up by --rerank-stale (capped per run).
+    """
     stable = json.dumps(
         {
             "version": ranker_cfg.get("version", ""),
@@ -69,16 +112,20 @@ def _prompt_content_hash(ranker_cfg: dict, domain_context: str) -> str:
             "user": ranker_cfg.get("user_prompt_template", ""),
             "rubric": ranker_cfg.get("scoring_rubric", ""),
             "domain": domain_context,
+            "profile": _slim_profile_for_prompt(profile),
         },
         sort_keys=True,
     )
     return hashlib.sha1(stable.encode()).hexdigest()[:16]
 
 
-def current_ranker_version(domain_context: str = "") -> str:
+def current_ranker_version(domain_context: str = "", profile: dict | None = None) -> str:
     """The version tag written to jobs.ranker_version for the active prompt."""
     ranker_cfg = _load_ranker()
-    return f"{ranker_cfg.get('version', 'v1')}-{_prompt_content_hash(ranker_cfg, domain_context)}"
+    return (
+        f"{ranker_cfg.get('version', 'v1')}-"
+        f"{_prompt_content_hash(ranker_cfg, domain_context, profile or {})}"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -168,7 +215,9 @@ def keyword_prescore(record: JobRecord, profile: dict) -> float:
 def _build_system_prompt(ranker_cfg: dict, profile: dict, domain_context: str) -> str:
     template = ranker_cfg.get("system_prompt_template", "")
     rubric = ranker_cfg.get("scoring_rubric", "")
-    profile_json = json.dumps(profile, indent=None, separators=(",", ":"))
+    profile_json = json.dumps(
+        _slim_profile_for_prompt(profile), indent=None, separators=(",", ":")
+    )
     if not template:
         # Fallback: build system prompt from scoring_rubric when template is absent
         parts = ["You are an expert job-fit ranker. Output ONLY valid JSON."]
@@ -447,7 +496,8 @@ def rank_jobs(
     # user explicitly opts in to a keyword pre-filter in ranker.yaml.
     pre_score_threshold = ranker_cfg.get("pre_score_threshold", 0.0)
     ranker_version = (
-        f"{ranker_cfg.get('version', 'v1')}-{_prompt_content_hash(ranker_cfg, domain_context)}"
+        f"{ranker_cfg.get('version', 'v1')}-"
+        f"{_prompt_content_hash(ranker_cfg, domain_context, profile)}"
     )
 
     # Pass 1 — keyword pre-score all records

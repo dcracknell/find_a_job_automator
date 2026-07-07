@@ -25,11 +25,12 @@ def test_system_prompt_allows_literal_json_braces() -> None:
             ),
             "scoring_rubric": "Score carefully.",
         },
-        {"name": "Candidate"},
+        {"name": "Candidate", "core_skills": ["Python"]},
         "Domain context.",
     )
 
-    assert '{"name":"Candidate"}' in prompt
+    # name is stripped by _slim_profile_for_prompt; kept keys render as JSON
+    assert '{"core_skills":["Python"]}' in prompt
     assert "Score carefully." in prompt
     assert "Domain context." in prompt
     assert '[{"s": 8.2, "k": ["Python"]}]' in prompt
@@ -296,3 +297,67 @@ def test_rank_jobs_uses_message_batches_api(monkeypatch, tmp_path) -> None:
     params = fake_batches.created_requests[0]["params"]
     assert params["thinking"] == {"type": "disabled"}
     assert "Python Developer" in params["messages"][0]["content"]
+
+
+# ---------------------------------------------------------------------------
+# Slim profile in prompt + profile-sensitive ranker version
+# ---------------------------------------------------------------------------
+
+
+def test_slim_profile_strips_filter_only_fields() -> None:
+    from job_search.pipeline.rank import _slim_profile_for_prompt
+
+    profile = {
+        "name": "David Cracknell",
+        "domain": "engineering",
+        "location": {"city": "Sheffield", "lat": 53.38, "lon": -1.47},
+        "search_radius_miles": 60,
+        "remote_ok": True,
+        "core_skills": ["Python", "Verilog"],
+        "negative_signals": {
+            "title_excludes": ["senior"],
+            "description_excludes": ["active sc clearance"],
+            "requires_years_above": 4,
+            "company_blocklist": ["BadCo"],
+        },
+        "filters": {
+            "salary_floor_gbp": 18000,
+            "salary_unit": "annual",
+            "max_days_since_posted": 60,
+            "location_excludes": ["USA"],
+            "exclude_companies": [],
+            "rejected_company_cooldown_days": 90,
+        },
+    }
+    slim = _slim_profile_for_prompt(profile)
+
+    assert "name" not in slim
+    assert slim["location"] == {"city": "Sheffield"}  # lat/lon stripped
+    assert slim["search_radius_miles"] == 60
+    assert slim["core_skills"] == ["Python", "Verilog"]
+    # Hard-filter inputs enforced upstream must not reach the prompt
+    assert slim["negative_signals"] == {
+        "description_excludes": ["active sc clearance"],
+        "requires_years_above": 4,
+    }
+    assert slim["filters"] == {"salary_floor_gbp": 18000, "salary_unit": "annual"}
+
+
+def test_ranker_version_tracks_profile_content() -> None:
+    from job_search.pipeline.rank import current_ranker_version
+
+    v_python = current_ranker_version("", {"core_skills": ["Python"]})
+    v_verilog = current_ranker_version("", {"core_skills": ["Verilog"]})
+    assert v_python != v_verilog
+
+    # Filter-only fields are not part of the prompt, so they must not
+    # invalidate stored scores.
+    v_python_filters = current_ranker_version(
+        "",
+        {
+            "core_skills": ["Python"],
+            "negative_signals": {"title_excludes": ["senior"]},
+            "filters": {"location_excludes": ["USA"]},
+        },
+    )
+    assert v_python == v_python_filters

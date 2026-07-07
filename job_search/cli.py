@@ -454,7 +454,7 @@ def run(dry_run: bool, source: str | None, rerank_stale: bool, save_fixture: str
         from job_search.pipeline.dedup import existing_jobs_map
         from job_search.pipeline.rank import current_ranker_version
 
-        active_version = current_ranker_version(domain_context)
+        active_version = current_ranker_version(domain_context, profile)
         stored = existing_jobs_map(conn)
         to_rank, unchanged = [], []
         for rec in filtered:
