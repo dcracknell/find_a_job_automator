@@ -7967,3 +7967,11 @@
 {"timestamp": "2026-07-08T16:24:33.572142Z", "operation": "queries", "model": "claude-haiku-4-5", "input_tokens": 2507, "cached_input_tokens": 0, "output_tokens": 552, "est_cost_gbp": 0.003371}
 {"timestamp": "2026-07-08T16:53:01.379500Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 24498, "cached_input_tokens": 11430, "output_tokens": 1648, "est_cost_gbp": 0.017961}
 {"timestamp": "2026-07-08T17:00:08.667727Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 163900, "cached_input_tokens": 106680, "output_tokens": 10297, "est_cost_gbp": 0.095498}
+{"timestamp": "2026-07-09T10:22:00.211345Z", "operation": "queries", "model": "claude-haiku-4-5", "input_tokens": 2514, "cached_input_tokens": 0, "output_tokens": 505, "est_cost_gbp": 0.003225}
+{"timestamp": "2026-07-09T10:57:44.041653Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 59050, "cached_input_tokens": 19050, "output_tokens": 1985, "est_cost_gbp": 0.041464}
+{"timestamp": "2026-07-09T11:13:35.916582Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 153987, "cached_input_tokens": 99060, "output_tokens": 9423, "est_cost_gbp": 0.089558}
+{"timestamp": "2026-07-09T11:13:41.029636Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 6281, "cached_input_tokens": 0, "output_tokens": 380, "est_cost_gbp": 0.01309}
+{"timestamp": "2026-07-09T11:13:45.519150Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 5576, "cached_input_tokens": 3810, "output_tokens": 376, "est_cost_gbp": 0.006443}
+{"timestamp": "2026-07-09T11:13:51.670151Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 5531, "cached_input_tokens": 3810, "output_tokens": 378, "est_cost_gbp": 0.006387}
+{"timestamp": "2026-07-09T11:13:56.494355Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 5808, "cached_input_tokens": 3810, "output_tokens": 409, "est_cost_gbp": 0.007078}
+{"timestamp": "2026-07-09T11:14:01.345411Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 5615, "cached_input_tokens": 3810, "output_tokens": 433, "est_cost_gbp": 0.006962}
