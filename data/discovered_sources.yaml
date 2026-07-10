@@ -12,6 +12,8 @@ ats:
       slug: lumai
     - name: Light Dynamix Ltd
       slug: light
+    - name: Quantum
+      slug: quantum
   greenhouse:
     companies:
     - name: Space Systems Ltd
@@ -50,3 +52,5 @@ ats:
       slug: ncc
     - name: ALTEN
       slug: alten
+    - name: UK Atomic Energy Authority
+      slug: ukatomicenergyauthority
