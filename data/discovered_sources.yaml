@@ -28,6 +28,8 @@ ats:
       slug: mark43
     - name: Fractile
       slug: fractile
+    - name: Infinitesima
+      slug: infinitesima
   lever:
     companies:
     - name: Reply
