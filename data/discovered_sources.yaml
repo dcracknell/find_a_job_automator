@@ -30,6 +30,8 @@ ats:
       slug: fractile
     - name: Infinitesima
       slug: infinitesima
+    - name: Symphony
+      slug: symphony
   lever:
     companies:
     - name: Reply
@@ -42,6 +44,8 @@ ats:
       slug: techbizglobal
     - name: Bauer Media Group
       slug: bauer
+    - name: DTC | A Codan Company
+      slug: dtc
   smartrecruiters:
     companies:
     - name: Renesas Electronics
