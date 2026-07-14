@@ -1,132 +1,168 @@
-2026-07-13 17:04:14 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-14 09:02:20 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
 Generated 40 Claude-assisted search queries.
 Running adapter: greenhouse...
-2026-07-13 17:04:16 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cerebras: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cerebrassystems/jobs?content=true
-2026-07-13 17:04:17 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
-2026-07-13 17:04:18 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
-2026-07-13 17:04:19 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
-2026-07-13 17:04:21 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cohere: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cohere/jobs?content=true
-2026-07-13 17:04:25 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Palantir: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/palantir/jobs?content=true
-2026-07-13 17:04:26 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for BenevolentAI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/benevolentai/jobs?content=true
-2026-07-13 17:04:27 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Exscientia: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/exscientia/jobs?content=true
-2026-07-13 17:04:28 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Shield AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/shieldai/jobs?content=true
-2026-07-13 17:04:30 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thales: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thales/jobs?content=true
-2026-07-13 17:04:31 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Leonardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/leonardo/jobs?content=true
-2026-07-13 17:04:32 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for QinetiQ: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/qinetiq/jobs?content=true
-2026-07-13 17:04:33 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cobham: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cobham/jobs?content=true
-2026-07-13 17:04:34 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for GKN Aerospace: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/gknaerospace/jobs?content=true
-2026-07-13 17:04:35 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Mott MacDonald: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/mottmacdonaldgroup/jobs?content=true
-2026-07-13 17:04:36 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Arup: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/arup/jobs?content=true
-2026-07-13 17:04:37 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Atkins: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/atkins/jobs?content=true
-2026-07-13 17:04:38 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Ricardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/ricardo/jobs?content=true
-  greenhouse: 1239 jobs normalised.
+2026-07-14 09:02:22 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cerebras: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cerebrassystems/jobs?content=true
+2026-07-14 09:02:23 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
+2026-07-14 09:02:24 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
+2026-07-14 09:02:25 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
+2026-07-14 09:02:27 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cohere: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cohere/jobs?content=true
+2026-07-14 09:02:31 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Palantir: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/palantir/jobs?content=true
+2026-07-14 09:02:32 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for BenevolentAI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/benevolentai/jobs?content=true
+2026-07-14 09:02:33 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Exscientia: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/exscientia/jobs?content=true
+2026-07-14 09:02:34 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Shield AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/shieldai/jobs?content=true
+2026-07-14 09:02:36 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thales: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thales/jobs?content=true
+2026-07-14 09:02:37 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Leonardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/leonardo/jobs?content=true
+2026-07-14 09:02:38 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for QinetiQ: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/qinetiq/jobs?content=true
+2026-07-14 09:02:39 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cobham: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cobham/jobs?content=true
+2026-07-14 09:02:40 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for GKN Aerospace: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/gknaerospace/jobs?content=true
+2026-07-14 09:02:41 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Mott MacDonald: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/mottmacdonaldgroup/jobs?content=true
+2026-07-14 09:02:42 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Arup: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/arup/jobs?content=true
+2026-07-14 09:02:43 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Atkins: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/atkins/jobs?content=true
+2026-07-14 09:02:44 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Ricardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/ricardo/jobs?content=true
+  greenhouse: 1247 jobs normalised.
 Running adapter: lever...
-2026-07-13 17:12:54 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
-2026-07-13 17:12:55 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
-2026-07-13 17:12:56 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
-2026-07-13 17:12:57 WARNING  job_search.adapters.lever: lever: fetch failed for Mistral AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/mistralai?mode=json
-2026-07-13 17:12:58 WARNING  job_search.adapters.lever: lever: fetch failed for Hadean: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hadean?mode=json
+2026-07-14 09:10:54 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
+2026-07-14 09:10:55 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
+2026-07-14 09:10:56 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
+2026-07-14 09:10:57 WARNING  job_search.adapters.lever: lever: fetch failed for Mistral AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/mistralai?mode=json
+2026-07-14 09:10:58 WARNING  job_search.adapters.lever: lever: fetch failed for Hadean: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hadean?mode=json
   lever: 43 jobs normalised.
 Running adapter: workday...
-2026-07-13 17:13:15 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
-2026-07-13 17:13:16 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 422 Client Error: Unprocessable Entity for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/external/jobs
-2026-07-13 17:13:16 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
-2026-07-13 17:13:17 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
-2026-07-13 17:13:17 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 404 Client Error: Not Found for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/rolr/jobs
-2026-07-13 17:13:18 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 422 Client Error: Unprocessable Entity for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/BAES_Jobs/jobs
-2026-07-13 17:13:18 WARNING  job_search.adapters.workday: workday: fetch failed for IBM: 422 Client Error: Unprocessable Entity for url: https://ibm.wd12.myworkdayjobs.com/wday/cxs/ibm/IBMExternalJobBoard/jobs
-2026-07-13 17:13:18 WARNING  job_search.adapters.workday: workday: fetch failed for NVIDIA: 403 Client Error: Forbidden for url: https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/UniversityJobs/jobs
-2026-07-13 17:13:20 WARNING  job_search.adapters.workday: workday: fetch failed for Qualcomm: 422 Client Error: Unprocessable Entity for url: https://qualcomm.wd5.myworkdayjobs.com/wday/cxs/qualcomm/External/jobs
-2026-07-13 17:13:21 WARNING  job_search.adapters.workday: workday: fetch failed for Bosch: 422 Client Error: Unprocessable Entity for url: https://bosch.wd3.myworkdayjobs.com/wday/cxs/bosch/boschcareers/jobs
-2026-07-13 17:13:21 WARNING  job_search.adapters.workday: workday: fetch failed for Siemens: 401 Client Error: Unauthorized for url: https://siemens.wd3.myworkdayjobs.com/wday/cxs/siemens/Siemensjobs/jobs
-2026-07-13 17:13:22 WARNING  job_search.adapters.workday: workday: fetch failed for Microsoft: 422 Client Error: Unprocessable Entity for url: https://microsoft.wd5.myworkdayjobs.com/wday/cxs/microsoft/msftcareers/jobs
-2026-07-13 17:13:22 WARNING  job_search.adapters.workday: workday: fetch failed for Nokia: 422 Client Error: Unprocessable Entity for url: https://nokia.wd3.myworkdayjobs.com/wday/cxs/nokia/External_Referral/jobs
-2026-07-13 17:13:22 WARNING  job_search.adapters.workday: workday: fetch failed for Ericsson: 422 Client Error: Unprocessable Entity for url: https://ericsson.wd1.myworkdayjobs.com/wday/cxs/ericsson/Ericsson_Careers_Global/jobs
-2026-07-13 17:13:24 WARNING  job_search.adapters.workday: workday: fetch failed for Texas Instruments: 422 Client Error: Unprocessable Entity for url: https://ti.wd5.myworkdayjobs.com/wday/cxs/ti/TIjobs/jobs
-2026-07-13 17:13:26 WARNING  job_search.adapters.workday: workday: fetch failed for Infineon: 422 Client Error: Unprocessable Entity for url: https://infineon.wd3.myworkdayjobs.com/wday/cxs/infineon/Karriere/jobs
-2026-07-13 17:13:27 WARNING  job_search.adapters.workday: workday: fetch failed for STMicroelectronics: 422 Client Error: Unprocessable Entity for url: https://stmicro.wd3.myworkdayjobs.com/wday/cxs/stmicro/ST/jobs
-2026-07-13 17:13:27 WARNING  job_search.adapters.workday: workday: fetch failed for Microchip Technology: 422 Client Error: Unprocessable Entity for url: https://microchip.wd1.myworkdayjobs.com/wday/cxs/microchip/External/jobs
-2026-07-13 17:13:27 WARNING  job_search.adapters.workday: workday: fetch failed for University of Sheffield: 422 Client Error: Unprocessable Entity for url: https://sheffield.wd1.myworkdayjobs.com/wday/cxs/sheffield/external/jobs
-2026-07-13 17:13:28 WARNING  job_search.adapters.workday: workday: fetch failed for University of Manchester: 422 Client Error: Unprocessable Entity for url: https://manchester.wd3.myworkdayjobs.com/wday/cxs/manchester/external/jobs
-2026-07-13 17:13:28 WARNING  job_search.adapters.workday: workday: fetch failed for University of Leeds: 422 Client Error: Unprocessable Entity for url: https://leeds.wd3.myworkdayjobs.com/wday/cxs/leeds/external/jobs
-2026-07-13 17:13:29 WARNING  job_search.adapters.workday: workday: fetch failed for University of Nottingham: 422 Client Error: Unprocessable Entity for url: https://nottingham.wd3.myworkdayjobs.com/wday/cxs/nottingham/External/jobs
-2026-07-13 17:13:29 WARNING  job_search.adapters.workday: workday: fetch failed for University of Birmingham: 422 Client Error: Unprocessable Entity for url: https://bham.wd3.myworkdayjobs.com/wday/cxs/bham/External_Career_Site/jobs
-2026-07-13 17:13:30 WARNING  job_search.adapters.workday: workday: fetch failed for University of Bristol: 422 Client Error: Unprocessable Entity for url: https://bristol.wd3.myworkdayjobs.com/wday/cxs/bristol/jobs/jobs
-2026-07-13 17:13:30 WARNING  job_search.adapters.workday: workday: fetch failed for University of Edinburgh: 422 Client Error: Unprocessable Entity for url: https://edinburgh.wd3.myworkdayjobs.com/wday/cxs/edinburgh/UoE_External_Careers/jobs
-2026-07-13 17:13:30 WARNING  job_search.adapters.workday: workday: fetch failed for Imperial College London: 422 Client Error: Unprocessable Entity for url: https://imperial.wd3.myworkdayjobs.com/wday/cxs/imperial/Imperial_Careers/jobs
-2026-07-13 17:13:31 WARNING  job_search.adapters.workday: workday: fetch failed for UCL: 422 Client Error: Unprocessable Entity for url: https://ucl.wd3.myworkdayjobs.com/wday/cxs/ucl/UCLjobs/jobs
-2026-07-13 17:13:32 WARNING  job_search.adapters.workday: workday: fetch failed for University of Cambridge: 401 Client Error: Unauthorized for url: https://cambridge.wd3.myworkdayjobs.com/wday/cxs/cambridge/External/jobs
-2026-07-13 17:13:32 WARNING  job_search.adapters.workday: workday: fetch failed for University of Oxford: 422 Client Error: Unprocessable Entity for url: https://oxford.wd3.myworkdayjobs.com/wday/cxs/oxford/External_Vacancies/jobs
-2026-07-13 17:13:33 WARNING  job_search.adapters.workday: workday: fetch failed for King's College London: 422 Client Error: Unprocessable Entity for url: https://kcl.wd3.myworkdayjobs.com/wday/cxs/kcl/KCLjobs/jobs
-2026-07-13 17:13:33 WARNING  job_search.adapters.workday: workday: fetch failed for University of Southampton: 422 Client Error: Unprocessable Entity for url: https://southampton.wd3.myworkdayjobs.com/wday/cxs/southampton/Jobs/jobs
-2026-07-13 17:13:34 WARNING  job_search.adapters.workday: workday: fetch failed for Newcastle University: 422 Client Error: Unprocessable Entity for url: https://ncl.wd3.myworkdayjobs.com/wday/cxs/ncl/External_Career_Site/jobs
-2026-07-13 17:13:34 WARNING  job_search.adapters.workday: workday: fetch failed for University of York: 422 Client Error: Unprocessable Entity for url: https://york.wd3.myworkdayjobs.com/wday/cxs/york/External_Career_Site/jobs
-2026-07-13 17:13:35 WARNING  job_search.adapters.workday: workday: fetch failed for University of Liverpool: 422 Client Error: Unprocessable Entity for url: https://liverpool.wd3.myworkdayjobs.com/wday/cxs/liverpool/Liverpool_External/jobs
-2026-07-13 17:13:35 WARNING  job_search.adapters.workday: workday: fetch failed for University of Warwick: 422 Client Error: Unprocessable Entity for url: https://warwick.wd3.myworkdayjobs.com/wday/cxs/warwick/External/jobs
-2026-07-13 17:13:36 WARNING  job_search.adapters.workday: workday: fetch failed for Cranfield University: 422 Client Error: Unprocessable Entity for url: https://cranfield.wd3.myworkdayjobs.com/wday/cxs/cranfield/Cranfield_External/jobs
-2026-07-13 17:13:36 WARNING  job_search.adapters.workday: workday: fetch failed for Innovate UK: 422 Client Error: Unprocessable Entity for url: https://ktn.wd3.myworkdayjobs.com/wday/cxs/ktn/KTN_Jobs/jobs
+2026-07-14 09:11:16 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
+2026-07-14 09:11:16 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 422 Client Error: Unprocessable Entity for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/external/jobs
+2026-07-14 09:11:17 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
+2026-07-14 09:11:17 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
+2026-07-14 09:11:18 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 404 Client Error: Not Found for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/rolr/jobs
+2026-07-14 09:11:19 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 422 Client Error: Unprocessable Entity for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/BAES_Jobs/jobs
+2026-07-14 09:11:19 WARNING  job_search.adapters.workday: workday: fetch failed for IBM: 422 Client Error: Unprocessable Entity for url: https://ibm.wd12.myworkdayjobs.com/wday/cxs/ibm/IBMExternalJobBoard/jobs
+2026-07-14 09:11:19 WARNING  job_search.adapters.workday: workday: fetch failed for NVIDIA: 403 Client Error: Forbidden for url: https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/UniversityJobs/jobs
+2026-07-14 09:11:21 WARNING  job_search.adapters.workday: workday: fetch failed for Qualcomm: 422 Client Error: Unprocessable Entity for url: https://qualcomm.wd5.myworkdayjobs.com/wday/cxs/qualcomm/External/jobs
+2026-07-14 09:11:21 WARNING  job_search.adapters.workday: workday: fetch failed for Bosch: 422 Client Error: Unprocessable Entity for url: https://bosch.wd3.myworkdayjobs.com/wday/cxs/bosch/boschcareers/jobs
+2026-07-14 09:11:22 WARNING  job_search.adapters.workday: workday: fetch failed for Siemens: 401 Client Error: Unauthorized for url: https://siemens.wd3.myworkdayjobs.com/wday/cxs/siemens/Siemensjobs/jobs
+2026-07-14 09:11:22 WARNING  job_search.adapters.workday: workday: fetch failed for Microsoft: 422 Client Error: Unprocessable Entity for url: https://microsoft.wd5.myworkdayjobs.com/wday/cxs/microsoft/msftcareers/jobs
+2026-07-14 09:11:23 WARNING  job_search.adapters.workday: workday: fetch failed for Nokia: 422 Client Error: Unprocessable Entity for url: https://nokia.wd3.myworkdayjobs.com/wday/cxs/nokia/External_Referral/jobs
+2026-07-14 09:11:23 WARNING  job_search.adapters.workday: workday: fetch failed for Ericsson: 422 Client Error: Unprocessable Entity for url: https://ericsson.wd1.myworkdayjobs.com/wday/cxs/ericsson/Ericsson_Careers_Global/jobs
+2026-07-14 09:11:25 WARNING  job_search.adapters.workday: workday: fetch failed for Texas Instruments: 422 Client Error: Unprocessable Entity for url: https://ti.wd5.myworkdayjobs.com/wday/cxs/ti/TIjobs/jobs
+2026-07-14 09:11:28 WARNING  job_search.adapters.workday: workday: fetch failed for Infineon: 422 Client Error: Unprocessable Entity for url: https://infineon.wd3.myworkdayjobs.com/wday/cxs/infineon/Karriere/jobs
+2026-07-14 09:11:28 WARNING  job_search.adapters.workday: workday: fetch failed for STMicroelectronics: 422 Client Error: Unprocessable Entity for url: https://stmicro.wd3.myworkdayjobs.com/wday/cxs/stmicro/ST/jobs
+2026-07-14 09:11:28 WARNING  job_search.adapters.workday: workday: fetch failed for Microchip Technology: 422 Client Error: Unprocessable Entity for url: https://microchip.wd1.myworkdayjobs.com/wday/cxs/microchip/External/jobs
+2026-07-14 09:11:29 WARNING  job_search.adapters.workday: workday: fetch failed for University of Sheffield: 422 Client Error: Unprocessable Entity for url: https://sheffield.wd1.myworkdayjobs.com/wday/cxs/sheffield/external/jobs
+2026-07-14 09:11:29 WARNING  job_search.adapters.workday: workday: fetch failed for University of Manchester: 422 Client Error: Unprocessable Entity for url: https://manchester.wd3.myworkdayjobs.com/wday/cxs/manchester/external/jobs
+2026-07-14 09:11:30 WARNING  job_search.adapters.workday: workday: fetch failed for University of Leeds: 422 Client Error: Unprocessable Entity for url: https://leeds.wd3.myworkdayjobs.com/wday/cxs/leeds/external/jobs
+2026-07-14 09:11:31 WARNING  job_search.adapters.workday: workday: fetch failed for University of Nottingham: 422 Client Error: Unprocessable Entity for url: https://nottingham.wd3.myworkdayjobs.com/wday/cxs/nottingham/External/jobs
+2026-07-14 09:11:31 WARNING  job_search.adapters.workday: workday: fetch failed for University of Birmingham: 422 Client Error: Unprocessable Entity for url: https://bham.wd3.myworkdayjobs.com/wday/cxs/bham/External_Career_Site/jobs
+2026-07-14 09:11:32 WARNING  job_search.adapters.workday: workday: fetch failed for University of Bristol: 422 Client Error: Unprocessable Entity for url: https://bristol.wd3.myworkdayjobs.com/wday/cxs/bristol/jobs/jobs
+2026-07-14 09:11:33 WARNING  job_search.adapters.workday: workday: fetch failed for University of Edinburgh: 422 Client Error: Unprocessable Entity for url: https://edinburgh.wd3.myworkdayjobs.com/wday/cxs/edinburgh/UoE_External_Careers/jobs
+2026-07-14 09:11:33 WARNING  job_search.adapters.workday: workday: fetch failed for Imperial College London: 422 Client Error: Unprocessable Entity for url: https://imperial.wd3.myworkdayjobs.com/wday/cxs/imperial/Imperial_Careers/jobs
+2026-07-14 09:11:34 WARNING  job_search.adapters.workday: workday: fetch failed for UCL: 422 Client Error: Unprocessable Entity for url: https://ucl.wd3.myworkdayjobs.com/wday/cxs/ucl/UCLjobs/jobs
+2026-07-14 09:11:35 WARNING  job_search.adapters.workday: workday: fetch failed for University of Cambridge: 401 Client Error: Unauthorized for url: https://cambridge.wd3.myworkdayjobs.com/wday/cxs/cambridge/External/jobs
+2026-07-14 09:11:35 WARNING  job_search.adapters.workday: workday: fetch failed for University of Oxford: 422 Client Error: Unprocessable Entity for url: https://oxford.wd3.myworkdayjobs.com/wday/cxs/oxford/External_Vacancies/jobs
+2026-07-14 09:11:36 WARNING  job_search.adapters.workday: workday: fetch failed for King's College London: 422 Client Error: Unprocessable Entity for url: https://kcl.wd3.myworkdayjobs.com/wday/cxs/kcl/KCLjobs/jobs
+2026-07-14 09:11:37 WARNING  job_search.adapters.workday: workday: fetch failed for University of Southampton: 422 Client Error: Unprocessable Entity for url: https://southampton.wd3.myworkdayjobs.com/wday/cxs/southampton/Jobs/jobs
+2026-07-14 09:11:37 WARNING  job_search.adapters.workday: workday: fetch failed for Newcastle University: 422 Client Error: Unprocessable Entity for url: https://ncl.wd3.myworkdayjobs.com/wday/cxs/ncl/External_Career_Site/jobs
+2026-07-14 09:11:38 WARNING  job_search.adapters.workday: workday: fetch failed for University of York: 422 Client Error: Unprocessable Entity for url: https://york.wd3.myworkdayjobs.com/wday/cxs/york/External_Career_Site/jobs
+2026-07-14 09:11:39 WARNING  job_search.adapters.workday: workday: fetch failed for University of Liverpool: 422 Client Error: Unprocessable Entity for url: https://liverpool.wd3.myworkdayjobs.com/wday/cxs/liverpool/Liverpool_External/jobs
+2026-07-14 09:11:39 WARNING  job_search.adapters.workday: workday: fetch failed for University of Warwick: 422 Client Error: Unprocessable Entity for url: https://warwick.wd3.myworkdayjobs.com/wday/cxs/warwick/External/jobs
+2026-07-14 09:11:40 WARNING  job_search.adapters.workday: workday: fetch failed for Cranfield University: 422 Client Error: Unprocessable Entity for url: https://cranfield.wd3.myworkdayjobs.com/wday/cxs/cranfield/Cranfield_External/jobs
+2026-07-14 09:11:41 WARNING  job_search.adapters.workday: workday: fetch failed for Innovate UK: 422 Client Error: Unprocessable Entity for url: https://ktn.wd3.myworkdayjobs.com/wday/cxs/ktn/KTN_Jobs/jobs
   workday: 200 jobs normalised.
 Running adapter: jobspy...
-2026-07-13 17:15:50 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 94 jobs across 40 queries
-  jobspy: 94 jobs normalised.
+2026-07-14 09:13:43 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 52 jobs across 40 queries
+  jobspy: 52 jobs normalised.
 Running adapter: workable...
-2026-07-13 17:17:21 WARNING  job_search.adapters.workable_adapter: workable: Featurespace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/featurespace/jobs?details=true
-2026-07-13 17:17:21 WARNING  job_search.adapters.workable_adapter: workable: Darktrace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/darktrace/jobs?details=true
-2026-07-13 17:17:22 WARNING  job_search.adapters.workable_adapter: workable: Eigen Technologies failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/eigentech/jobs?details=true
-2026-07-13 17:17:23 WARNING  job_search.adapters.workable_adapter: workable: Faculty failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/faculty-ai/jobs?details=true
-2026-07-13 17:17:24 WARNING  job_search.adapters.workable_adapter: workable: Paragraf failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/paragraf/jobs?details=true
-2026-07-13 17:17:25 WARNING  job_search.adapters.workable_adapter: workable: Tokamak Energy failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tokamak/jobs?details=true
-2026-07-13 17:17:26 WARNING  job_search.adapters.workable_adapter: workable: First Light Fusion failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/firstlightfusion/jobs?details=true
-2026-07-13 17:17:27 WARNING  job_search.adapters.workable_adapter: workable: Reaction Engines failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/reactionengines/jobs?details=true
+2026-07-14 09:14:32 WARNING  job_search.adapters.workable_adapter: workable: Featurespace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/featurespace/jobs?details=true
+2026-07-14 09:14:33 WARNING  job_search.adapters.workable_adapter: workable: Darktrace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/darktrace/jobs?details=true
+2026-07-14 09:14:34 WARNING  job_search.adapters.workable_adapter: workable: Eigen Technologies failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/eigentech/jobs?details=true
+2026-07-14 09:14:35 WARNING  job_search.adapters.workable_adapter: workable: Faculty failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/faculty-ai/jobs?details=true
+2026-07-14 09:14:36 WARNING  job_search.adapters.workable_adapter: workable: Paragraf failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/paragraf/jobs?details=true
+2026-07-14 09:14:37 WARNING  job_search.adapters.workable_adapter: workable: Tokamak Energy failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tokamak/jobs?details=true
+2026-07-14 09:14:38 WARNING  job_search.adapters.workable_adapter: workable: First Light Fusion failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/firstlightfusion/jobs?details=true
+2026-07-14 09:14:39 WARNING  job_search.adapters.workable_adapter: workable: Reaction Engines failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/reactionengines/jobs?details=true
   workable: 0 jobs normalised.
 Running adapter: hn_hiring...
-2026-07-13 17:17:29 INFO     job_search.adapters.hn_hiring: hn_hiring: 154 location-matched posts from thread 48747976
-  hn_hiring: 154 jobs normalised.
+2026-07-14 09:14:41 INFO     job_search.adapters.hn_hiring: hn_hiring: 156 location-matched posts from thread 48747976
+  hn_hiring: 156 jobs normalised.
 Running adapter: remotive...
-2026-07-13 17:20:18 INFO     job_search.adapters.remotive: remotive: 15 jobs across 8 queries
+2026-07-14 09:17:36 INFO     job_search.adapters.remotive: remotive: 15 jobs across 8 queries
   remotive: 15 jobs normalised.
 Running adapter: arbeitnow...
-2026-07-13 17:20:28 INFO     job_search.adapters.arbeitnow: arbeitnow: 36 UK/remote jobs across 3 page(s)
-  arbeitnow: 36 jobs normalised.
+2026-07-14 09:17:46 INFO     job_search.adapters.arbeitnow: arbeitnow: 35 UK/remote jobs across 3 page(s)
+  arbeitnow: 35 jobs normalised.
 Running adapter: jobs_ac_uk...
-2026-07-13 17:21:20 INFO     job_search.adapters.jobs_ac_uk: jobs_ac_uk: 4 jobs across 20 queries
-  jobs_ac_uk: 4 jobs normalised.
+2026-07-14 09:18:39 INFO     job_search.adapters.jobs_ac_uk: jobs_ac_uk: 1 jobs across 20 queries
+  jobs_ac_uk: 1 jobs normalised.
 Running adapter: ashby...
   ashby: 84 jobs normalised.
 Running adapter: recruitee...
   recruitee: 229 jobs normalised.
 Running adapter: smartrecruiters...
-  smartrecruiters: 443 jobs normalised.
-2026-07-13 17:29:42 INFO     job_search.pipeline.filter: filter: dropped 2113/2541 jobs (title_excluded: 1239, location_excluded: 319, posted_too_old: 244, foreign_location: 196, beyond_radius: 115)
-After filtering: 428/2541 jobs kept.
-Skipping LLM ranking for 195 unchanged, already-scored jobs.
-Ranking 233 jobs...
-2026-07-13 17:29:42 INFO     job_search.pipeline.rank: rank: 207/233 jobs skipped LLM (pre-score < 0.5)
-2026-07-13 17:29:42 INFO     job_search.pipeline.rank: rank: 4 cross-source duplicate(s) will share scores with an identical title+company posting
-2026-07-13 17:29:42 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages/batches "HTTP/1.1 200 OK"
-2026-07-13 17:29:42 INFO     job_search.pipeline.rank: rank: submitted 5 request(s) as message batch msgbatch_01R4FeNSSziXpgrRvyUqeKWr
-2026-07-13 17:30:02 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr "HTTP/1.1 200 OK"
-2026-07-13 17:30:23 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr "HTTP/1.1 200 OK"
-2026-07-13 17:30:43 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr "HTTP/1.1 200 OK"
-2026-07-13 17:31:03 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr "HTTP/1.1 200 OK"
-2026-07-13 17:31:24 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr "HTTP/1.1 200 OK"
-2026-07-13 17:31:44 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr "HTTP/1.1 200 OK"
-2026-07-13 17:31:44 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr "HTTP/1.1 200 OK"
-2026-07-13 17:31:44 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01R4FeNSSziXpgrRvyUqeKWr/results "HTTP/1.1 200 OK"
-2026-07-13 17:31:45 INFO     job_search.pipeline.rank: rank: 146/200 jobs skipped LLM (pre-score < 0.5)
-2026-07-13 17:31:45 INFO     job_search.pipeline.rank: rank: 27 cross-source duplicate(s) will share scores with an identical title+company posting
-2026-07-13 17:31:46 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages/batches "HTTP/1.1 200 OK"
-2026-07-13 17:31:46 INFO     job_search.pipeline.rank: rank: submitted 6 request(s) as message batch msgbatch_01BKTPGwnVC3VFftG6UwsWSh
-2026-07-13 17:32:06 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01BKTPGwnVC3VFftG6UwsWSh "HTTP/1.1 200 OK"
-2026-07-13 17:32:27 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01BKTPGwnVC3VFftG6UwsWSh "HTTP/1.1 200 OK"
-2026-07-13 17:32:47 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01BKTPGwnVC3VFftG6UwsWSh "HTTP/1.1 200 OK"
-2026-07-13 17:33:07 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01BKTPGwnVC3VFftG6UwsWSh "HTTP/1.1 200 OK"
-2026-07-13 17:33:08 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01BKTPGwnVC3VFftG6UwsWSh "HTTP/1.1 200 OK"
-2026-07-13 17:33:08 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01BKTPGwnVC3VFftG6UwsWSh/results "HTTP/1.1 200 OK"
+  smartrecruiters: 442 jobs normalised.
+2026-07-14 09:26:38 INFO     job_search.pipeline.filter: filter: dropped 2088/2504 jobs (title_excluded: 1234, location_excluded: 318, posted_too_old: 242, foreign_location: 200, beyond_radius: 94)
+After filtering: 416/2504 jobs kept.
+Skipping LLM ranking for 179 unchanged, already-scored jobs.
+Ranking 237 jobs...
+2026-07-14 09:26:38 INFO     job_search.pipeline.rank: rank: 224/237 jobs skipped LLM (pre-score < 0.5)
+2026-07-14 09:26:38 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages/batches "HTTP/1.1 200 OK"
+2026-07-14 09:26:38 INFO     job_search.pipeline.rank: rank: submitted 3 request(s) as message batch msgbatch_01RKYA4njauSE1eKgEByRTfF
+2026-07-14 09:26:59 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:27:19 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:27:39 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:27:59 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:28:19 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:28:40 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:29:00 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:29:20 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:29:40 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:30:01 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:30:21 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:30:41 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:31:01 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:31:22 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:31:42 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:32:02 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:32:22 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:32:43 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:33:03 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:33:23 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:33:43 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:34:03 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:34:24 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:34:44 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:35:04 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:35:25 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:35:45 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:36:05 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:36:25 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:36:25 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF "HTTP/1.1 200 OK"
+2026-07-14 09:36:26 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01RKYA4njauSE1eKgEByRTfF/results "HTTP/1.1 200 OK"
+2026-07-14 09:36:27 INFO     job_search.pipeline.rank: rank: 121/200 jobs skipped LLM (pre-score < 0.5)
+2026-07-14 09:36:27 INFO     job_search.pipeline.rank: rank: 11 cross-source duplicate(s) will share scores with an identical title+company posting
+2026-07-14 09:36:28 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages/batches "HTTP/1.1 200 OK"
+2026-07-14 09:36:28 INFO     job_search.pipeline.rank: rank: submitted 14 request(s) as message batch msgbatch_019geGtPyHnFBMBjEuPzchtR
+2026-07-14 09:36:48 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:37:08 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:37:28 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:37:49 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:38:09 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:38:29 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:38:49 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:39:10 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:39:30 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:39:50 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:40:10 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:40:30 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:40:51 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:41:11 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:41:31 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:41:51 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:42:12 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:42:12 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR "HTTP/1.1 200 OK"
+2026-07-14 09:42:12 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_019geGtPyHnFBMBjEuPzchtR/results "HTTP/1.1 200 OK"
 Re-ranked 200 stale-scored jobs.
-Run complete: 2541 scraped, 34 new, 0 closed.
-2026-07-13 17:33:08 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-07-13.xlsx
-2026-07-13 17:33:18 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
+Marked 3256 stale jobs as closed.
+Run complete: 2504 scraped, 20 new, 3256 closed.
+2026-07-14 09:42:13 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-07-14.xlsx
+2026-07-14 09:42:24 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
 Excel regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
-2026-07-13 17:33:18 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
+2026-07-14 09:42:24 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
 Dashboard: /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
