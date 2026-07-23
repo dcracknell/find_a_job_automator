@@ -1,131 +1,280 @@
-2026-07-23 09:22:53 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-23 16:18:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
 Generated 40 Claude-assisted search queries.
 Running adapter: greenhouse...
-2026-07-23 09:22:55 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cerebras: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cerebrassystems/jobs?content=true
-2026-07-23 09:22:56 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
-2026-07-23 09:22:57 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
-2026-07-23 09:22:58 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
-2026-07-23 09:23:00 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cohere: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cohere/jobs?content=true
-2026-07-23 09:23:04 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Palantir: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/palantir/jobs?content=true
-2026-07-23 09:23:05 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for BenevolentAI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/benevolentai/jobs?content=true
-2026-07-23 09:23:06 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Exscientia: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/exscientia/jobs?content=true
-2026-07-23 09:23:07 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Shield AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/shieldai/jobs?content=true
-2026-07-23 09:23:09 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thales: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thales/jobs?content=true
-2026-07-23 09:23:11 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Leonardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/leonardo/jobs?content=true
-2026-07-23 09:23:11 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for QinetiQ: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/qinetiq/jobs?content=true
-2026-07-23 09:23:12 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cobham: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cobham/jobs?content=true
-2026-07-23 09:23:13 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for GKN Aerospace: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/gknaerospace/jobs?content=true
-2026-07-23 09:23:14 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Mott MacDonald: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/mottmacdonaldgroup/jobs?content=true
-2026-07-23 09:23:15 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Arup: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/arup/jobs?content=true
-2026-07-23 09:23:16 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Atkins: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/atkins/jobs?content=true
-2026-07-23 09:23:17 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Ricardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/ricardo/jobs?content=true
-  greenhouse: 1265 jobs normalised.
+2026-07-23 16:18:32 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cerebras: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cerebrassystems/jobs?content=true
+2026-07-23 16:18:33 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Improbable: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true
+2026-07-23 16:18:34 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Faculty AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/faculty/jobs?content=true
+2026-07-23 16:18:35 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thought Machine: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true
+2026-07-23 16:18:37 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cohere: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cohere/jobs?content=true
+2026-07-23 16:18:41 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Palantir: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/palantir/jobs?content=true
+2026-07-23 16:18:42 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for BenevolentAI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/benevolentai/jobs?content=true
+2026-07-23 16:18:43 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Exscientia: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/exscientia/jobs?content=true
+2026-07-23 16:18:44 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Shield AI: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/shieldai/jobs?content=true
+2026-07-23 16:18:46 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Thales: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/thales/jobs?content=true
+2026-07-23 16:18:47 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Leonardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/leonardo/jobs?content=true
+2026-07-23 16:18:48 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for QinetiQ: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/qinetiq/jobs?content=true
+2026-07-23 16:18:49 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Cobham: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/cobham/jobs?content=true
+2026-07-23 16:18:50 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for GKN Aerospace: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/gknaerospace/jobs?content=true
+2026-07-23 16:18:51 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Mott MacDonald: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/mottmacdonaldgroup/jobs?content=true
+2026-07-23 16:18:52 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Arup: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/arup/jobs?content=true
+2026-07-23 16:18:53 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Atkins: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/atkins/jobs?content=true
+2026-07-23 16:18:54 WARNING  job_search.adapters.greenhouse: greenhouse: fetch failed for Ricardo: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/ricardo/jobs?content=true
+  greenhouse: 1264 jobs normalised.
 Running adapter: lever...
-2026-07-23 09:31:28 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
-2026-07-23 09:31:29 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
-2026-07-23 09:31:30 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
-2026-07-23 09:31:31 WARNING  job_search.adapters.lever: lever: fetch failed for Mistral AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/mistralai?mode=json
-2026-07-23 09:31:32 WARNING  job_search.adapters.lever: lever: fetch failed for Hadean: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hadean?mode=json
+2026-07-23 16:26:57 WARNING  job_search.adapters.lever: lever: fetch failed for Octopus Energy: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/octopusenergy?mode=json
+2026-07-23 16:26:58 WARNING  job_search.adapters.lever: lever: fetch failed for Tractable: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/tractable?mode=json
+2026-07-23 16:26:59 WARNING  job_search.adapters.lever: lever: fetch failed for Wayve: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/wayve?mode=json
+2026-07-23 16:27:00 WARNING  job_search.adapters.lever: lever: fetch failed for Mistral AI: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/mistralai?mode=json
+2026-07-23 16:27:01 WARNING  job_search.adapters.lever: lever: fetch failed for Hadean: 404 Client Error: Not Found for url: https://api.lever.co/v0/postings/hadean?mode=json
   lever: 40 jobs normalised.
 Running adapter: workday...
-2026-07-23 09:31:48 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
-2026-07-23 09:31:49 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 422 Client Error: Unprocessable Entity for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/external/jobs
-2026-07-23 09:31:49 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
-2026-07-23 09:31:50 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
-2026-07-23 09:31:50 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 404 Client Error: Not Found for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/rolr/jobs
-2026-07-23 09:31:51 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 422 Client Error: Unprocessable Entity for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/BAES_Jobs/jobs
-2026-07-23 09:31:51 WARNING  job_search.adapters.workday: workday: fetch failed for IBM: 422 Client Error: Unprocessable Entity for url: https://ibm.wd12.myworkdayjobs.com/wday/cxs/ibm/IBMExternalJobBoard/jobs
-2026-07-23 09:31:51 WARNING  job_search.adapters.workday: workday: fetch failed for NVIDIA: 403 Client Error: Forbidden for url: https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/UniversityJobs/jobs
-2026-07-23 09:31:53 WARNING  job_search.adapters.workday: workday: fetch failed for Qualcomm: 422 Client Error: Unprocessable Entity for url: https://qualcomm.wd5.myworkdayjobs.com/wday/cxs/qualcomm/External/jobs
-2026-07-23 09:31:54 WARNING  job_search.adapters.workday: workday: fetch failed for Bosch: 422 Client Error: Unprocessable Entity for url: https://bosch.wd3.myworkdayjobs.com/wday/cxs/bosch/boschcareers/jobs
-2026-07-23 09:31:54 WARNING  job_search.adapters.workday: workday: fetch failed for Siemens: 401 Client Error: Unauthorized for url: https://siemens.wd3.myworkdayjobs.com/wday/cxs/siemens/Siemensjobs/jobs
-2026-07-23 09:31:55 WARNING  job_search.adapters.workday: workday: fetch failed for Microsoft: 422 Client Error: Unprocessable Entity for url: https://microsoft.wd5.myworkdayjobs.com/wday/cxs/microsoft/msftcareers/jobs
-2026-07-23 09:31:55 WARNING  job_search.adapters.workday: workday: fetch failed for Nokia: 422 Client Error: Unprocessable Entity for url: https://nokia.wd3.myworkdayjobs.com/wday/cxs/nokia/External_Referral/jobs
-2026-07-23 09:31:55 WARNING  job_search.adapters.workday: workday: fetch failed for Ericsson: 422 Client Error: Unprocessable Entity for url: https://ericsson.wd1.myworkdayjobs.com/wday/cxs/ericsson/Ericsson_Careers_Global/jobs
-2026-07-23 09:31:58 WARNING  job_search.adapters.workday: workday: fetch failed for Texas Instruments: 422 Client Error: Unprocessable Entity for url: https://ti.wd5.myworkdayjobs.com/wday/cxs/ti/TIjobs/jobs
-2026-07-23 09:32:00 WARNING  job_search.adapters.workday: workday: fetch failed for Infineon: 422 Client Error: Unprocessable Entity for url: https://infineon.wd3.myworkdayjobs.com/wday/cxs/infineon/Karriere/jobs
-2026-07-23 09:32:00 WARNING  job_search.adapters.workday: workday: fetch failed for STMicroelectronics: 422 Client Error: Unprocessable Entity for url: https://stmicro.wd3.myworkdayjobs.com/wday/cxs/stmicro/ST/jobs
-2026-07-23 09:32:00 WARNING  job_search.adapters.workday: workday: fetch failed for Microchip Technology: 422 Client Error: Unprocessable Entity for url: https://microchip.wd1.myworkdayjobs.com/wday/cxs/microchip/External/jobs
-2026-07-23 09:32:01 WARNING  job_search.adapters.workday: workday: fetch failed for University of Sheffield: 422 Client Error: Unprocessable Entity for url: https://sheffield.wd1.myworkdayjobs.com/wday/cxs/sheffield/external/jobs
-2026-07-23 09:32:01 WARNING  job_search.adapters.workday: workday: fetch failed for University of Manchester: 422 Client Error: Unprocessable Entity for url: https://manchester.wd3.myworkdayjobs.com/wday/cxs/manchester/external/jobs
-2026-07-23 09:32:02 WARNING  job_search.adapters.workday: workday: fetch failed for University of Leeds: 422 Client Error: Unprocessable Entity for url: https://leeds.wd3.myworkdayjobs.com/wday/cxs/leeds/external/jobs
-2026-07-23 09:32:02 WARNING  job_search.adapters.workday: workday: fetch failed for University of Nottingham: 422 Client Error: Unprocessable Entity for url: https://nottingham.wd3.myworkdayjobs.com/wday/cxs/nottingham/External/jobs
-2026-07-23 09:32:03 WARNING  job_search.adapters.workday: workday: fetch failed for University of Birmingham: 422 Client Error: Unprocessable Entity for url: https://bham.wd3.myworkdayjobs.com/wday/cxs/bham/External_Career_Site/jobs
-2026-07-23 09:32:03 WARNING  job_search.adapters.workday: workday: fetch failed for University of Bristol: 422 Client Error: Unprocessable Entity for url: https://bristol.wd3.myworkdayjobs.com/wday/cxs/bristol/jobs/jobs
-2026-07-23 09:32:04 WARNING  job_search.adapters.workday: workday: fetch failed for University of Edinburgh: 422 Client Error: Unprocessable Entity for url: https://edinburgh.wd3.myworkdayjobs.com/wday/cxs/edinburgh/UoE_External_Careers/jobs
-2026-07-23 09:32:04 WARNING  job_search.adapters.workday: workday: fetch failed for Imperial College London: 422 Client Error: Unprocessable Entity for url: https://imperial.wd3.myworkdayjobs.com/wday/cxs/imperial/Imperial_Careers/jobs
-2026-07-23 09:32:05 WARNING  job_search.adapters.workday: workday: fetch failed for UCL: 422 Client Error: Unprocessable Entity for url: https://ucl.wd3.myworkdayjobs.com/wday/cxs/ucl/UCLjobs/jobs
-2026-07-23 09:32:06 WARNING  job_search.adapters.workday: workday: fetch failed for University of Cambridge: 401 Client Error: Unauthorized for url: https://cambridge.wd3.myworkdayjobs.com/wday/cxs/cambridge/External/jobs
-2026-07-23 09:32:06 WARNING  job_search.adapters.workday: workday: fetch failed for University of Oxford: 422 Client Error: Unprocessable Entity for url: https://oxford.wd3.myworkdayjobs.com/wday/cxs/oxford/External_Vacancies/jobs
-2026-07-23 09:32:07 WARNING  job_search.adapters.workday: workday: fetch failed for King's College London: 422 Client Error: Unprocessable Entity for url: https://kcl.wd3.myworkdayjobs.com/wday/cxs/kcl/KCLjobs/jobs
-2026-07-23 09:32:07 WARNING  job_search.adapters.workday: workday: fetch failed for University of Southampton: 422 Client Error: Unprocessable Entity for url: https://southampton.wd3.myworkdayjobs.com/wday/cxs/southampton/Jobs/jobs
-2026-07-23 09:32:08 WARNING  job_search.adapters.workday: workday: fetch failed for Newcastle University: 422 Client Error: Unprocessable Entity for url: https://ncl.wd3.myworkdayjobs.com/wday/cxs/ncl/External_Career_Site/jobs
-2026-07-23 09:32:09 WARNING  job_search.adapters.workday: workday: fetch failed for University of York: 422 Client Error: Unprocessable Entity for url: https://york.wd3.myworkdayjobs.com/wday/cxs/york/External_Career_Site/jobs
-2026-07-23 09:32:09 WARNING  job_search.adapters.workday: workday: fetch failed for University of Liverpool: 422 Client Error: Unprocessable Entity for url: https://liverpool.wd3.myworkdayjobs.com/wday/cxs/liverpool/Liverpool_External/jobs
-2026-07-23 09:32:10 WARNING  job_search.adapters.workday: workday: fetch failed for University of Warwick: 422 Client Error: Unprocessable Entity for url: https://warwick.wd3.myworkdayjobs.com/wday/cxs/warwick/External/jobs
-2026-07-23 09:32:10 WARNING  job_search.adapters.workday: workday: fetch failed for Cranfield University: 422 Client Error: Unprocessable Entity for url: https://cranfield.wd3.myworkdayjobs.com/wday/cxs/cranfield/Cranfield_External/jobs
-2026-07-23 09:32:11 WARNING  job_search.adapters.workday: workday: fetch failed for Innovate UK: 422 Client Error: Unprocessable Entity for url: https://ktn.wd3.myworkdayjobs.com/wday/cxs/ktn/KTN_Jobs/jobs
-  workday: 200 jobs normalised.
+2026-07-23 16:27:17 WARNING  job_search.adapters.workday: workday: fetch failed for ARM: 422 Client Error: Unprocessable Entity for url: https://arm.wd1.myworkdayjobs.com/wday/cxs/arm/Arm_Careers/jobs
+2026-07-23 16:27:17 WARNING  job_search.adapters.workday: workday: fetch failed for Bentley Systems: 422 Client Error: Unprocessable Entity for url: https://bentley.wd3.myworkdayjobs.com/wday/cxs/bentley/external/jobs
+2026-07-23 16:27:17 WARNING  job_search.adapters.workday: workday: fetch failed for Aveva: 404 Client Error: Not Found for url: https://aveva.wd3.myworkdayjobs.com/wday/cxs/aveva/aveva_jobs/jobs
+2026-07-23 16:27:18 WARNING  job_search.adapters.workday: workday: fetch failed for Ultra Electronics: 422 Client Error: Unprocessable Entity for url: https://ultra.wd1.myworkdayjobs.com/wday/cxs/ultra/ultra_electronics/jobs
+2026-07-23 16:27:18 WARNING  job_search.adapters.workday: workday: fetch failed for Rolls-Royce: 404 Client Error: Not Found for url: https://rollsroyce.wd3.myworkdayjobs.com/wday/cxs/rollsroyce/rolr/jobs
+2026-07-23 16:27:18 WARNING  job_search.adapters.workday: workday: fetch failed for BAE Systems: 422 Client Error: Unprocessable Entity for url: https://baesystems.wd3.myworkdayjobs.com/wday/cxs/baesystems/BAES_Jobs/jobs
+2026-07-23 16:27:19 WARNING  job_search.adapters.workday: workday: fetch failed for IBM: 422 Client Error: Unprocessable Entity for url: https://ibm.wd12.myworkdayjobs.com/wday/cxs/ibm/IBMExternalJobBoard/jobs
+2026-07-23 16:27:19 WARNING  job_search.adapters.workday: workday: fetch failed for NVIDIA: 403 Client Error: Forbidden for url: https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/UniversityJobs/jobs
+2026-07-23 16:27:21 WARNING  job_search.adapters.workday: workday: fetch failed for Qualcomm: 422 Client Error: Unprocessable Entity for url: https://qualcomm.wd5.myworkdayjobs.com/wday/cxs/qualcomm/External/jobs
+2026-07-23 16:27:21 WARNING  job_search.adapters.workday: workday: fetch failed for Bosch: 422 Client Error: Unprocessable Entity for url: https://bosch.wd3.myworkdayjobs.com/wday/cxs/bosch/boschcareers/jobs
+2026-07-23 16:27:22 WARNING  job_search.adapters.workday: workday: fetch failed for Siemens: 401 Client Error: Unauthorized for url: https://siemens.wd3.myworkdayjobs.com/wday/cxs/siemens/Siemensjobs/jobs
+2026-07-23 16:27:22 WARNING  job_search.adapters.workday: workday: fetch failed for Microsoft: 422 Client Error: Unprocessable Entity for url: https://microsoft.wd5.myworkdayjobs.com/wday/cxs/microsoft/msftcareers/jobs
+2026-07-23 16:27:22 WARNING  job_search.adapters.workday: workday: fetch failed for Nokia: 422 Client Error: Unprocessable Entity for url: https://nokia.wd3.myworkdayjobs.com/wday/cxs/nokia/External_Referral/jobs
+2026-07-23 16:27:22 WARNING  job_search.adapters.workday: workday: fetch failed for Ericsson: 422 Client Error: Unprocessable Entity for url: https://ericsson.wd1.myworkdayjobs.com/wday/cxs/ericsson/Ericsson_Careers_Global/jobs
+2026-07-23 16:27:24 WARNING  job_search.adapters.workday: workday: fetch failed for Texas Instruments: 422 Client Error: Unprocessable Entity for url: https://ti.wd5.myworkdayjobs.com/wday/cxs/ti/TIjobs/jobs
+2026-07-23 16:27:26 WARNING  job_search.adapters.workday: workday: fetch failed for Infineon: 422 Client Error: Unprocessable Entity for url: https://infineon.wd3.myworkdayjobs.com/wday/cxs/infineon/Karriere/jobs
+2026-07-23 16:27:27 WARNING  job_search.adapters.workday: workday: fetch failed for STMicroelectronics: 422 Client Error: Unprocessable Entity for url: https://stmicro.wd3.myworkdayjobs.com/wday/cxs/stmicro/ST/jobs
+2026-07-23 16:27:27 WARNING  job_search.adapters.workday: workday: fetch failed for Microchip Technology: 422 Client Error: Unprocessable Entity for url: https://microchip.wd1.myworkdayjobs.com/wday/cxs/microchip/External/jobs
+2026-07-23 16:27:27 WARNING  job_search.adapters.workday: workday: fetch failed for University of Sheffield: 422 Client Error: Unprocessable Entity for url: https://sheffield.wd1.myworkdayjobs.com/wday/cxs/sheffield/external/jobs
+2026-07-23 16:27:27 WARNING  job_search.adapters.workday: workday: fetch failed for University of Manchester: 422 Client Error: Unprocessable Entity for url: https://manchester.wd3.myworkdayjobs.com/wday/cxs/manchester/external/jobs
+2026-07-23 16:27:28 WARNING  job_search.adapters.workday: workday: fetch failed for University of Leeds: 422 Client Error: Unprocessable Entity for url: https://leeds.wd3.myworkdayjobs.com/wday/cxs/leeds/external/jobs
+2026-07-23 16:27:28 WARNING  job_search.adapters.workday: workday: fetch failed for University of Nottingham: 422 Client Error: Unprocessable Entity for url: https://nottingham.wd3.myworkdayjobs.com/wday/cxs/nottingham/External/jobs
+2026-07-23 16:27:28 WARNING  job_search.adapters.workday: workday: fetch failed for University of Birmingham: 422 Client Error: Unprocessable Entity for url: https://bham.wd3.myworkdayjobs.com/wday/cxs/bham/External_Career_Site/jobs
+2026-07-23 16:27:29 WARNING  job_search.adapters.workday: workday: fetch failed for University of Bristol: 422 Client Error: Unprocessable Entity for url: https://bristol.wd3.myworkdayjobs.com/wday/cxs/bristol/jobs/jobs
+2026-07-23 16:27:29 WARNING  job_search.adapters.workday: workday: fetch failed for University of Edinburgh: 422 Client Error: Unprocessable Entity for url: https://edinburgh.wd3.myworkdayjobs.com/wday/cxs/edinburgh/UoE_External_Careers/jobs
+2026-07-23 16:27:30 WARNING  job_search.adapters.workday: workday: fetch failed for Imperial College London: 422 Client Error: Unprocessable Entity for url: https://imperial.wd3.myworkdayjobs.com/wday/cxs/imperial/Imperial_Careers/jobs
+2026-07-23 16:27:30 WARNING  job_search.adapters.workday: workday: fetch failed for UCL: 422 Client Error: Unprocessable Entity for url: https://ucl.wd3.myworkdayjobs.com/wday/cxs/ucl/UCLjobs/jobs
+2026-07-23 16:27:31 WARNING  job_search.adapters.workday: workday: fetch failed for University of Cambridge: 401 Client Error: Unauthorized for url: https://cambridge.wd3.myworkdayjobs.com/wday/cxs/cambridge/External/jobs
+2026-07-23 16:27:31 WARNING  job_search.adapters.workday: workday: fetch failed for University of Oxford: 422 Client Error: Unprocessable Entity for url: https://oxford.wd3.myworkdayjobs.com/wday/cxs/oxford/External_Vacancies/jobs
+2026-07-23 16:27:32 WARNING  job_search.adapters.workday: workday: fetch failed for King's College London: 422 Client Error: Unprocessable Entity for url: https://kcl.wd3.myworkdayjobs.com/wday/cxs/kcl/KCLjobs/jobs
+2026-07-23 16:27:32 WARNING  job_search.adapters.workday: workday: fetch failed for University of Southampton: 422 Client Error: Unprocessable Entity for url: https://southampton.wd3.myworkdayjobs.com/wday/cxs/southampton/Jobs/jobs
+2026-07-23 16:27:32 WARNING  job_search.adapters.workday: workday: fetch failed for Newcastle University: 422 Client Error: Unprocessable Entity for url: https://ncl.wd3.myworkdayjobs.com/wday/cxs/ncl/External_Career_Site/jobs
+2026-07-23 16:27:33 WARNING  job_search.adapters.workday: workday: fetch failed for University of York: 422 Client Error: Unprocessable Entity for url: https://york.wd3.myworkdayjobs.com/wday/cxs/york/External_Career_Site/jobs
+2026-07-23 16:27:33 WARNING  job_search.adapters.workday: workday: fetch failed for University of Liverpool: 422 Client Error: Unprocessable Entity for url: https://liverpool.wd3.myworkdayjobs.com/wday/cxs/liverpool/Liverpool_External/jobs
+2026-07-23 16:27:34 WARNING  job_search.adapters.workday: workday: fetch failed for University of Warwick: 422 Client Error: Unprocessable Entity for url: https://warwick.wd3.myworkdayjobs.com/wday/cxs/warwick/External/jobs
+2026-07-23 16:27:34 WARNING  job_search.adapters.workday: workday: fetch failed for Cranfield University: 422 Client Error: Unprocessable Entity for url: https://cranfield.wd3.myworkdayjobs.com/wday/cxs/cranfield/Cranfield_External/jobs
+2026-07-23 16:27:34 WARNING  job_search.adapters.workday: workday: fetch failed for Innovate UK: 422 Client Error: Unprocessable Entity for url: https://ktn.wd3.myworkdayjobs.com/wday/cxs/ktn/KTN_Jobs/jobs
+  workday: 199 jobs normalised.
 Running adapter: jobspy...
-2026-07-23 09:33:54 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 84 jobs across 40 queries
-  jobspy: 84 jobs normalised.
+2026-07-23 16:29:24 INFO     job_search.adapters.jobspy_adapter: jobspy: fetched 115 jobs across 40 queries
+  jobspy: 115 jobs normalised.
 Running adapter: workable...
-2026-07-23 09:35:05 WARNING  job_search.adapters.workable_adapter: workable: Featurespace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/featurespace/jobs?details=true
-2026-07-23 09:35:06 WARNING  job_search.adapters.workable_adapter: workable: Darktrace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/darktrace/jobs?details=true
-2026-07-23 09:35:07 WARNING  job_search.adapters.workable_adapter: workable: Eigen Technologies failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/eigentech/jobs?details=true
-2026-07-23 09:35:08 WARNING  job_search.adapters.workable_adapter: workable: Faculty failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/faculty-ai/jobs?details=true
-2026-07-23 09:35:09 WARNING  job_search.adapters.workable_adapter: workable: Paragraf failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/paragraf/jobs?details=true
-2026-07-23 09:35:10 WARNING  job_search.adapters.workable_adapter: workable: Tokamak Energy failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tokamak/jobs?details=true
-2026-07-23 09:35:11 WARNING  job_search.adapters.workable_adapter: workable: First Light Fusion failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/firstlightfusion/jobs?details=true
-2026-07-23 09:35:12 WARNING  job_search.adapters.workable_adapter: workable: Reaction Engines failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/reactionengines/jobs?details=true
+2026-07-23 16:30:54 WARNING  job_search.adapters.workable_adapter: workable: Featurespace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/featurespace/jobs?details=true
+2026-07-23 16:30:55 WARNING  job_search.adapters.workable_adapter: workable: Darktrace failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/darktrace/jobs?details=true
+2026-07-23 16:30:56 WARNING  job_search.adapters.workable_adapter: workable: Eigen Technologies failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/eigentech/jobs?details=true
+2026-07-23 16:30:57 WARNING  job_search.adapters.workable_adapter: workable: Faculty failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/faculty-ai/jobs?details=true
+2026-07-23 16:30:58 WARNING  job_search.adapters.workable_adapter: workable: Paragraf failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/paragraf/jobs?details=true
+2026-07-23 16:30:59 WARNING  job_search.adapters.workable_adapter: workable: Tokamak Energy failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/tokamak/jobs?details=true
+2026-07-23 16:31:00 WARNING  job_search.adapters.workable_adapter: workable: First Light Fusion failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/firstlightfusion/jobs?details=true
+2026-07-23 16:31:01 WARNING  job_search.adapters.workable_adapter: workable: Reaction Engines failed: 404 Client Error: Not Found for url: https://apply.workable.com/api/v1/widget/accounts/reactionengines/jobs?details=true
   workable: 0 jobs normalised.
 Running adapter: hn_hiring...
-2026-07-23 09:35:14 INFO     job_search.adapters.hn_hiring: hn_hiring: 160 location-matched posts from thread 48747976
-  hn_hiring: 160 jobs normalised.
+2026-07-23 16:31:03 INFO     job_search.adapters.hn_hiring: hn_hiring: 159 location-matched posts from thread 48747976
+  hn_hiring: 159 jobs normalised.
 Running adapter: remotive...
-2026-07-23 09:38:10 INFO     job_search.adapters.remotive: remotive: 16 jobs across 8 queries
-  remotive: 16 jobs normalised.
+2026-07-23 16:33:52 INFO     job_search.adapters.remotive: remotive: 17 jobs across 8 queries
+  remotive: 17 jobs normalised.
 Running adapter: arbeitnow...
-2026-07-23 09:38:24 INFO     job_search.adapters.arbeitnow: arbeitnow: 37 UK/remote jobs across 3 page(s)
-  arbeitnow: 37 jobs normalised.
+2026-07-23 16:34:05 INFO     job_search.adapters.arbeitnow: arbeitnow: 36 UK/remote jobs across 3 page(s)
+  arbeitnow: 36 jobs normalised.
 Running adapter: jobs_ac_uk...
-2026-07-23 09:39:28 INFO     job_search.adapters.jobs_ac_uk: jobs_ac_uk: 5 jobs across 20 queries
-  jobs_ac_uk: 5 jobs normalised.
+2026-07-23 16:35:00 INFO     job_search.adapters.jobs_ac_uk: jobs_ac_uk: 3 jobs across 20 queries
+  jobs_ac_uk: 3 jobs normalised.
 Running adapter: ashby...
   ashby: 83 jobs normalised.
 Running adapter: recruitee...
-  recruitee: 234 jobs normalised.
+2026-07-23 16:37:30 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Almaty, Kazakhstan)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Almaty%2C+Kazakhstan%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:32 WARNING  job_search.util.geocode: geocode: failed for 'Melbourne, Australia': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Melbourne%2C+Australia%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:35 WARNING  job_search.util.geocode: geocode: failed for 'Għaxaq, Malta': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=G%C4%A7axaq%2C+Malta%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:37 WARNING  job_search.util.geocode: geocode: failed for 'Nouméa, New Caledonia': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Noum%C3%A9a%2C+New+Caledonia%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:39 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Luxembourg, Luxembourg)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Luxembourg%2C+Luxembourg%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:42 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Ahmedabad, India)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Ahmedabad%2C+India%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:45 WARNING  job_search.util.geocode: geocode: failed for 'Bolzano, Italy': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bolzano%2C+Italy%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:47 WARNING  job_search.util.geocode: geocode: failed for 'Perth, Australia': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Perth%2C+Australia%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:50 WARNING  job_search.util.geocode: geocode: failed for 'Tashkent, Uzbekistan': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Tashkent%2C+Uzbekistan%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:53 WARNING  job_search.util.geocode: geocode: failed for 'Remote (London, United Kingdom)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28London%2C+United+Kingdom%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:55 WARNING  job_search.util.geocode: geocode: failed for 'Barcelona, Spain': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Barcelona%2C+Spain%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:37:58 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Kuala Lumpur, Malaysia)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Kuala+Lumpur%2C+Malaysia%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:01 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Almaty, Kazakhstan)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Almaty%2C+Kazakhstan%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:03 WARNING  job_search.util.geocode: geocode: failed for 'Santiago, Chile': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Santiago%2C+Chile%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:06 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Doha, Qatar)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Doha%2C+Qatar%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:09 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Seoul-teukbyeolsi, South Korea)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Seoul-teukbyeolsi%2C+South+Korea%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:11 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Abu Dhabi, United Arab Emirates)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Abu+Dhabi%2C+United+Arab+Emirates%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:13 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Mexico City, Mexico)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Mexico+City%2C+Mexico%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:16 WARNING  job_search.util.geocode: geocode: failed for 'Bryanston, South Africa': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bryanston%2C+South+Africa%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:20 WARNING  job_search.util.geocode: geocode: failed for 'Riyadh, Saudi Arabia': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Riyadh%2C+Saudi+Arabia%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:22 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Buenos Aires, Argentina)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Buenos+Aires%2C+Argentina%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:25 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Warsaw, Poland)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Warsaw%2C+Poland%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:27 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Almaty, Kazakhstan)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Almaty%2C+Kazakhstan%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:29 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Almaty, Kazakhstan)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Almaty%2C+Kazakhstan%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:32 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Almaty, Kazakhstan)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Almaty%2C+Kazakhstan%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:35 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Kyiv, Ukraine)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Kyiv%2C+Ukraine%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:37 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Ho Chi Minh, Vietnam)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Ho+Chi+Minh%2C+Vietnam%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:40 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Almaty, Kazakhstan)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Almaty%2C+Kazakhstan%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:43 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Tbilisi, Georgia)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Tbilisi%2C+Georgia%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:45 WARNING  job_search.util.geocode: geocode: failed for 'Rosenheim, Deutschland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rosenheim%2C+Deutschland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:48 WARNING  job_search.util.geocode: geocode: failed for 'Rosenheim, Stephanskirchen, Deutschland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rosenheim%2C+Stephanskirchen%2C+Deutschland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:51 WARNING  job_search.util.geocode: geocode: failed for 'Brannenburg, Deutschland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Brannenburg%2C+Deutschland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:53 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:56 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:38:59 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:01 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:04 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:06 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:09 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:11 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:14 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:16 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:18 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:39:21 WARNING  job_search.util.geocode: geocode: failed for 'IJsselstein, Nederland': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=IJsselstein%2C+Nederland%2C+UK&format=json&limit=1&countrycodes=gb
+  recruitee: 236 jobs normalised.
 Running adapter: smartrecruiters...
+2026-07-23 16:40:44 WARNING  job_search.util.geocode: geocode: failed for 'Bayan Lepas, my': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bayan+Lepas%2C+my%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:40:47 WARNING  job_search.util.geocode: geocode: failed for 'Tempe, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Tempe%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:40:49 WARNING  job_search.util.geocode: geocode: failed for 'Chandler, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Chandler%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:40:52 WARNING  job_search.util.geocode: geocode: failed for 'San Jose, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=San+Jose%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:40:55 WARNING  job_search.util.geocode: geocode: failed for 'Plano, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Plano%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:40:57 WARNING  job_search.util.geocode: geocode: failed for 'Shenzhen, cn': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Shenzhen%2C+cn%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:40:59 WARNING  job_search.util.geocode: geocode: failed for 'Tempe, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Tempe%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:02 WARNING  job_search.util.geocode: geocode: failed for 'Plano, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Plano%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:05 WARNING  job_search.util.geocode: geocode: failed for 'Plano, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Plano%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:07 WARNING  job_search.util.geocode: geocode: failed for 'Dresden, de': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Dresden%2C+de%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:10 WARNING  job_search.util.geocode: geocode: failed for 'Munich, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Munich%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:13 WARNING  job_search.util.geocode: geocode: failed for 'Singapore, sg': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Singapore%2C+sg%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:15 WARNING  job_search.util.geocode: geocode: failed for 'Bengaluru, in': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bengaluru%2C+in%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:18 WARNING  job_search.util.geocode: geocode: failed for 'Bengaluru, in': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bengaluru%2C+in%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:21 WARNING  job_search.util.geocode: geocode: failed for 'Bengaluru, in': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bengaluru%2C+in%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:23 WARNING  job_search.util.geocode: geocode: failed for 'Duesseldorf, de': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Duesseldorf%2C+de%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:26 WARNING  job_search.util.geocode: geocode: failed for 'Hyderabad, in': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Hyderabad%2C+in%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:29 WARNING  job_search.util.geocode: geocode: failed for 'Ipoh, my': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Ipoh%2C+my%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:32 WARNING  job_search.util.geocode: geocode: failed for 'Shah Alam, my': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Shah+Alam%2C+my%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:34 WARNING  job_search.util.geocode: geocode: failed for 'Ho Chi Minh, vn': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Ho+Chi+Minh%2C+vn%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:36 WARNING  job_search.util.geocode: geocode: failed for 'San Jose, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=San+Jose%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:39 WARNING  job_search.util.geocode: geocode: failed for 'Ho Chi Minh, vn': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Ho+Chi+Minh%2C+vn%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:42 WARNING  job_search.util.geocode: geocode: failed for 'San Jose, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=San+Jose%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:41:44 WARNING  job_search.util.geocode: geocode: failed for 'Palm Bay, us': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Palm+Bay%2C+us%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:43:25 WARNING  job_search.util.geocode: geocode: failed for 'Kiruna, se': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Kiruna%2C+se%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:43:28 WARNING  job_search.util.geocode: geocode: failed for 'Boden, se': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Boden%2C+se%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:43:31 WARNING  job_search.util.geocode: geocode: failed for 'Boden, se': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Boden%2C+se%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:43:33 WARNING  job_search.util.geocode: geocode: failed for 'Trondheim, no': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Trondheim%2C+no%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:43:35 WARNING  job_search.util.geocode: geocode: failed for 'Piteå, se': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Pite%C3%A5%2C+se%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:43:38 WARNING  job_search.util.geocode: geocode: failed for 'Boden, se': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Boden%2C+se%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:43:40 WARNING  job_search.util.geocode: geocode: failed for 'Kiruna, se': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Kiruna%2C+se%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:06 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:08 WARNING  job_search.util.geocode: geocode: failed for 'Derby, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Derby%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:11 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:13 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:16 WARNING  job_search.util.geocode: geocode: failed for 'Grenoble, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Grenoble%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:18 WARNING  job_search.util.geocode: geocode: failed for 'Belfort, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Belfort%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:21 WARNING  job_search.util.geocode: geocode: failed for 'Tetouan, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Tetouan%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:24 WARNING  job_search.util.geocode: geocode: failed for 'Cologne, de': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Cologne%2C+de%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:26 WARNING  job_search.util.geocode: geocode: failed for 'Saint-Herblain, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Saint-Herblain%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:29 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:32 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Grenoble, fr)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Grenoble%2C+fr%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:34 WARNING  job_search.util.geocode: geocode: failed for 'Manching, de': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Manching%2C+de%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:37 WARNING  job_search.util.geocode: geocode: failed for 'Paris, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Paris%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:40 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:42 WARNING  job_search.util.geocode: geocode: failed for 'Bezons, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bezons%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:45 WARNING  job_search.util.geocode: geocode: failed for 'Grenoble, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Grenoble%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:48 WARNING  job_search.util.geocode: geocode: failed for 'Bezons, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bezons%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:51 WARNING  job_search.util.geocode: geocode: failed for 'Grenoble, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Grenoble%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:53 WARNING  job_search.util.geocode: geocode: failed for 'Grenoble, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Grenoble%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:56 WARNING  job_search.util.geocode: geocode: failed for 'Lyon, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Lyon%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:44:59 WARNING  job_search.util.geocode: geocode: failed for 'Grenoble, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Grenoble%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:01 WARNING  job_search.util.geocode: geocode: failed for 'Rennes, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rennes%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:04 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:07 WARNING  job_search.util.geocode: geocode: failed for 'Bridgwater, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Bridgwater%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:10 WARNING  job_search.util.geocode: geocode: failed for 'Valbonne, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Valbonne%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:12 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:15 WARNING  job_search.util.geocode: geocode: failed for 'Manchester, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Manchester%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:18 WARNING  job_search.util.geocode: geocode: failed for 'Derby, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Derby%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:20 WARNING  job_search.util.geocode: geocode: failed for 'Lyon, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Lyon%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:23 WARNING  job_search.util.geocode: geocode: failed for 'Manchester, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Manchester%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:26 WARNING  job_search.util.geocode: geocode: failed for 'Casablanca, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Casablanca%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:28 WARNING  job_search.util.geocode: geocode: failed for 'Fougères, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Foug%C3%A8res%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:31 WARNING  job_search.util.geocode: geocode: failed for 'Laval, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Laval%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:34 WARNING  job_search.util.geocode: geocode: failed for 'Donauwörth, de': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Donauw%C3%B6rth%2C+de%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:36 WARNING  job_search.util.geocode: geocode: failed for 'Caen, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Caen%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:39 WARNING  job_search.util.geocode: geocode: failed for 'Tetouan, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Tetouan%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:42 WARNING  job_search.util.geocode: geocode: failed for 'Cherbourg-en-Cotentin, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Cherbourg-en-Cotentin%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:44 WARNING  job_search.util.geocode: geocode: failed for 'Fougères, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Foug%C3%A8res%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:47 WARNING  job_search.util.geocode: geocode: failed for 'Fougères, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Foug%C3%A8res%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:50 WARNING  job_search.util.geocode: geocode: failed for 'Rennes, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rennes%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:53 WARNING  job_search.util.geocode: geocode: failed for 'Rennes, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rennes%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:55 WARNING  job_search.util.geocode: geocode: failed for 'Rennes, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rennes%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:45:58 WARNING  job_search.util.geocode: geocode: failed for 'Fougères, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Foug%C3%A8res%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:01 WARNING  job_search.util.geocode: geocode: failed for 'Cherbourg-en-Cotentin, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Cherbourg-en-Cotentin%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:03 WARNING  job_search.util.geocode: geocode: failed for 'Laval, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Laval%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:05 WARNING  job_search.util.geocode: geocode: failed for 'Cherbourg-en-Cotentin, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Cherbourg-en-Cotentin%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:08 WARNING  job_search.util.geocode: geocode: failed for 'Étrelles, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=%C3%89trelles%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:11 WARNING  job_search.util.geocode: geocode: failed for 'Fougères, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Foug%C3%A8res%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:13 WARNING  job_search.util.geocode: geocode: failed for 'Fougères, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Foug%C3%A8res%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:16 WARNING  job_search.util.geocode: geocode: failed for 'Lyon, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Lyon%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:19 WARNING  job_search.util.geocode: geocode: failed for 'Remote (Lyon, fr)': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Remote+%28Lyon%2C+fr%29%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:21 WARNING  job_search.util.geocode: geocode: failed for 'Mérignac, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=M%C3%A9rignac%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:24 WARNING  job_search.util.geocode: geocode: failed for 'Rennes, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rennes%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:27 WARNING  job_search.util.geocode: geocode: failed for 'Brest, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Brest%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:29 WARNING  job_search.util.geocode: geocode: failed for 'Hamburg, de': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Hamburg%2C+de%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:32 WARNING  job_search.util.geocode: geocode: failed for 'Rabat, ma': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rabat%2C+ma%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:35 WARNING  job_search.util.geocode: geocode: failed for 'La Rochelle, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=La+Rochelle%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:37 WARNING  job_search.util.geocode: geocode: failed for 'Rochefort, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rochefort%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:40 WARNING  job_search.util.geocode: geocode: failed for 'Cherbourg-en-Cotentin, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Cherbourg-en-Cotentin%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:43 WARNING  job_search.util.geocode: geocode: failed for 'La Rochelle, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=La+Rochelle%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:45 WARNING  job_search.util.geocode: geocode: failed for 'La Rochelle, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=La+Rochelle%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:48 WARNING  job_search.util.geocode: geocode: failed for 'Le Havre, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Le+Havre%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:51 WARNING  job_search.util.geocode: geocode: failed for 'Paris, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Paris%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:53 WARNING  job_search.util.geocode: geocode: failed for 'Étrelles, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=%C3%89trelles%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:56 WARNING  job_search.util.geocode: geocode: failed for 'Rochefort, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rochefort%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:46:59 WARNING  job_search.util.geocode: geocode: failed for 'Laval, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Laval%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:02 WARNING  job_search.util.geocode: geocode: failed for 'Rennes, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Rennes%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:04 WARNING  job_search.util.geocode: geocode: failed for 'Paris, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Paris%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:07 WARNING  job_search.util.geocode: geocode: failed for 'Montoir-de-Bretagne, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Montoir-de-Bretagne%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:10 WARNING  job_search.util.geocode: geocode: failed for 'Cherbourg-en-Cotentin, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Cherbourg-en-Cotentin%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:12 WARNING  job_search.util.geocode: geocode: failed for 'Saint-Nazaire, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Saint-Nazaire%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:15 WARNING  job_search.util.geocode: geocode: failed for 'Cherbourg-en-Cotentin, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Cherbourg-en-Cotentin%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:18 WARNING  job_search.util.geocode: geocode: failed for 'Montoir-de-Bretagne, fr': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Montoir-de-Bretagne%2C+fr%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:20 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:23 WARNING  job_search.util.geocode: geocode: failed for 'Abingdon, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Abingdon%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:26 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:28 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:31 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:33 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:36 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:38 WARNING  job_search.util.geocode: geocode: failed for 'Retford, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Retford%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:41 WARNING  job_search.util.geocode: geocode: failed for 'Nottinghamshire, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Nottinghamshire%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:44 WARNING  job_search.util.geocode: geocode: failed for 'Nottinghamshire, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Nottinghamshire%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:46 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:49 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:51 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
+2026-07-23 16:47:54 WARNING  job_search.util.geocode: geocode: failed for 'Culham, gb': 429 Client Error: Too many requests for url: https://nominatim.openstreetmap.org/search?q=Culham%2C+gb%2C+UK&format=json&limit=1&countrycodes=gb
   smartrecruiters: 451 jobs normalised.
-2026-07-23 09:47:29 INFO     job_search.pipeline.filter: filter: dropped 2171/2575 jobs (title_excluded: 1263, location_excluded: 336, posted_too_old: 268, foreign_location: 192, beyond_radius: 112)
-After filtering: 404/2575 jobs kept.
-Skipping LLM ranking for 189 unchanged, already-scored jobs.
-Ranking 215 jobs...
-2026-07-23 09:47:30 INFO     job_search.pipeline.rank: rank: 192/215 jobs skipped LLM (pre-score < 0.5)
-2026-07-23 09:47:30 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages/batches "HTTP/1.1 200 OK"
-2026-07-23 09:47:30 INFO     job_search.pipeline.rank: rank: submitted 5 request(s) as message batch msgbatch_01SgGePcLc6nnRq1upjJzhPm
-2026-07-23 09:47:50 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:48:10 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:48:31 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:48:51 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:49:11 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:49:32 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:49:52 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:50:12 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:50:32 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:50:52 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:51:13 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:51:33 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:51:53 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:52:13 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:52:34 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:52:54 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:52:54 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm "HTTP/1.1 200 OK"
-2026-07-23 09:52:54 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_01SgGePcLc6nnRq1upjJzhPm/results "HTTP/1.1 200 OK"
-Marked 134 stale jobs as closed.
-Run complete: 2575 scraped, 25 new, 134 closed.
-2026-07-23 09:52:55 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-07-23.xlsx
-2026-07-23 09:53:03 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
+2026-07-23 16:48:00 INFO     job_search.pipeline.filter: filter: dropped 2196/2603 jobs (title_excluded: 1297, location_excluded: 333, posted_too_old: 272, foreign_location: 172, beyond_radius: 122)
+After filtering: 407/2603 jobs kept.
+Skipping LLM ranking for 183 unchanged, already-scored jobs.
+Ranking 224 jobs...
+2026-07-23 16:48:00 INFO     job_search.pipeline.rank: rank: 197/224 jobs skipped LLM (pre-score < 0.5)
+2026-07-23 16:48:01 INFO     httpx: HTTP Request: POST https://api.anthropic.com/v1/messages/batches "HTTP/1.1 200 OK"
+2026-07-23 16:48:01 INFO     job_search.pipeline.rank: rank: submitted 6 request(s) as message batch msgbatch_016KvqroEQ7bAQmB2CjWpyDN
+2026-07-23 16:48:21 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_016KvqroEQ7bAQmB2CjWpyDN "HTTP/1.1 200 OK"
+2026-07-23 16:48:41 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_016KvqroEQ7bAQmB2CjWpyDN "HTTP/1.1 200 OK"
+2026-07-23 16:49:01 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_016KvqroEQ7bAQmB2CjWpyDN "HTTP/1.1 200 OK"
+2026-07-23 16:49:21 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_016KvqroEQ7bAQmB2CjWpyDN "HTTP/1.1 200 OK"
+2026-07-23 16:49:21 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_016KvqroEQ7bAQmB2CjWpyDN "HTTP/1.1 200 OK"
+2026-07-23 16:49:22 INFO     httpx: HTTP Request: GET https://api.anthropic.com/v1/messages/batches/msgbatch_016KvqroEQ7bAQmB2CjWpyDN/results "HTTP/1.1 200 OK"
+Run complete: 2603 scraped, 36 new, 0 closed.
+2026-07-23 16:49:25 INFO     job_search.output.workbook_export: Backed up existing workbook to /home/runner/work/find_a_job_automator/find_a_job_automator/data/backups/jobs.2026-07-23.xlsx
+2026-07-23 16:49:37 INFO     job_search.output.workbook_export: Workbook regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
 Excel regenerated: /home/runner/work/find_a_job_automator/find_a_job_automator/data/jobs.xlsx
-2026-07-23 09:53:04 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
+2026-07-23 16:49:37 INFO     job_search.output.dashboard: dashboard: written to /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
 Dashboard: /home/runner/work/find_a_job_automator/find_a_job_automator/data/dashboard.html
