@@ -8069,3 +8069,5 @@
 {"timestamp": "2026-07-29T16:40:34.724018Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 34465, "cached_input_tokens": 0, "output_tokens": 1885, "est_cost_gbp": 0.035112}
 {"timestamp": "2026-07-30T09:28:01.354988Z", "operation": "queries", "model": "claude-haiku-4-5", "input_tokens": 2503, "cached_input_tokens": 0, "output_tokens": 572, "est_cost_gbp": 0.003432}
 {"timestamp": "2026-07-30T09:58:51.606012Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 14726, "cached_input_tokens": 11430, "output_tokens": 1320, "est_cost_gbp": 0.008831}
+{"timestamp": "2026-07-30T16:19:32.059188Z", "operation": "queries", "model": "claude-haiku-4-5", "input_tokens": 2547, "cached_input_tokens": 0, "output_tokens": 508, "est_cost_gbp": 0.003256}
+{"timestamp": "2026-07-30T16:45:59.391197Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 38752, "cached_input_tokens": 15240, "output_tokens": 2512, "est_cost_gbp": 0.030077}
