@@ -8115,3 +8115,4 @@
 {"timestamp": "2026-08-08T08:05:52.543479Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 5596, "cached_input_tokens": 0, "output_tokens": 388, "est_cost_gbp": 0.012058}
 {"timestamp": "2026-08-08T15:18:02.019880Z", "operation": "queries", "model": "claude-haiku-4-5", "input_tokens": 2532, "cached_input_tokens": 0, "output_tokens": 511, "est_cost_gbp": 0.003256}
 {"timestamp": "2026-08-08T15:42:36.528601Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 4298, "cached_input_tokens": 0, "output_tokens": 306, "est_cost_gbp": 0.009325}
+{"timestamp": "2026-08-09T07:51:23.686720Z", "operation": "queries", "model": "claude-haiku-4-5", "input_tokens": 2519, "cached_input_tokens": 0, "output_tokens": 552, "est_cost_gbp": 0.003379}
