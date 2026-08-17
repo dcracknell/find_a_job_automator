@@ -8160,3 +8160,13 @@
 {"timestamp": "2026-08-16T07:52:14.990770Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 2264, "cached_input_tokens": 0, "output_tokens": 123, "est_cost_gbp": 0.004606}
 {"timestamp": "2026-08-16T15:10:21.420011Z", "operation": "queries", "model": "claude-haiku-4-5", "input_tokens": 2534, "cached_input_tokens": 0, "output_tokens": 492, "est_cost_gbp": 0.003196}
 {"timestamp": "2026-08-16T15:33:32.938476Z", "operation": "rank", "model": "claude-sonnet-5", "input_tokens": 5468, "cached_input_tokens": 0, "output_tokens": 315, "est_cost_gbp": 0.011269}
+{"timestamp": "2026-08-17T07:48:55.755299Z", "operation": "queries", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:03.031577Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:03.252066Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:03.422119Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:03.759188Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:03.927934Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:06.023063Z", "operation": "rank_batch", "model": "claude-sonnet-5", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:06.257088Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:06.401425Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
+{"timestamp": "2026-08-17T08:14:06.554249Z", "operation": "rank", "model": "", "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "est_cost_gbp": 0.0}
