@@ -50,6 +50,8 @@ ats:
       slug: bauer
     - name: DTC | A Codan Company
       slug: dtc
+    - name: shopware AG
+      slug: shopwareag
   smartrecruiters:
     companies:
     - name: Renesas Electronics
