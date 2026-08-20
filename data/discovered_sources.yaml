@@ -16,6 +16,8 @@ ats:
       slug: quantum
     - name: Abound
       slug: abound
+    - name: Rocketsciencegg
+      slug: rocketsciencegg
   greenhouse:
     companies:
     - name: Space Systems Ltd
