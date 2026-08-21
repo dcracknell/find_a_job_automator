@@ -18,6 +18,8 @@ ats:
       slug: abound
     - name: Rocketsciencegg
       slug: rocketsciencegg
+    - name: Redpanda Data
+      slug: redpanda-data
   greenhouse:
     companies:
     - name: Space Systems Ltd
@@ -68,3 +70,5 @@ ats:
       slug: alten
     - name: UK Atomic Energy Authority
       slug: ukatomicenergyauthority
+    - name: SOCOTEC UK & Ireland
+      slug: socotecukireland
