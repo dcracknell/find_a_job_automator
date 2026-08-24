@@ -38,6 +38,8 @@ ats:
       slug: infinitesima
     - name: Symphony
       slug: symphony
+    - name: turing
+      slug: turing
   lever:
     companies:
     - name: Reply
