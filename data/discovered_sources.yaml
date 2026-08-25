@@ -40,6 +40,8 @@ ats:
       slug: symphony
     - name: turing
       slug: turing
+    - name: PHMG Careers
+      slug: phmg
   lever:
     companies:
     - name: Reply
