@@ -42,6 +42,8 @@ ats:
       slug: turing
     - name: PHMG Careers
       slug: phmg
+    - name: Anaplan
+      slug: anaplan
   lever:
     companies:
     - name: Reply
