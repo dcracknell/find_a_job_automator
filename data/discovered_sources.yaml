@@ -62,6 +62,8 @@ ats:
       slug: dtc
     - name: shopware AG
       slug: shopwareag
+    - name: TransPerfect
+      slug: transperfect
   smartrecruiters:
     companies:
     - name: Renesas Electronics
