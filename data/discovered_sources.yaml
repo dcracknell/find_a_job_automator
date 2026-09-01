@@ -64,6 +64,8 @@ ats:
       slug: shopwareag
     - name: TransPerfect
       slug: transperfect
+    - name: BBHT Beratungsgesellschaft mbH & Co. KG
+      slug: bbht
   smartrecruiters:
     companies:
     - name: Renesas Electronics
