@@ -44,6 +44,10 @@ ats:
       slug: phmg
     - name: Anaplan
       slug: anaplan
+    - name: Oliver Valves
+      slug: oliver
+    - name: Speechify
+      slug: speechify
   lever:
     companies:
     - name: Reply
