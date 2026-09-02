@@ -48,6 +48,8 @@ ats:
       slug: oliver
     - name: Speechify
       slug: speechify
+    - name: Mozilla Corporation
+      slug: mozilla
   lever:
     companies:
     - name: Reply
