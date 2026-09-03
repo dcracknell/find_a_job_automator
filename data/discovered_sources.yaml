@@ -72,6 +72,8 @@ ats:
       slug: transperfect
     - name: BBHT Beratungsgesellschaft mbH & Co. KG
       slug: bbht
+    - name: Tether Operations Limited
+      slug: tether
   smartrecruiters:
     companies:
     - name: Renesas Electronics
