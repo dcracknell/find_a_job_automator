@@ -20,6 +20,8 @@ ats:
       slug: rocketsciencegg
     - name: Redpanda Data
       slug: redpanda-data
+    - name: Elliptic
+      slug: elliptic
   greenhouse:
     companies:
     - name: Space Systems Ltd
