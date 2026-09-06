@@ -76,6 +76,8 @@ ats:
       slug: bbht
     - name: Tether Operations Limited
       slug: tether
+    - name: N2JSoft
+      slug: n2jsoft
   smartrecruiters:
     companies:
     - name: Renesas Electronics
