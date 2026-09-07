@@ -22,6 +22,8 @@ ats:
       slug: redpanda-data
     - name: Elliptic
       slug: elliptic
+    - name: Focus Group (UK)
+      slug: focus
   greenhouse:
     companies:
     - name: Space Systems Ltd
@@ -80,6 +82,8 @@ ats:
       slug: tether
     - name: N2JSoft
       slug: n2jsoft
+    - name: Reco Technologies Private Limited
+      slug: reco
   smartrecruiters:
     companies:
     - name: Renesas Electronics
