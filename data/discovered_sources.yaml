@@ -52,6 +52,8 @@ ats:
       slug: speechify
     - name: Mozilla Corporation
       slug: mozilla
+    - name: Nuclear Graduates
+      slug: nucleargraduates
   lever:
     companies:
     - name: Reply
