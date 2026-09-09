@@ -58,6 +58,8 @@ ats:
       slug: nucleargraduates
     - name: System C
       slug: system
+    - name: Wolt - English
+      slug: wolt
   lever:
     companies:
     - name: Reply
