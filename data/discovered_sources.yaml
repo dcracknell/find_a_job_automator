@@ -72,6 +72,8 @@ ats:
       slug: autonomous
     - name: Newton&#x27;s Tree
       slug: newton
+    - name: Binance
+      slug: binance
   recruitee:
     companies:
     - name: OnTarget Communications
