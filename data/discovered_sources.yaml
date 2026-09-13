@@ -24,6 +24,8 @@ ats:
       slug: elliptic
     - name: Focus Group (UK)
       slug: focus
+    - name: Salience Labs
+      slug: salience-labs
   greenhouse:
     companies:
     - name: Space Systems Ltd
