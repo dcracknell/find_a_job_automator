@@ -26,6 +26,8 @@ ats:
       slug: focus
     - name: Salience Labs
       slug: salience-labs
+    - name: Truelogic software
+      slug: truelogic
   greenhouse:
     companies:
     - name: Space Systems Ltd
