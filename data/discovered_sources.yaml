@@ -68,6 +68,8 @@ ats:
       slug: thgingenuity
     - name: Datadog
       slug: datadog
+    - name: AKUNA CAPITAL
+      slug: akunacapital
   lever:
     companies:
     - name: Reply
@@ -100,6 +102,8 @@ ats:
       slug: n2jsoft
     - name: Reco Technologies Private Limited
       slug: reco
+    - name: Distribusion Technologies
+      slug: distribusiontechnologies
   smartrecruiters:
     companies:
     - name: Renesas Electronics
